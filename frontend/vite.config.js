@@ -10,5 +10,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    target: 'es2015',
+    // Ensure compatibility with AWS Amplify and other deployment platforms
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
   },
 });

@@ -97,11 +97,15 @@ Visit http://localhost:3000 - See [LOCAL_QUICKSTART.md](LOCAL_QUICKSTART.md)
 
 ### Deploy to AWS
 
+**Option 1: S3 + Lambda (Automated)**
 ```bash
 aws configure
 chmod +x deploy.sh
 ./deploy.sh
 ```
+
+**Option 2: AWS Amplify (CI/CD)**
+See [AMPLIFY_DEPLOYMENT.md](AMPLIFY_DEPLOYMENT.md) for step-by-step instructions.
 
 For detailed instructions, see [QUICKSTART.md](QUICKSTART.md) or [DEPLOYMENT.md](DEPLOYMENT.md).
 

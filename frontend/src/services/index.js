@@ -3,18 +3,23 @@
 
 const USE_MOCK_API = import.meta.env.VITE_USE_MOCK === 'true';
 
-let api;
+// Import both APIs
+import * as realApi from './api.js';
+import * as mockApi from './mockApi.js';
 
+// Select which one to use based on environment
+const selectedApi = USE_MOCK_API ? mockApi : realApi;
+
+// Log which API is being used
 if (USE_MOCK_API) {
   console.log('🎭 Using Mock API - No backend required');
-  api = await import('./mockApi.js');
 } else {
   console.log('🌐 Using Real API -', import.meta.env.VITE_API_URL || 'No API URL configured');
-  api = await import('./api.js');
 }
 
-export const inventoryApi = api.inventoryApi;
-export const recipesApi = api.recipesApi;
-export const recommendationsApi = api.recommendationsApi;
+// Export the selected API
+export const inventoryApi = selectedApi.inventoryApi;
+export const recipesApi = selectedApi.recipesApi;
+export const recommendationsApi = selectedApi.recommendationsApi;
 
-export default api.default;
+export default selectedApi.default;
