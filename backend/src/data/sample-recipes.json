@@ -1,0 +1,451 @@
+[
+  {
+    "recipeId": "recipe-001",
+    "name": "Whiskey Neat",
+    "description": "Simple, elegant, and no mixing required",
+    "category": "whiskey",
+    "glassType": "rocks glass",
+    "difficulty": "easy",
+    "preparationTime": 1,
+    "ingredients": [
+      {
+        "name": "Whiskey",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Pour whiskey into glass",
+      "Sip and enjoy"
+    ],
+    "garnish": "None",
+    "moods": ["lazy", "strong", "warm"],
+    "tags": ["classic", "spirit-forward", "no-mixing"]
+  },
+  {
+    "recipeId": "recipe-002",
+    "name": "Classic Martini",
+    "description": "A timeless gin-based cocktail",
+    "category": "cocktail",
+    "glassType": "martini",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Gin",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Dry Vermouth",
+        "quantity": 10,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Chill martini glass",
+      "Add gin and vermouth to mixing glass with ice",
+      "Stir for 30 seconds",
+      "Strain into chilled glass"
+    ],
+    "garnish": "Olive or lemon twist",
+    "moods": ["strong", "classic"],
+    "tags": ["classic", "stirred", "spirit-forward"]
+  },
+  {
+    "recipeId": "recipe-003",
+    "name": "Mojito",
+    "description": "Refreshing Cuban cocktail with mint and lime",
+    "category": "cocktail",
+    "glassType": "highball",
+    "difficulty": "medium",
+    "preparationTime": 5,
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "quantity": 50,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Fresh Mint",
+        "quantity": 10,
+        "unit": "leaves",
+        "optional": false
+      },
+      {
+        "name": "Lime",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Soda Water",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Muddle mint leaves and lime wedges in glass",
+      "Add simple syrup and rum",
+      "Fill glass with ice",
+      "Top with soda water",
+      "Stir gently"
+    ],
+    "garnish": "Mint sprig and lime wheel",
+    "moods": ["refreshing", "light", "sparkling"],
+    "tags": ["classic", "summer", "muddled"]
+  },
+  {
+    "recipeId": "recipe-004",
+    "name": "Aperol Spritz",
+    "description": "Light, bubbly Italian aperitif",
+    "category": "cocktail",
+    "glassType": "wine glass",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Aperol",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Prosecco",
+        "quantity": 90,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Soda Water",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Fill wine glass with ice",
+      "Add Aperol",
+      "Top with Prosecco",
+      "Add splash of soda water",
+      "Stir gently"
+    ],
+    "garnish": "Orange slice",
+    "moods": ["light", "sparkling", "refreshing"],
+    "tags": ["italian", "aperitif", "bubbly"]
+  },
+  {
+    "recipeId": "recipe-005",
+    "name": "Old Fashioned",
+    "description": "Classic whiskey cocktail with bitters and sugar",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "easy",
+    "preparationTime": 4,
+    "ingredients": [
+      {
+        "name": "Bourbon",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 10,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Angostura Bitters",
+        "quantity": 2,
+        "unit": "dashes",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add simple syrup and bitters to glass",
+      "Add bourbon",
+      "Add large ice cube",
+      "Stir for 30 seconds",
+      "Express orange peel over drink"
+    ],
+    "garnish": "Orange peel and cherry",
+    "moods": ["strong", "classic"],
+    "tags": ["classic", "whiskey", "stirred"]
+  },
+  {
+    "recipeId": "recipe-006",
+    "name": "Margarita",
+    "description": "Tart and refreshing tequila cocktail",
+    "category": "cocktail",
+    "glassType": "margarita glass",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Tequila",
+        "quantity": 50,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lime Juice",
+        "quantity": 25,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Triple Sec",
+        "quantity": 20,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 10,
+        "unit": "ml",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Rim glass with salt (optional)",
+      "Add all ingredients to shaker with ice",
+      "Shake vigorously for 15 seconds",
+      "Strain into glass over ice"
+    ],
+    "garnish": "Lime wheel and salt rim",
+    "moods": ["sour", "refreshing"],
+    "tags": ["classic", "shaken", "citrus"]
+  },
+  {
+    "recipeId": "recipe-007",
+    "name": "Gin and Tonic",
+    "description": "Simple, refreshing highball",
+    "category": "cocktail",
+    "glassType": "highball",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Gin",
+        "quantity": 50,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Tonic Water",
+        "quantity": 150,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Fill glass with ice",
+      "Add gin",
+      "Top with tonic water",
+      "Stir gently"
+    ],
+    "garnish": "Lime wedge",
+    "moods": ["refreshing", "light", "sparkling"],
+    "tags": ["classic", "simple", "highball"]
+  },
+  {
+    "recipeId": "recipe-008",
+    "name": "Hot Toddy",
+    "description": "Warming whiskey drink perfect for cold nights",
+    "category": "cocktail",
+    "glassType": "mug",
+    "difficulty": "easy",
+    "preparationTime": 4,
+    "ingredients": [
+      {
+        "name": "Whiskey",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Honey",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lemon Juice",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Hot Water",
+        "quantity": 120,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add honey and lemon juice to mug",
+      "Add whiskey",
+      "Top with hot water",
+      "Stir to dissolve honey"
+    ],
+    "garnish": "Lemon wheel and cinnamon stick",
+    "moods": ["warm", "soothing"],
+    "tags": ["hot-drink", "winter", "comfort"]
+  },
+  {
+    "recipeId": "recipe-009",
+    "name": "Negroni",
+    "description": "Bitter, bold Italian aperitif",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Gin",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Campari",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Sweet Vermouth",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to mixing glass with ice",
+      "Stir for 30 seconds",
+      "Strain into rocks glass over large ice cube"
+    ],
+    "garnish": "Orange peel",
+    "moods": ["strong", "bitter"],
+    "tags": ["classic", "italian", "stirred"]
+  },
+  {
+    "recipeId": "recipe-010",
+    "name": "Moscow Mule",
+    "description": "Spicy, refreshing vodka cocktail",
+    "category": "cocktail",
+    "glassType": "copper mug",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lime Juice",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Ginger Beer",
+        "quantity": 120,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Fill copper mug with ice",
+      "Add vodka and lime juice",
+      "Top with ginger beer",
+      "Stir gently"
+    ],
+    "garnish": "Lime wedge and mint",
+    "moods": ["refreshing", "sparkling"],
+    "tags": ["classic", "spicy", "fizzy"]
+  },
+  {
+    "recipeId": "recipe-011",
+    "name": "Red Wine",
+    "description": "No mixing required, just pour and enjoy",
+    "category": "wine",
+    "glassType": "wine glass",
+    "difficulty": "easy",
+    "preparationTime": 1,
+    "ingredients": [
+      {
+        "name": "Red Wine",
+        "quantity": 150,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Pour wine into glass",
+      "Let breathe for a few minutes",
+      "Enjoy"
+    ],
+    "garnish": "None",
+    "moods": ["lazy", "warm"],
+    "tags": ["wine", "no-mixing", "simple"]
+  },
+  {
+    "recipeId": "recipe-012",
+    "name": "Whiskey Sour",
+    "description": "Sweet and sour whiskey classic",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "medium",
+    "preparationTime": 4,
+    "ingredients": [
+      {
+        "name": "Bourbon",
+        "quantity": 50,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lemon Juice",
+        "quantity": 25,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 20,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Egg White",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to shaker",
+      "Dry shake (without ice) for 10 seconds if using egg white",
+      "Add ice and shake vigorously",
+      "Strain into glass over ice"
+    ],
+    "garnish": "Cherry and orange slice",
+    "moods": ["sour", "sweet"],
+    "tags": ["classic", "shaken", "citrus"]
+  }
+]

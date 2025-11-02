@@ -1,0 +1,228 @@
+[
+  {
+    "itemId": "inv-001",
+    "name": "Tanqueray Gin",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Tanqueray",
+    "purchaseDate": "2024-10-15"
+  },
+  {
+    "itemId": "inv-002",
+    "name": "Tito's Vodka",
+    "category": "spirits",
+    "quantity": 1000,
+    "unit": "ml",
+    "brand": "Tito's",
+    "purchaseDate": "2024-10-10"
+  },
+  {
+    "itemId": "inv-003",
+    "name": "Bacardi White Rum",
+    "category": "spirits",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Bacardi",
+    "purchaseDate": "2024-10-20"
+  },
+  {
+    "itemId": "inv-004",
+    "name": "Espolon Tequila Blanco",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Espolon",
+    "purchaseDate": "2024-10-18"
+  },
+  {
+    "itemId": "inv-005",
+    "name": "Bulleit Bourbon",
+    "category": "whiskey",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Bulleit",
+    "purchaseDate": "2024-09-25"
+  },
+  {
+    "itemId": "inv-006",
+    "name": "Johnnie Walker Black Label",
+    "category": "whiskey",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Johnnie Walker",
+    "purchaseDate": "2024-10-05"
+  },
+  {
+    "itemId": "inv-007",
+    "name": "Aperol",
+    "category": "liqueurs",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Aperol",
+    "purchaseDate": "2024-10-22"
+  },
+  {
+    "itemId": "inv-008",
+    "name": "Campari",
+    "category": "liqueurs",
+    "quantity": 500,
+    "unit": "ml",
+    "brand": "Campari",
+    "purchaseDate": "2024-09-30"
+  },
+  {
+    "itemId": "inv-009",
+    "name": "Cointreau",
+    "category": "liqueurs",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Cointreau",
+    "purchaseDate": "2024-10-12"
+  },
+  {
+    "itemId": "inv-010",
+    "name": "Dry Vermouth",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Dolin",
+    "purchaseDate": "2024-10-01",
+    "expirationDate": "2025-01-01",
+    "notes": "Keep refrigerated after opening"
+  },
+  {
+    "itemId": "inv-011",
+    "name": "Sweet Vermouth",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Carpano",
+    "purchaseDate": "2024-10-01",
+    "expirationDate": "2025-01-01",
+    "notes": "Keep refrigerated after opening"
+  },
+  {
+    "itemId": "inv-012",
+    "name": "Tonic Water",
+    "category": "mixers",
+    "quantity": 2000,
+    "unit": "ml",
+    "brand": "Fever-Tree",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2025-04-28"
+  },
+  {
+    "itemId": "inv-013",
+    "name": "Soda Water",
+    "category": "mixers",
+    "quantity": 2000,
+    "unit": "ml",
+    "brand": "San Pellegrino",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2025-04-28"
+  },
+  {
+    "itemId": "inv-014",
+    "name": "Ginger Beer",
+    "category": "mixers",
+    "quantity": 1000,
+    "unit": "ml",
+    "brand": "Fever-Tree",
+    "purchaseDate": "2024-10-25",
+    "expirationDate": "2025-02-25"
+  },
+  {
+    "itemId": "inv-015",
+    "name": "Prosecco",
+    "category": "wine",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "La Marca",
+    "purchaseDate": "2024-10-27",
+    "expirationDate": "2025-10-27"
+  },
+  {
+    "itemId": "inv-016",
+    "name": "Cabernet Sauvignon",
+    "category": "wine",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Justin",
+    "purchaseDate": "2024-10-20"
+  },
+  {
+    "itemId": "inv-017",
+    "name": "Simple Syrup",
+    "category": "mixers",
+    "quantity": 500,
+    "unit": "ml",
+    "purchaseDate": "2024-10-22",
+    "expirationDate": "2024-12-22",
+    "notes": "Homemade, keep refrigerated"
+  },
+  {
+    "itemId": "inv-018",
+    "name": "Fresh Lemon",
+    "category": "fruits",
+    "quantity": 4,
+    "unit": "count",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2024-11-04"
+  },
+  {
+    "itemId": "inv-019",
+    "name": "Fresh Lime",
+    "category": "fruits",
+    "quantity": 5,
+    "unit": "count",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2024-11-04"
+  },
+  {
+    "itemId": "inv-020",
+    "name": "Orange",
+    "category": "fruits",
+    "quantity": 3,
+    "unit": "count",
+    "purchaseDate": "2024-10-27",
+    "expirationDate": "2024-11-10"
+  },
+  {
+    "itemId": "inv-021",
+    "name": "Fresh Mint",
+    "category": "herbs",
+    "quantity": 1,
+    "unit": "bunch",
+    "purchaseDate": "2024-10-29",
+    "expirationDate": "2024-11-05"
+  },
+  {
+    "itemId": "inv-022",
+    "name": "Angostura Bitters",
+    "category": "mixers",
+    "quantity": 200,
+    "unit": "ml",
+    "brand": "Angostura",
+    "purchaseDate": "2024-08-15"
+  },
+  {
+    "itemId": "inv-023",
+    "name": "Honey",
+    "category": "mixers",
+    "quantity": 350,
+    "unit": "ml",
+    "purchaseDate": "2024-09-10",
+    "expirationDate": "2026-09-10"
+  },
+  {
+    "itemId": "inv-024",
+    "name": "Maraschino Cherries",
+    "category": "mixers",
+    "quantity": 250,
+    "unit": "ml",
+    "brand": "Luxardo",
+    "purchaseDate": "2024-09-20",
+    "expirationDate": "2025-09-20"
+  }
+]
