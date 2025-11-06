@@ -7,37 +7,37 @@ const MOOD_OPTIONS = [
     id: 'lazy',
     label: 'Lazy Night',
     icon: '😴',
-    description: 'No mixing required - just pour and enjoy',
+    description: 'Whiskey neat or wine - all available options',
   },
   {
     id: 'sparkling',
     label: 'Sparkling',
     icon: '✨',
-    description: 'Bubbly and effervescent drinks',
+    description: 'Drinks with tonic, soda, or sparkling wine',
   },
   {
     id: 'warm',
     label: 'Warm & Cozy',
     icon: '🔥',
-    description: 'Hot or warm drinks for comfort',
+    description: 'Hot drinks - Irish coffee, toddy, mulled wine',
   },
   {
     id: 'light',
     label: 'Light & Easy',
     icon: '🌸',
-    description: 'Low-ABV refreshing options',
+    description: 'Low calorie with tonic, soda, or beer',
   },
   {
     id: 'strong',
     label: 'Strong & Bold',
     icon: '💪',
-    description: 'Spirit-forward cocktails',
+    description: 'High ABV drinks (>20%)',
   },
   {
     id: 'sweet',
     label: 'Sweet Tooth',
     icon: '🍭',
-    description: 'Fruity and dessert-like drinks',
+    description: 'With juice or sweet liqueurs',
   },
   {
     id: 'sour',
@@ -46,10 +46,10 @@ const MOOD_OPTIONS = [
     description: 'Citrus-forward cocktails',
   },
   {
-    id: 'refreshing',
-    label: 'Refreshing',
-    icon: '🌊',
-    description: 'Crisp and cooling drinks',
+    id: 'surprise-me',
+    label: 'Surprise Me!',
+    icon: '🎲',
+    description: 'Get a random drink recommendation',
   },
 ];
 

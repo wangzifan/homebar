@@ -240,6 +240,42 @@
   font-size: 1.1rem;
 }
 
+/* Lazy Mode Styles */
+.lazy-mode-container {
+  display: grid;
+  gap: 3rem;
+}
+
+.drink-category-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.category-header {
+  color: #667eea;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 1.8rem;
+}
+
+/* Info Message */
+.info-message {
+  background: #e7f3ff;
+  border-left: 4px solid #667eea;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.info-message p {
+  color: #333;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
 @media (max-width: 768px) {
   .drink-name {
     font-size: 1.5rem;
@@ -251,5 +287,9 @@
 
   .recommendations-actions {
     flex-direction: column;
+  }
+
+  .category-header {
+    font-size: 1.4rem;
   }
 }

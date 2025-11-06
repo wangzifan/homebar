@@ -211,7 +211,89 @@ export const recommendationsApi = {
     await delay(500);
 
     const normalizedMoods = moods.map(m => m.toLowerCase());
+    const primaryMood = normalizedMoods[0];
 
+    // Filter by mood (simplified for mock)
+    let filteredRecipes = recipes;
+
+    // For lazy mode - filter to whiskey and wine
+    if (primaryMood === 'lazy') {
+      filteredRecipes = recipes.filter(r =>
+        r.category === 'whiskey' || r.category === 'wine' ||
+        r.name.toLowerCase().includes('whiskey') || r.name.toLowerCase().includes('wine')
+      );
+
+      const scoredRecipes = filteredRecipes.map(recipe => {
+        const matchData = calculateMatchScore(recipe, normalizedMoods);
+        return {
+          ...recipe,
+          matchScore: matchData.score,
+          missingIngredients: matchData.missingIngredients,
+          availableIngredients: matchData.availableIngredients,
+          matchPercentage: matchData.matchPercentage,
+          canMake: matchData.canMake,
+        };
+      });
+
+      const whiskeys = scoredRecipes.filter(r =>
+        r.category === 'whiskey' || r.name.toLowerCase().includes('whiskey')
+      ).sort((a, b) => b.matchScore - a.matchScore);
+
+      const redWines = scoredRecipes.filter(r =>
+        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
+        (r.subcategory === 'red' || r.name.toLowerCase().includes('red'))
+      ).sort((a, b) => b.matchScore - a.matchScore);
+
+      const whiteWines = scoredRecipes.filter(r =>
+        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
+        (r.subcategory === 'white' || r.name.toLowerCase().includes('white'))
+      ).sort((a, b) => b.matchScore - a.matchScore);
+
+      return {
+        data: {
+          recommendations: scoredRecipes,
+          organizedByType: {
+            whiskeys,
+            redWines,
+            whiteWines,
+          },
+          totalRecipes: recipes.length,
+          matchedRecipes: scoredRecipes.length,
+          selectedMoods: normalizedMoods,
+          isLazyMode: true,
+        },
+      };
+    }
+
+    // For surprise-me mode - return one random drink
+    if (primaryMood === 'surprise-me') {
+      const scoredRecipes = recipes.map(recipe => {
+        const matchData = calculateMatchScore(recipe, normalizedMoods);
+        return {
+          ...recipe,
+          matchScore: matchData.score,
+          missingIngredients: matchData.missingIngredients,
+          availableIngredients: matchData.availableIngredients,
+          matchPercentage: matchData.matchPercentage,
+          canMake: matchData.canMake,
+        };
+      });
+
+      const makeable = scoredRecipes.filter(r => r.canMake);
+      const randomIndex = Math.floor(Math.random() * (makeable.length > 0 ? makeable.length : scoredRecipes.length));
+      const randomDrink = makeable.length > 0 ? makeable[randomIndex] : scoredRecipes[randomIndex];
+
+      return {
+        data: {
+          recommendations: [randomDrink],
+          totalRecipes: recipes.length,
+          selectedMoods: normalizedMoods,
+          isSurpriseMode: true,
+        },
+      };
+    }
+
+    // Normal mode - return top 3
     const scoredRecipes = recipes.map(recipe => {
       const matchData = calculateMatchScore(recipe, normalizedMoods);
       return {
