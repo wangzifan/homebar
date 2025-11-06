@@ -5,7 +5,22 @@
       "Bash(tree:*)",
       "Bash(./run-local.sh)",
       "Bash(aws cloudformation describe-stacks:*)",
-      "Bash(aws dynamodb list-tables:*)"
+      "Bash(aws dynamodb list-tables:*)",
+      "Bash(sam build)",
+      "Bash(sam deploy:*)",
+      "Bash(aws lambda update-function-code:*)",
+      "Bash(sam sync:*)",
+      "Bash(zip:*)",
+      "Bash(aws lambda list-functions:*)",
+      "Bash(aws cloudformation describe-stack-resources:*)",
+      "Bash(aws lambda get-function:*)",
+      "Bash(AWS_REGION=us-west-2 node:*)",
+      "Bash(npm run build:*)",
+      "Bash(aws s3 sync:*)",
+      "Bash(aws s3api get-bucket-website:*)",
+      "Bash(/Users/zifan/IdeaProjects/MyHomeBar/run-local.sh)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

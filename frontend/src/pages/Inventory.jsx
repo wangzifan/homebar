@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { inventoryApi } from '../services';
 import './Inventory.css';
 
-const CATEGORIES = ['spirits', 'liqueurs', 'mixers', 'fruits', 'herbs', 'wine', 'whiskey'];
+const CATEGORIES = ['spirits', 'liqueurs', 'mixers', 'fruits', 'herbs', 'wine', 'whiskey', 'beer'];
 const UNITS = ['ml', 'oz', 'count', 'bunch', 'bottle'];
 
 function Inventory() {
@@ -10,7 +10,7 @@ function Inventory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [editingItem, setEditingItem] = useState(null);
+  const [editingItemId, setEditingItemId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     category: 'spirits',
@@ -54,7 +54,7 @@ function Inventory() {
       brand: '',
       notes: '',
     });
-    setEditingItem(null);
+    setEditingItemId(null);
     setShowAddForm(false);
   };
 
@@ -65,14 +65,11 @@ function Inventory() {
       const dataToSubmit = {
         ...formData,
         quantity: parseFloat(formData.quantity) || 0,
+        // Only include expiration date for mixers
+        expirationDate: formData.category === 'mixers' ? formData.expirationDate : null,
       };
 
-      if (editingItem) {
-        await inventoryApi.update(editingItem.itemId, dataToSubmit);
-      } else {
-        await inventoryApi.create(dataToSubmit);
-      }
-
+      await inventoryApi.create(dataToSubmit);
       await fetchInventory();
       resetForm();
     } catch (err) {
@@ -81,18 +78,29 @@ function Inventory() {
     }
   };
 
-  const handleEditItem = (item) => {
-    setFormData({
-      name: item.name,
-      category: item.category,
-      quantity: item.quantity.toString(),
-      unit: item.unit,
-      expirationDate: item.expirationDate || '',
-      brand: item.brand || '',
-      notes: item.notes || '',
-    });
-    setEditingItem(item);
-    setShowAddForm(true);
+  const handleStartEdit = (item) => {
+    setEditingItemId(item.itemId);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItemId(null);
+  };
+
+  const handleSaveEdit = async (itemId, updatedData) => {
+    try {
+      // Only include expiration date for mixers
+      const dataToSubmit = {
+        ...updatedData,
+        expirationDate: updatedData.category === 'mixers' ? updatedData.expirationDate : null,
+      };
+
+      await inventoryApi.update(itemId, dataToSubmit);
+      await fetchInventory();
+      setEditingItemId(null);
+    } catch (err) {
+      console.error('Error updating item:', err);
+      alert('Failed to update item. Please try again.');
+    }
   };
 
   const handleDeleteItem = async (itemId) => {
@@ -147,7 +155,7 @@ function Inventory() {
 
       {showAddForm && (
         <div className="add-form-container">
-          <h2>{editingItem ? 'Edit Item' : 'Add New Item'}</h2>
+          <h2>Add New Item</h2>
           <form onSubmit={handleAddItem} className="inventory-form">
             <div className="form-row">
               <div className="form-group">
@@ -227,16 +235,18 @@ function Inventory() {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="expirationDate">Expiration Date</label>
-                <input
-                  type="date"
-                  id="expirationDate"
-                  name="expirationDate"
-                  value={formData.expirationDate}
-                  onChange={handleInputChange}
-                />
-              </div>
+              {formData.category === 'mixers' && (
+                <div className="form-group">
+                  <label htmlFor="expirationDate">Expiration Date</label>
+                  <input
+                    type="date"
+                    id="expirationDate"
+                    name="expirationDate"
+                    value={formData.expirationDate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="form-group">
@@ -253,7 +263,7 @@ function Inventory() {
 
             <div className="form-actions">
               <button type="submit" className="btn-primary">
-                {editingItem ? 'Update Item' : 'Add Item'}
+                Add Item
               </button>
               <button type="button" className="btn-secondary" onClick={resetForm}>
                 Cancel
@@ -279,59 +289,182 @@ function Inventory() {
                 </h2>
                 <div className="items-grid">
                   {groupedItems[category].map((item) => (
-                    <div
+                    <InventoryItemCard
                       key={item.itemId}
-                      className={`inventory-item ${isExpired(item.expirationDate) ? 'expired' : ''} ${
-                        isExpiringSoon(item.expirationDate) ? 'expiring-soon' : ''
-                      }`}
-                    >
-                      <div className="item-header">
-                        <h3 className="item-name">{item.name}</h3>
-                        <div className="item-actions">
-                          <button
-                            className="btn-icon"
-                            onClick={() => handleEditItem(item)}
-                            title="Edit"
-                          >
-                            ✏️
-                          </button>
-                          <button
-                            className="btn-icon"
-                            onClick={() => handleDeleteItem(item.itemId)}
-                            title="Delete"
-                          >
-                            🗑️
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="item-details">
-                        <p className="item-quantity">
-                          {item.quantity} {item.unit}
-                        </p>
-                        {item.brand && <p className="item-brand">{item.brand}</p>}
-                        {item.expirationDate && (
-                          <p
-                            className={`item-expiration ${
-                              isExpired(item.expirationDate)
-                                ? 'expired-text'
-                                : isExpiringSoon(item.expirationDate)
-                                ? 'expiring-text'
-                                : ''
-                            }`}
-                          >
-                            {isExpired(item.expirationDate) ? '⚠️ Expired: ' : 'Expires: '}
-                            {item.expirationDate}
-                          </p>
-                        )}
-                        {item.notes && <p className="item-notes">{item.notes}</p>}
-                      </div>
-                    </div>
+                      item={item}
+                      isEditing={editingItemId === item.itemId}
+                      onStartEdit={() => handleStartEdit(item)}
+                      onCancelEdit={handleCancelEdit}
+                      onSave={handleSaveEdit}
+                      onDelete={handleDeleteItem}
+                      isExpired={isExpired(item.expirationDate)}
+                      isExpiringSoon={isExpiringSoon(item.expirationDate)}
+                    />
                   ))}
                 </div>
               </div>
             ))
         )}
+      </div>
+    </div>
+  );
+}
+
+// Inline editable inventory item card
+function InventoryItemCard({ item, isEditing, onStartEdit, onCancelEdit, onSave, onDelete, isExpired, isExpiringSoon }) {
+  const [editData, setEditData] = useState({
+    name: item.name,
+    category: item.category,
+    quantity: item.quantity,
+    unit: item.unit,
+    expirationDate: item.expirationDate || '',
+    brand: item.brand || '',
+    notes: item.notes || '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    const dataToSave = {
+      ...editData,
+      quantity: parseFloat(editData.quantity) || 0,
+    };
+    onSave(item.itemId, dataToSave);
+  };
+
+  if (isEditing) {
+    return (
+      <div className="inventory-item editing">
+        <div className="inline-edit-form">
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              value={editData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Quantity</label>
+              <input
+                type="number"
+                name="quantity"
+                value={editData.quantity}
+                onChange={handleChange}
+                min="0"
+                step="0.1"
+              />
+            </div>
+            <div className="form-group">
+              <label>Unit</label>
+              <select name="unit" value={editData.unit} onChange={handleChange}>
+                {UNITS.map(u => <option key={u} value={u}>{u}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Category</label>
+            <select name="category" value={editData.category} onChange={handleChange}>
+              {CATEGORIES.map(c => (
+                <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Brand</label>
+            <input
+              type="text"
+              name="brand"
+              value={editData.brand}
+              onChange={handleChange}
+            />
+          </div>
+
+          {editData.category === 'mixers' && (
+            <div className="form-group">
+              <label>Expiration Date</label>
+              <input
+                type="date"
+                name="expirationDate"
+                value={editData.expirationDate}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+
+          <div className="form-group">
+            <label>Notes</label>
+            <textarea
+              name="notes"
+              value={editData.notes}
+              onChange={handleChange}
+              rows="2"
+            />
+          </div>
+
+          <div className="inline-edit-actions">
+            <button className="btn-primary btn-sm" onClick={handleSave}>Save</button>
+            <button className="btn-secondary btn-sm" onClick={onCancelEdit}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`inventory-item ${
+        item.category === 'mixers' && isExpired ? 'expired' : ''
+      } ${item.category === 'mixers' && isExpiringSoon ? 'expiring-soon' : ''}`}
+    >
+      <div className="item-header">
+        <h3 className="item-name">{item.name}</h3>
+        <div className="item-actions">
+          <button
+            className="btn-icon"
+            onClick={onStartEdit}
+            title="Edit"
+          >
+            ✏️
+          </button>
+          <button
+            className="btn-icon"
+            onClick={() => onDelete(item.itemId)}
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+      </div>
+
+      <div className="item-details">
+        <p className="item-quantity">
+          {item.quantity} {item.unit}
+        </p>
+        {item.brand && <p className="item-brand">{item.brand}</p>}
+        {item.category === 'mixers' && item.expirationDate && (
+          <p
+            className={`item-expiration ${
+              isExpired
+                ? 'expired-text'
+                : isExpiringSoon
+                ? 'expiring-text'
+                : ''
+            }`}
+          >
+            {isExpired ? '⚠️ Expired: ' : 'Expires: '}
+            {item.expirationDate}
+          </p>
+        )}
+        {item.notes && <p className="item-notes">{item.notes}</p>}
       </div>
     </div>
   );

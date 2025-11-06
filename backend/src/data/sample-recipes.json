@@ -21,7 +21,8 @@
     ],
     "garnish": "None",
     "moods": ["lazy", "strong", "warm"],
-    "tags": ["classic", "spirit-forward", "no-mixing"]
+    "tags": ["classic", "spirit-forward", "no-mixing"],
+    "abv": 40
   },
   {
     "recipeId": "recipe-002",
@@ -53,7 +54,8 @@
     ],
     "garnish": "Olive or lemon twist",
     "moods": ["strong", "classic"],
-    "tags": ["classic", "stirred", "spirit-forward"]
+    "tags": ["classic", "stirred", "spirit-forward"],
+    "abv": 32
   },
   {
     "recipeId": "recipe-003",
@@ -104,7 +106,8 @@
     ],
     "garnish": "Mint sprig and lime wheel",
     "moods": ["refreshing", "light", "sparkling"],
-    "tags": ["classic", "summer", "muddled"]
+    "tags": ["classic", "summer", "muddled"],
+    "abv": 12
   },
   {
     "recipeId": "recipe-004",
@@ -143,7 +146,8 @@
     ],
     "garnish": "Orange slice",
     "moods": ["light", "sparkling", "refreshing"],
-    "tags": ["italian", "aperitif", "bubbly"]
+    "tags": ["italian", "aperitif", "bubbly"],
+    "abv": 8
   },
   {
     "recipeId": "recipe-005",
@@ -182,7 +186,8 @@
     ],
     "garnish": "Orange peel and cherry",
     "moods": ["strong", "classic"],
-    "tags": ["classic", "whiskey", "stirred"]
+    "tags": ["classic", "whiskey", "stirred"],
+    "abv": 35
   },
   {
     "recipeId": "recipe-006",
@@ -226,7 +231,8 @@
     ],
     "garnish": "Lime wheel and salt rim",
     "moods": ["sour", "refreshing"],
-    "tags": ["classic", "shaken", "citrus"]
+    "tags": ["classic", "shaken", "citrus"],
+    "abv": 22
   },
   {
     "recipeId": "recipe-007",
@@ -258,7 +264,8 @@
     ],
     "garnish": "Lime wedge",
     "moods": ["refreshing", "light", "sparkling"],
-    "tags": ["classic", "simple", "highball"]
+    "tags": ["classic", "simple", "highball"],
+    "abv": 10
   },
   {
     "recipeId": "recipe-008",
@@ -302,7 +309,8 @@
     ],
     "garnish": "Lemon wheel and cinnamon stick",
     "moods": ["warm", "soothing"],
-    "tags": ["hot-drink", "winter", "comfort"]
+    "tags": ["hot-drink", "winter", "comfort"],
+    "abv": 15
   },
   {
     "recipeId": "recipe-009",
@@ -339,7 +347,8 @@
     ],
     "garnish": "Orange peel",
     "moods": ["strong", "bitter"],
-    "tags": ["classic", "italian", "stirred"]
+    "tags": ["classic", "italian", "stirred"],
+    "abv": 28
   },
   {
     "recipeId": "recipe-010",
@@ -377,7 +386,8 @@
     ],
     "garnish": "Lime wedge and mint",
     "moods": ["refreshing", "sparkling"],
-    "tags": ["classic", "spicy", "fizzy"]
+    "tags": ["classic", "spicy", "fizzy"],
+    "abv": 12
   },
   {
     "recipeId": "recipe-011",
@@ -402,7 +412,9 @@
     ],
     "garnish": "None",
     "moods": ["lazy", "warm"],
-    "tags": ["wine", "no-mixing", "simple"]
+    "tags": ["wine", "no-mixing", "simple"],
+    "subcategory": "red",
+    "abv": 13
   },
   {
     "recipeId": "recipe-012",
@@ -446,6 +458,458 @@
     ],
     "garnish": "Cherry and orange slice",
     "moods": ["sour", "sweet"],
-    "tags": ["classic", "shaken", "citrus"]
+    "tags": ["classic", "shaken", "citrus"],
+    "abv": 20
+  },
+  {
+    "recipeId": "recipe-013",
+    "name": "Hugo Spritz",
+    "description": "Refreshing elderflower and mint spritz",
+    "category": "cocktail",
+    "glassType": "wine glass",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "St Germain",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Prosecco",
+        "quantity": 90,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Soda Water",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Fresh Mint",
+        "quantity": 5,
+        "unit": "leaves",
+        "optional": false
+      },
+      {
+        "name": "Lime",
+        "quantity": 1,
+        "unit": "slice",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Muddle mint leaves gently in glass",
+      "Add ice and St Germain",
+      "Top with Prosecco",
+      "Add splash of soda water",
+      "Stir gently",
+      "Add lime slice"
+    ],
+    "garnish": "Mint sprig and lime slice",
+    "moods": ["light", "sparkling", "refreshing"],
+    "tags": ["spritz", "elderflower", "italian"],
+    "abv": 8
+  },
+  {
+    "recipeId": "recipe-014",
+    "name": "Paper Plane",
+    "description": "Modern equal-parts cocktail with bourbon and amaro",
+    "category": "cocktail",
+    "glassType": "coupe",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Bourbon",
+        "quantity": 22,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Aperol",
+        "quantity": 22,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Amaro Nonino",
+        "quantity": 22,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lemon Juice",
+        "quantity": 22,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to shaker with ice",
+      "Shake vigorously for 15 seconds",
+      "Double strain into chilled coupe"
+    ],
+    "garnish": "None",
+    "moods": ["sour", "strong"],
+    "tags": ["modern-classic", "shaken", "equal-parts"],
+    "abv": 22
+  },
+  {
+    "recipeId": "recipe-015",
+    "name": "Pink Lady",
+    "description": "Classic gin cocktail with grenadine and egg white",
+    "category": "cocktail",
+    "glassType": "coupe",
+    "difficulty": "medium",
+    "preparationTime": 5,
+    "ingredients": [
+      {
+        "name": "Gin",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Grenadine",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lemon Juice",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Egg White",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Apple Brandy",
+        "quantity": 7,
+        "unit": "ml",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to shaker",
+      "Dry shake (without ice) for 15 seconds",
+      "Add ice and shake vigorously",
+      "Double strain into chilled coupe"
+    ],
+    "garnish": "Cherry",
+    "moods": ["sweet", "sour"],
+    "tags": ["classic", "shaken", "frothy"],
+    "abv": 18
+  },
+  {
+    "recipeId": "recipe-016",
+    "name": "Pina Colada",
+    "description": "Tropical coconut and pineapple rum cocktail",
+    "category": "cocktail",
+    "glassType": "hurricane",
+    "difficulty": "easy",
+    "preparationTime": 4,
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Coconut Cream",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Pineapple Juice",
+        "quantity": 90,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to blender with ice",
+      "Blend until smooth",
+      "Pour into hurricane glass"
+    ],
+    "garnish": "Pineapple wedge and cherry",
+    "moods": ["sweet", "refreshing"],
+    "tags": ["tropical", "blended", "creamy"],
+    "abv": 12
+  },
+  {
+    "recipeId": "recipe-017",
+    "name": "Zombie",
+    "description": "Potent tiki cocktail with multiple rums",
+    "category": "cocktail",
+    "glassType": "tiki mug",
+    "difficulty": "hard",
+    "preparationTime": 6,
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Dark Rum",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Overproof Rum",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lime Juice",
+        "quantity": 20,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Pineapple Juice",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Grenadine",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to shaker with ice",
+      "Shake vigorously",
+      "Strain into tiki mug filled with crushed ice"
+    ],
+    "garnish": "Pineapple and cherry",
+    "moods": ["strong", "sweet"],
+    "tags": ["tiki", "tropical", "potent"],
+    "abv": 30
+  },
+  {
+    "recipeId": "recipe-018",
+    "name": "Bay Breeze",
+    "description": "Fruity vodka cocktail with cranberry and pineapple",
+    "category": "cocktail",
+    "glassType": "highball",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Cranberry Juice",
+        "quantity": 90,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Pineapple Juice",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Fill highball glass with ice",
+      "Add vodka",
+      "Add cranberry juice",
+      "Top with pineapple juice",
+      "Stir gently"
+    ],
+    "garnish": "Lime wedge",
+    "moods": ["sweet", "refreshing", "light"],
+    "tags": ["fruity", "summer", "easy"],
+    "abv": 10
+  },
+  {
+    "recipeId": "recipe-019",
+    "name": "Sex on the Beach",
+    "description": "Fruity vodka cocktail with peach and cranberry",
+    "category": "cocktail",
+    "glassType": "highball",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Peach Schnapps",
+        "quantity": 20,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Cranberry Juice",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Orange Juice",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Fill highball glass with ice",
+      "Add vodka and peach schnapps",
+      "Add cranberry and orange juice",
+      "Stir well"
+    ],
+    "garnish": "Orange slice and cherry",
+    "moods": ["sweet", "refreshing"],
+    "tags": ["fruity", "party", "popular"],
+    "abv": 12
+  },
+  {
+    "recipeId": "recipe-020",
+    "name": "Mai Tai",
+    "description": "Classic tiki rum cocktail with almond and lime",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "medium",
+    "preparationTime": 4,
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Dark Rum",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Lime Juice",
+        "quantity": 20,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Orange Curacao",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Orgeat Syrup",
+        "quantity": 15,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Simple Syrup",
+        "quantity": 10,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add all ingredients to shaker with ice",
+      "Shake vigorously",
+      "Strain into rocks glass over crushed ice"
+    ],
+    "garnish": "Mint sprig, lime wheel, and pineapple",
+    "moods": ["strong", "sweet"],
+    "tags": ["tiki", "tropical", "classic"],
+    "abv": 25
+  },
+  {
+    "recipeId": "recipe-021",
+    "name": "Rusty Nail",
+    "description": "Simple scotch and Drambuie cocktail",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Scotch Whisky",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Drambuie",
+        "quantity": 25,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add both ingredients to rocks glass with ice",
+      "Stir gently"
+    ],
+    "garnish": "Lemon twist",
+    "moods": ["strong", "sweet"],
+    "tags": ["classic", "scotch", "simple"],
+    "abv": 35
+  },
+  {
+    "recipeId": "recipe-022",
+    "name": "Godfather",
+    "description": "Smooth scotch and amaretto cocktail",
+    "category": "cocktail",
+    "glassType": "rocks glass",
+    "difficulty": "easy",
+    "preparationTime": 2,
+    "ingredients": [
+      {
+        "name": "Scotch Whisky",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Amaretto",
+        "quantity": 25,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Add both ingredients to rocks glass with ice",
+      "Stir gently"
+    ],
+    "garnish": "Orange peel",
+    "moods": ["strong", "sweet"],
+    "tags": ["classic", "scotch", "simple"],
+    "abv": 32
   }
 ]

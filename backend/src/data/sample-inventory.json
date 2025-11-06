@@ -88,7 +88,7 @@
     "unit": "ml",
     "brand": "Dolin",
     "purchaseDate": "2024-10-01",
-    "expirationDate": "2025-01-01",
+    "expirationDate": "2026-06-01",
     "notes": "Keep refrigerated after opening"
   },
   {
@@ -99,7 +99,7 @@
     "unit": "ml",
     "brand": "Carpano",
     "purchaseDate": "2024-10-01",
-    "expirationDate": "2025-01-01",
+    "expirationDate": "2026-06-01",
     "notes": "Keep refrigerated after opening"
   },
   {
@@ -110,7 +110,7 @@
     "unit": "ml",
     "brand": "Fever-Tree",
     "purchaseDate": "2024-10-28",
-    "expirationDate": "2025-04-28"
+    "expirationDate": "2026-04-28"
   },
   {
     "itemId": "inv-013",
@@ -120,7 +120,7 @@
     "unit": "ml",
     "brand": "San Pellegrino",
     "purchaseDate": "2024-10-28",
-    "expirationDate": "2025-04-28"
+    "expirationDate": "2026-04-28"
   },
   {
     "itemId": "inv-014",
@@ -130,7 +130,7 @@
     "unit": "ml",
     "brand": "Fever-Tree",
     "purchaseDate": "2024-10-25",
-    "expirationDate": "2025-02-25"
+    "expirationDate": "2026-02-25"
   },
   {
     "itemId": "inv-015",
@@ -158,7 +158,7 @@
     "quantity": 500,
     "unit": "ml",
     "purchaseDate": "2024-10-22",
-    "expirationDate": "2024-12-22",
+    "expirationDate": "2026-10-22",
     "notes": "Homemade, keep refrigerated"
   },
   {
@@ -167,8 +167,7 @@
     "category": "fruits",
     "quantity": 4,
     "unit": "count",
-    "purchaseDate": "2024-10-28",
-    "expirationDate": "2024-11-04"
+    "purchaseDate": "2024-10-28"
   },
   {
     "itemId": "inv-019",
@@ -176,8 +175,7 @@
     "category": "fruits",
     "quantity": 5,
     "unit": "count",
-    "purchaseDate": "2024-10-28",
-    "expirationDate": "2024-11-04"
+    "purchaseDate": "2024-10-28"
   },
   {
     "itemId": "inv-020",
@@ -185,8 +183,7 @@
     "category": "fruits",
     "quantity": 3,
     "unit": "count",
-    "purchaseDate": "2024-10-27",
-    "expirationDate": "2024-11-10"
+    "purchaseDate": "2024-10-27"
   },
   {
     "itemId": "inv-021",
@@ -194,8 +191,7 @@
     "category": "herbs",
     "quantity": 1,
     "unit": "bunch",
-    "purchaseDate": "2024-10-29",
-    "expirationDate": "2024-11-05"
+    "purchaseDate": "2024-10-29"
   },
   {
     "itemId": "inv-022",
@@ -204,7 +200,8 @@
     "quantity": 200,
     "unit": "ml",
     "brand": "Angostura",
-    "purchaseDate": "2024-08-15"
+    "purchaseDate": "2024-08-15",
+    "expirationDate": "2027-08-15"
   },
   {
     "itemId": "inv-023",
@@ -213,7 +210,7 @@
     "quantity": 350,
     "unit": "ml",
     "purchaseDate": "2024-09-10",
-    "expirationDate": "2026-09-10"
+    "expirationDate": "2027-09-10"
   },
   {
     "itemId": "inv-024",
@@ -223,6 +220,241 @@
     "unit": "ml",
     "brand": "Luxardo",
     "purchaseDate": "2024-09-20",
-    "expirationDate": "2025-09-20"
+    "expirationDate": "2026-09-20"
+  },
+  {
+    "itemId": "inv-025",
+    "name": "IPA Beer",
+    "category": "beer",
+    "quantity": 6,
+    "unit": "bottle",
+    "brand": "Lagunitas",
+    "purchaseDate": "2024-10-28",
+    "notes": "355ml bottles"
+  },
+  {
+    "itemId": "inv-026",
+    "name": "Pale Ale Beer",
+    "category": "beer",
+    "quantity": 4,
+    "unit": "bottle",
+    "brand": "Sierra Nevada",
+    "purchaseDate": "2024-10-28",
+    "notes": "355ml bottles"
+  },
+  {
+    "itemId": "inv-027",
+    "name": "Sake",
+    "category": "spirits",
+    "quantity": 720,
+    "unit": "ml",
+    "brand": "Gekkeikan",
+    "purchaseDate": "2024-10-25",
+    "notes": "Japanese rice wine"
+  },
+  {
+    "itemId": "inv-028",
+    "name": "Midori",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Midori",
+    "purchaseDate": "2024-10-20",
+    "notes": "Melon liqueur"
+  },
+  {
+    "itemId": "inv-029",
+    "name": "Triple Sec",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Combier",
+    "purchaseDate": "2024-10-15",
+    "notes": "Orange liqueur"
+  },
+  {
+    "itemId": "inv-030",
+    "name": "St Germain",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "St-Germain",
+    "purchaseDate": "2024-10-18",
+    "notes": "Elderflower liqueur"
+  },
+  {
+    "itemId": "inv-031",
+    "name": "Drambuie",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Drambuie",
+    "purchaseDate": "2024-10-22",
+    "notes": "Scotch whisky liqueur"
+  },
+  {
+    "itemId": "inv-032",
+    "name": "Dark Rum",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Goslings",
+    "purchaseDate": "2024-10-20"
+  },
+  {
+    "itemId": "inv-033",
+    "name": "Overproof Rum",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Wray & Nephew",
+    "purchaseDate": "2024-10-20",
+    "notes": "63% ABV"
+  },
+  {
+    "itemId": "inv-034",
+    "name": "Scotch Whisky",
+    "category": "whiskey",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Glenlivet",
+    "purchaseDate": "2024-10-18"
+  },
+  {
+    "itemId": "inv-035",
+    "name": "Amaretto",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Disaronno",
+    "purchaseDate": "2024-10-15"
+  },
+  {
+    "itemId": "inv-036",
+    "name": "Amaro Nonino",
+    "category": "liqueurs",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Amaro Nonino",
+    "purchaseDate": "2024-10-22"
+  },
+  {
+    "itemId": "inv-037",
+    "name": "Peach Schnapps",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "DeKuyper",
+    "purchaseDate": "2024-10-18"
+  },
+  {
+    "itemId": "inv-038",
+    "name": "Orange Curacao",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Pierre Ferrand",
+    "purchaseDate": "2024-10-15"
+  },
+  {
+    "itemId": "inv-039",
+    "name": "Apple Brandy",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Laird's",
+    "purchaseDate": "2024-10-10"
+  },
+  {
+    "itemId": "inv-040",
+    "name": "Pineapple Juice",
+    "category": "mixers",
+    "quantity": 1000,
+    "unit": "ml",
+    "brand": "Dole",
+    "purchaseDate": "2024-11-01",
+    "expirationDate": "2026-05-01"
+  },
+  {
+    "itemId": "inv-041",
+    "name": "Cranberry Juice",
+    "category": "mixers",
+    "quantity": 1000,
+    "unit": "ml",
+    "brand": "Ocean Spray",
+    "purchaseDate": "2024-11-01",
+    "expirationDate": "2026-05-01"
+  },
+  {
+    "itemId": "inv-042",
+    "name": "Orange Juice",
+    "category": "mixers",
+    "quantity": 1000,
+    "unit": "ml",
+    "brand": "Tropicana",
+    "purchaseDate": "2024-11-01",
+    "expirationDate": "2026-05-01"
+  },
+  {
+    "itemId": "inv-043",
+    "name": "Lemon Juice",
+    "category": "mixers",
+    "quantity": 500,
+    "unit": "ml",
+    "brand": "ReaLemon",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2026-04-28"
+  },
+  {
+    "itemId": "inv-044",
+    "name": "Lime Juice",
+    "category": "mixers",
+    "quantity": 500,
+    "unit": "ml",
+    "brand": "ReaLime",
+    "purchaseDate": "2024-10-28",
+    "expirationDate": "2026-04-28"
+  },
+  {
+    "itemId": "inv-045",
+    "name": "Coconut Cream",
+    "category": "mixers",
+    "quantity": 425,
+    "unit": "ml",
+    "brand": "Coco Lopez",
+    "purchaseDate": "2024-10-25",
+    "expirationDate": "2026-10-25",
+    "notes": "For Pina Colada"
+  },
+  {
+    "itemId": "inv-046",
+    "name": "Grenadine",
+    "category": "mixers",
+    "quantity": 375,
+    "unit": "ml",
+    "brand": "Small Hand Foods",
+    "purchaseDate": "2024-10-20",
+    "expirationDate": "2026-10-20"
+  },
+  {
+    "itemId": "inv-047",
+    "name": "Orgeat Syrup",
+    "category": "mixers",
+    "quantity": 375,
+    "unit": "ml",
+    "brand": "Monin",
+    "purchaseDate": "2024-10-22",
+    "expirationDate": "2026-10-22",
+    "notes": "Almond syrup for tiki drinks"
+  },
+  {
+    "itemId": "inv-048",
+    "name": "Egg White",
+    "category": "mixers",
+    "quantity": 12,
+    "unit": "count",
+    "brand": "Farm Fresh",
+    "purchaseDate": "2024-11-01",
+    "expirationDate": "2026-12-01"
   }
 ]

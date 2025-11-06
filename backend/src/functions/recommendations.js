@@ -248,30 +248,33 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
 
     // Special handling for "lazy" mode - return ALL options organized by type
     if (primaryMood === 'lazy') {
+      // Filter to only drinks we can make
+      const makeableRecipes = scoredRecipes.filter(r => r.canMake);
+
       // Organize by subcategory
-      const whiskeys = scoredRecipes.filter(r =>
+      const whiskeys = makeableRecipes.filter(r =>
         r.category === 'whiskey' || r.name.toLowerCase().includes('whiskey')
       ).sort((a, b) => b.matchScore - a.matchScore);
 
-      const redWines = scoredRecipes.filter(r =>
+      const redWines = makeableRecipes.filter(r =>
         (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
         (r.subcategory === 'red' || r.name.toLowerCase().includes('red'))
       ).sort((a, b) => b.matchScore - a.matchScore);
 
-      const whiteWines = scoredRecipes.filter(r =>
+      const whiteWines = makeableRecipes.filter(r =>
         (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
         (r.subcategory === 'white' || r.name.toLowerCase().includes('white'))
       ).sort((a, b) => b.matchScore - a.matchScore);
 
       return createResponse(200, {
-        recommendations: scoredRecipes,
+        recommendations: makeableRecipes,
         organizedByType: {
           whiskeys,
           redWines,
           whiteWines,
         },
         totalRecipes: recipes.length,
-        matchedRecipes: scoredRecipes.length,
+        matchedRecipes: makeableRecipes.length,
         selectedMoods: normalizedMoods,
         isLazyMode: true,
       });
@@ -302,14 +305,25 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
       });
     }
 
-    // For all other moods - return top 3
-    scoredRecipes.sort((a, b) => b.matchScore - a.matchScore);
-    const top3 = scoredRecipes.slice(0, 3);
+    // For all other moods - return top 3 drinks we can make
+    const makeableRecipes = scoredRecipes.filter(r => r.canMake);
+
+    if (makeableRecipes.length === 0) {
+      return createResponse(200, {
+        recommendations: [],
+        message: `No drinks found that you can make with your current inventory for: ${selectedMoods.join(', ')}. Try different moods or update your inventory.`,
+        totalRecipes: recipes.length,
+        selectedMoods: normalizedMoods,
+      });
+    }
+
+    makeableRecipes.sort((a, b) => b.matchScore - a.matchScore);
+    const top3 = makeableRecipes.slice(0, 3);
 
     return createResponse(200, {
       recommendations: top3,
       totalRecipes: recipes.length,
-      matchedRecipes: scoredRecipes.length,
+      matchedRecipes: makeableRecipes.length,
       selectedMoods: normalizedMoods,
     });
   } catch (error) {
