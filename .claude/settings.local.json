@@ -3,7 +3,9 @@
     "allow": [
       "Bash(chmod:*)",
       "Bash(tree:*)",
-      "Bash(./run-local.sh)"
+      "Bash(./run-local.sh)",
+      "Bash(aws cloudformation describe-stacks:*)",
+      "Bash(aws dynamodb list-tables:*)"
     ],
     "deny": [],
     "ask": []
