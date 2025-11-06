@@ -3,7 +3,6 @@ import { recipesApi } from '../services';
 import './Recipes.css';
 
 const CATEGORIES = ['cocktail', 'whiskey', 'wine', 'beer'];
-const DIFFICULTIES = ['easy', 'medium', 'hard'];
 const GLASS_TYPES = ['rocks glass', 'highball', 'martini', 'wine glass', 'coupe', 'mug', 'hurricane', 'tiki mug', 'margarita glass', 'copper mug'];
 const MOODS = ['lazy', 'sparkling', 'warm', 'light', 'strong', 'sweet', 'sour', 'refreshing'];
 
@@ -21,8 +20,6 @@ function Recipes() {
     description: '',
     category: 'cocktail',
     glassType: 'rocks glass',
-    difficulty: 'easy',
-    preparationTime: 3,
     abv: 0,
     ingredients: [{ name: '', quantity: '', unit: 'ml', optional: false }],
     instructions: [''],
@@ -110,8 +107,6 @@ function Recipes() {
       description: '',
       category: 'cocktail',
       glassType: 'rocks glass',
-      difficulty: 'easy',
-      preparationTime: 3,
       abv: 0,
       ingredients: [{ name: '', quantity: '', unit: 'ml', optional: false }],
       instructions: [''],
@@ -130,7 +125,6 @@ function Recipes() {
     try {
       const dataToSubmit = {
         ...formData,
-        preparationTime: parseInt(formData.preparationTime) || 0,
         abv: parseFloat(formData.abv) || 0,
         ingredients: formData.ingredients.map(ing => ({
           ...ing,
@@ -162,17 +156,48 @@ function Recipes() {
 
   const handleStartEdit = (recipe) => {
     setEditingRecipeId(recipe.recipeId);
+    setFormData({
+      name: recipe.name || '',
+      description: recipe.description || '',
+      category: recipe.category || 'cocktail',
+      glassType: recipe.glassType || 'rocks glass',
+      abv: recipe.abv || 0,
+      ingredients: recipe.ingredients && recipe.ingredients.length > 0
+        ? recipe.ingredients
+        : [{ name: '', quantity: '', unit: 'ml', optional: false }],
+      instructions: recipe.instructions && recipe.instructions.length > 0
+        ? recipe.instructions
+        : [''],
+      garnish: recipe.garnish || '',
+      moods: recipe.moods || [],
+      tags: recipe.tags || [],
+      subcategory: recipe.subcategory || '',
+    });
   };
 
   const handleCancelEdit = () => {
     setEditingRecipeId(null);
+    resetForm();
   };
 
-  const handleSaveEdit = async (recipeId, updatedData) => {
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+
     try {
-      await recipesApi.update(recipeId, updatedData);
+      const dataToSubmit = {
+        ...formData,
+        abv: parseFloat(formData.abv) || 0,
+        ingredients: formData.ingredients.map(ing => ({
+          ...ing,
+          quantity: parseFloat(ing.quantity) || 0,
+        })),
+        tags: formData.tags.filter(t => t.trim()),
+      };
+
+      await recipesApi.update(editingRecipeId, dataToSubmit);
       await fetchRecipes();
       setEditingRecipeId(null);
+      resetForm();
     } catch (err) {
       console.error('Error updating recipe:', err);
       alert('Failed to update recipe. Please try again.');
@@ -301,34 +326,6 @@ function Recipes() {
                     </option>
                   ))}
                 </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="difficulty">Difficulty</label>
-                <select
-                  id="difficulty"
-                  name="difficulty"
-                  value={formData.difficulty}
-                  onChange={handleInputChange}
-                >
-                  {DIFFICULTIES.map((diff) => (
-                    <option key={diff} value={diff}>
-                      {diff}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="preparationTime">Prep Time (min)</label>
-                <input
-                  type="number"
-                  id="preparationTime"
-                  name="preparationTime"
-                  value={formData.preparationTime}
-                  onChange={handleInputChange}
-                  min="1"
-                />
               </div>
 
               <div className="form-group">
@@ -520,6 +517,15 @@ function Recipes() {
                       onDelete={handleDeleteRecipe}
                       onToggleView={() => setViewingRecipeId(viewingRecipeId === recipe.recipeId ? null : recipe.recipeId)}
                       onToggleFavorite={() => handleToggleFavorite(recipe.recipeId)}
+                      formData={formData}
+                      onInputChange={handleInputChange}
+                      onMoodToggle={handleMoodToggle}
+                      onIngredientChange={handleIngredientChange}
+                      onInstructionChange={handleInstructionChange}
+                      onAddIngredient={addIngredient}
+                      onRemoveIngredient={removeIngredient}
+                      onAddInstruction={addInstruction}
+                      onRemoveInstruction={removeInstruction}
                     />
                   ))}
                 </div>
@@ -532,14 +538,249 @@ function Recipes() {
 }
 
 // Recipe card component with expandable details
-function RecipeCard({ recipe, isEditing, isViewing, isFavorited, onStartEdit, onCancelEdit, onSave, onDelete, onToggleView, onToggleFavorite }) {
+function RecipeCard({
+  recipe,
+  isEditing,
+  isViewing,
+  isFavorited,
+  onStartEdit,
+  onCancelEdit,
+  onSave,
+  onDelete,
+  onToggleView,
+  onToggleFavorite,
+  formData,
+  onInputChange,
+  onMoodToggle,
+  onIngredientChange,
+  onInstructionChange,
+  onAddIngredient,
+  onRemoveIngredient,
+  onAddInstruction,
+  onRemoveInstruction
+}) {
   if (isEditing) {
     return (
       <div className="recipe-item editing">
-        <p className="edit-note">Editing is simplified. For complex changes, delete and recreate the recipe.</p>
-        <div className="recipe-actions">
-          <button className="btn-secondary btn-sm" onClick={onCancelEdit}>Cancel</button>
-        </div>
+        <h3>Edit Recipe</h3>
+        <form onSubmit={onSave} className="recipe-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="edit-name">Name *</label>
+              <input
+                type="text"
+                id="edit-name"
+                name="name"
+                value={formData.name}
+                onChange={onInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="edit-category">Category *</label>
+              <select
+                id="edit-category"
+                name="category"
+                value={formData.category}
+                onChange={onInputChange}
+                required
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="edit-description">Description *</label>
+            <textarea
+              id="edit-description"
+              name="description"
+              value={formData.description}
+              onChange={onInputChange}
+              required
+              rows="2"
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="edit-glassType">Glass Type</label>
+              <select
+                id="edit-glassType"
+                name="glassType"
+                value={formData.glassType}
+                onChange={onInputChange}
+              >
+                {GLASS_TYPES.map((glass) => (
+                  <option key={glass} value={glass}>
+                    {glass}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="edit-abv">ABV (%)</label>
+              <input
+                type="number"
+                id="edit-abv"
+                name="abv"
+                value={formData.abv}
+                onChange={onInputChange}
+                min="0"
+                max="100"
+                step="0.1"
+              />
+            </div>
+          </div>
+
+          {formData.category === 'wine' && (
+            <div className="form-group">
+              <label htmlFor="edit-subcategory">Wine Type</label>
+              <select
+                id="edit-subcategory"
+                name="subcategory"
+                value={formData.subcategory}
+                onChange={onInputChange}
+              >
+                <option value="">Select type</option>
+                <option value="red">Red</option>
+                <option value="white">White</option>
+                <option value="rose">Rosé</option>
+                <option value="sparkling">Sparkling</option>
+              </select>
+            </div>
+          )}
+
+          <div className="form-section">
+            <div className="section-header">
+              <h3>Ingredients</h3>
+              <button type="button" className="btn-secondary btn-sm" onClick={onAddIngredient}>
+                + Add Ingredient
+              </button>
+            </div>
+            {formData.ingredients.map((ing, index) => (
+              <div key={index} className="ingredient-row">
+                <input
+                  type="text"
+                  placeholder="Ingredient name"
+                  value={ing.name}
+                  onChange={(e) => onIngredientChange(index, 'name', e.target.value)}
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Qty"
+                  value={ing.quantity}
+                  onChange={(e) => onIngredientChange(index, 'quantity', e.target.value)}
+                  step="0.1"
+                  required
+                />
+                <select
+                  value={ing.unit}
+                  onChange={(e) => onIngredientChange(index, 'unit', e.target.value)}
+                >
+                  <option value="ml">ml</option>
+                  <option value="oz">oz</option>
+                  <option value="count">count</option>
+                  <option value="dash">dash</option>
+                  <option value="dashes">dashes</option>
+                  <option value="whole">whole</option>
+                  <option value="leaves">leaves</option>
+                  <option value="slice">slice</option>
+                </select>
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={ing.optional}
+                    onChange={(e) => onIngredientChange(index, 'optional', e.target.checked)}
+                  />
+                  Optional
+                </label>
+                {formData.ingredients.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn-icon"
+                    onClick={() => onRemoveIngredient(index)}
+                  >
+                    ✗
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="form-section">
+            <div className="section-header">
+              <h3>Instructions</h3>
+              <button type="button" className="btn-secondary btn-sm" onClick={onAddInstruction}>
+                + Add Step
+              </button>
+            </div>
+            {formData.instructions.map((instruction, index) => (
+              <div key={index} className="instruction-row">
+                <span className="step-number">{index + 1}.</span>
+                <input
+                  type="text"
+                  placeholder="Instruction step"
+                  value={instruction}
+                  onChange={(e) => onInstructionChange(index, e.target.value)}
+                  required
+                />
+                {formData.instructions.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn-icon"
+                    onClick={() => onRemoveInstruction(index)}
+                  >
+                    ✗
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="edit-garnish">Garnish</label>
+            <input
+              type="text"
+              id="edit-garnish"
+              name="garnish"
+              value={formData.garnish}
+              onChange={onInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Moods</label>
+            <div className="mood-checkboxes">
+              {MOODS.map((mood) => (
+                <label key={mood} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.moods.includes(mood)}
+                    onChange={() => onMoodToggle(mood)}
+                  />
+                  {mood.charAt(0).toUpperCase() + mood.slice(1)}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="btn-primary">
+              Save Changes
+            </button>
+            <button type="button" className="btn-secondary" onClick={onCancelEdit}>
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -570,6 +811,9 @@ function RecipeCard({ recipe, isEditing, isViewing, isFavorited, onStartEdit, on
           >
             {isFavorited ? '⭐' : '☆'}
           </button>
+          <button className="btn-icon" onClick={onStartEdit} title="Edit">
+            ✏️
+          </button>
           <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
             🗑️
           </button>
@@ -591,6 +835,9 @@ function RecipeCard({ recipe, isEditing, isViewing, isFavorited, onStartEdit, on
           >
             {isFavorited ? '⭐' : '☆'}
           </button>
+          <button className="btn-icon" onClick={onStartEdit} title="Edit">
+            ✏️
+          </button>
           <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
             🗑️
           </button>
@@ -602,8 +849,6 @@ function RecipeCard({ recipe, isEditing, isViewing, isFavorited, onStartEdit, on
 
         <div className="recipe-meta">
           {recipe.glassType && <span className="detail-badge">Glass: {recipe.glassType}</span>}
-          {recipe.difficulty && <span className="detail-badge">{recipe.difficulty}</span>}
-          {recipe.preparationTime && <span className="detail-badge">{recipe.preparationTime} min</span>}
           {recipe.abv && <span className="detail-badge">ABV: {recipe.abv}%</span>}
         </div>
 

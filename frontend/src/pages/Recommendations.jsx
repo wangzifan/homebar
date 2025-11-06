@@ -14,6 +14,7 @@ function Recommendations() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [expandedCardId, setExpandedCardId] = useState(null);
 
   const moods = location.state?.moods || [];
 
@@ -53,135 +54,182 @@ function Recommendations() {
   };
 
   // Render inventory item (for lazy mode)
-  const renderInventoryCard = (item, index) => (
-    <div key={item.itemId} className="recommendation-card inventory-card can-make">
-      <div className="card-header">
-        <span className="status-badge available">✓ Available</span>
-      </div>
+  const renderInventoryCard = (item, index) => {
+    const isExpanded = expandedCardId === item.itemId;
+    const cardId = item.itemId;
 
-      <h2 className="drink-name">{item.name}</h2>
-      {item.brand && <p className="drink-brand">{item.brand}</p>}
+    return (
+      <div
+        key={cardId}
+        className={`recommendation-card inventory-card ${isExpanded ? 'expanded' : 'collapsed'}`}
+        onClick={() => setExpandedCardId(isExpanded ? null : cardId)}
+      >
+        <h2 className="drink-name">{item.name}</h2>
+        {item.brand && <p className="drink-brand">{item.brand}</p>}
 
-      <div className="drink-details">
-        <div className="detail-item">
-          <span className="detail-label">Quantity:</span>
-          <span>{item.quantity} {item.unit}</span>
-        </div>
-        {item.expirationDate && (
-          <div className="detail-item">
-            <span className="detail-label">Expires:</span>
-            <span>{item.expirationDate}</span>
+        {/* Expanded content */}
+        {isExpanded && (
+          <div className="expanded-content">
+            <div className="drink-details">
+              <div className="detail-item">
+                <span className="detail-label">Quantity:</span>
+                <span>{item.quantity} {item.unit}</span>
+              </div>
+              {item.category && (
+                <div className="detail-item">
+                  <span className="detail-label">Type:</span>
+                  <span>{item.category}</span>
+                </div>
+              )}
+              {item.expirationDate && (
+                <div className="detail-item">
+                  <span className="detail-label">Expires:</span>
+                  <span>{item.expirationDate}</span>
+                </div>
+              )}
+              {item.purchaseDate && (
+                <div className="detail-item">
+                  <span className="detail-label">Purchased:</span>
+                  <span>{item.purchaseDate}</span>
+                </div>
+              )}
+            </div>
+            {item.notes && (
+              <div className="notes-section">
+                <strong>Notes:</strong>
+                <p><em>{item.notes}</em></p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {isExpanded && (
+          <div className="expand-hint">
+            ▲ Click to collapse
           </div>
         )}
       </div>
+    );
+  };
 
-      {item.notes && (
-        <div className="notes-section">
-          <p><em>{item.notes}</em></p>
+  const renderDrinkCard = (rec, index, showRank = true) => {
+    const isExpanded = expandedCardId === rec.recipeId;
+    const cardId = rec.recipeId;
+
+    return (
+      <div
+        key={cardId}
+        className={`recommendation-card ${isExpanded ? 'expanded' : 'collapsed'}`}
+        onClick={() => setExpandedCardId(isExpanded ? null : cardId)}
+      >
+        <h2 className="drink-name">
+          {showRank && <span className="rank-number">#{index + 1}</span>}
+          {rec.name}
+        </h2>
+
+        {/* Metadata - always visible */}
+        <div className="drink-details">
+          {rec.category && (
+            <div className="detail-item">
+              <span className="detail-label">Category:</span>
+              <span>{rec.category}</span>
+            </div>
+          )}
+          {rec.abv && (
+            <div className="detail-item">
+              <span className="detail-label">ABV:</span>
+              <span>{rec.abv}%</span>
+            </div>
+          )}
+          {rec.glassType && (
+            <div className="detail-item">
+              <span className="detail-label">Glass:</span>
+              <span>{rec.glassType}</span>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
 
-  const renderDrinkCard = (rec, index, showRank = true) => (
-    <div
-      key={rec.recipeId}
-      className={`recommendation-card ${rec.canMake ? 'can-make' : 'missing-ingredients'}`}
-    >
-      <div className="card-header">
-        {showRank && <span className="rank-badge">#{index + 1}</span>}
-        <span className={`status-badge ${rec.canMake ? 'available' : 'unavailable'}`}>
-          {rec.canMake ? '✓ Can Make' : '⚠ Missing Items'}
-        </span>
+        {/* Main ingredients - always visible (first 3-4) */}
+        {rec.ingredients && rec.ingredients.length > 0 && (
+          <div className="ingredients-preview">
+            <strong>Main Ingredients:</strong>
+            <span className="ingredients-list-preview">
+              {rec.ingredients.slice(0, 3).map((ing, idx) => (
+                <span key={idx}>
+                  {ing.name}
+                  {idx < 2 && idx < rec.ingredients.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+              {rec.ingredients.length > 3 && ` +${rec.ingredients.length - 3} more`}
+            </span>
+          </div>
+        )}
+
+        {/* Expanded content - shown only when clicked */}
+        {isExpanded && (
+          <div className="expanded-content">
+            {rec.description && <p className="drink-description">{rec.description}</p>}
+
+            {rec.ingredients && rec.ingredients.length > 0 && (
+              <div className="ingredients-section">
+                <h3>All Ingredients</h3>
+                <ul className="ingredients-list">
+                  {rec.ingredients.map((ing, idx) => {
+                    const isAvailable = rec.availableIngredients?.includes(ing.name);
+                    const isMissing = rec.missingIngredients?.includes(ing.name);
+
+                    return (
+                      <li
+                        key={idx}
+                        className={`ingredient-item ${
+                          isAvailable ? 'available' : isMissing ? 'missing' : ''
+                        }`}
+                      >
+                        <span className="ingredient-icon">
+                          {isAvailable ? '✓' : isMissing ? '✗' : '?'}
+                        </span>
+                        <span className="ingredient-text">
+                          {ing.quantity} {ing.unit} {ing.name}
+                          {ing.optional && <em> (optional)</em>}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+
+            {rec.instructions && rec.instructions.length > 0 && (
+              <div className="instructions-section">
+                <h3>Instructions</h3>
+                <ol className="instructions-list">
+                  {rec.instructions.map((instruction, idx) => (
+                    <li key={idx}>{instruction}</li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {rec.garnish && (
+              <div className="garnish-section">
+                <strong>Garnish:</strong> {rec.garnish}
+              </div>
+            )}
+
+            {rec.missingIngredients && rec.missingIngredients.length > 0 && (
+              <div className="missing-alert">
+                <strong>Missing:</strong> {rec.missingIngredients.join(', ')}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="expand-hint">
+          {isExpanded ? '▲ Click to collapse' : '▼ Click for details'}
+        </div>
       </div>
-
-      <h2 className="drink-name">{rec.name}</h2>
-      <p className="drink-description">{rec.description}</p>
-
-      <div className="drink-details">
-        {rec.category && (
-          <div className="detail-item">
-            <span className="detail-label">Category:</span>
-            <span>{rec.category}</span>
-          </div>
-        )}
-        {rec.abv && (
-          <div className="detail-item">
-            <span className="detail-label">ABV:</span>
-            <span>{rec.abv}%</span>
-          </div>
-        )}
-        {rec.glassType && (
-          <div className="detail-item">
-            <span className="detail-label">Glass:</span>
-            <span>{rec.glassType}</span>
-          </div>
-        )}
-        {rec.preparationTime && (
-          <div className="detail-item">
-            <span className="detail-label">Time:</span>
-            <span>{rec.preparationTime} min</span>
-          </div>
-        )}
-        <div className="detail-item">
-          <span className="detail-label">Match:</span>
-          <span>{Math.round(rec.matchPercentage)}%</span>
-        </div>
-      </div>
-
-      {rec.ingredients && rec.ingredients.length > 0 && (
-        <div className="ingredients-section">
-          <h3>Ingredients</h3>
-          <ul className="ingredients-list">
-            {rec.ingredients.map((ing, idx) => {
-              const isAvailable = rec.availableIngredients?.includes(ing.name);
-              const isMissing = rec.missingIngredients?.includes(ing.name);
-
-              return (
-                <li
-                  key={idx}
-                  className={`ingredient-item ${
-                    isAvailable ? 'available' : isMissing ? 'missing' : ''
-                  }`}
-                >
-                  <span className="ingredient-icon">
-                    {isAvailable ? '✓' : isMissing ? '✗' : '?'}
-                  </span>
-                  <span className="ingredient-text">
-                    {ing.quantity} {ing.unit} {ing.name}
-                    {ing.optional && <em> (optional)</em>}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
-
-      {rec.instructions && rec.instructions.length > 0 && (
-        <div className="instructions-section">
-          <h3>Instructions</h3>
-          <ol className="instructions-list">
-            {rec.instructions.map((instruction, idx) => (
-              <li key={idx}>{instruction}</li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      {rec.garnish && (
-        <div className="garnish-section">
-          <strong>Garnish:</strong> {rec.garnish}
-        </div>
-      )}
-
-      {rec.missingIngredients && rec.missingIngredients.length > 0 && (
-        <div className="missing-alert">
-          <strong>Missing:</strong> {rec.missingIngredients.join(', ')}
-        </div>
-      )}
-    </div>
-  );
+    );
+  };
 
   if (loading) {
     return (

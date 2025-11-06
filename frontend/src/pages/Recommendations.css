@@ -32,16 +32,30 @@
   margin-bottom: 2rem;
 }
 
+/* Compact grid for inventory cards in lazy mode */
+.drink-category-section .recommendations-grid .inventory-card.collapsed {
+  margin-bottom: 0;
+}
+
 .recommendation-card {
   background: white;
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.recommendation-card.collapsed {
+  padding: 1.5rem;
+}
+
+.recommendation-card.expanded {
+  padding: 2rem;
 }
 
 .recommendation-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
@@ -53,43 +67,20 @@
   border-left: 5px solid #f39c12;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.rank-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.status-badge {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.status-badge.available {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-badge.unavailable {
-  background: #fff3cd;
-  color: #856404;
-}
 
 .drink-name {
   font-size: 2rem;
   color: #333;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rank-number {
+  color: #667eea;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .drink-description {
@@ -253,6 +244,13 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Multi-column grid for inventory items in lazy mode */
+.lazy-mode-container .drink-category-section .recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
 .category-header {
   color: #667eea;
   margin-bottom: 1.5rem;
@@ -299,11 +297,24 @@
   border-left: 5px solid #667eea;
 }
 
+.inventory-card.collapsed {
+  padding: 1rem 1.5rem;
+}
+
+.inventory-card.collapsed .drink-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.inventory-card.collapsed .drink-brand {
+  margin-bottom: 0;
+}
+
 .drink-brand {
   color: #666;
   font-size: 1rem;
   font-style: italic;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   margin-bottom: 1rem;
 }
 
@@ -312,4 +323,42 @@
   padding-top: 1rem;
   border-top: 1px solid #e0e0e0;
   color: #666;
+}
+
+/* Collapsed view styles */
+.ingredients-preview {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.ingredients-preview strong {
+  color: #667eea;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.ingredients-list-preview {
+  color: #555;
+  line-height: 1.6;
+}
+
+.expand-hint {
+  text-align: center;
+  color: #667eea;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  font-weight: 500;
+}
+
+/* Expanded content styles */
+.expanded-content {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e0e0e0;
+  animation: fadeIn 0.3s ease-in;
 }
