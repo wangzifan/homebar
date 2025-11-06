@@ -6,7 +6,7 @@ const MOOD_OPTIONS = [
     id: 'lazy',
     label: 'Lazy Night',
     icon: '😴',
-    description: 'Whiskey neat or wine - all available options',
+    description: 'Ready to drink - whiskey, sake, wine, beer',
   },
   {
     id: 'sparkling',
@@ -63,10 +63,7 @@ function Welcome() {
   return (
     <div className="welcome-container">
       <div className="welcome-header">
-        <h1 className="welcome-title">Welcome to MyHomeBar</h1>
-        <p className="welcome-subtitle">
-          What's your mood tonight? Click any option to get your personalized drink recommendations.
-        </p>
+        <h1 className="welcome-title">Zifan's Home Bar</h1>
       </div>
 
       <div className="mood-grid">

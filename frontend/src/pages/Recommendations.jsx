@@ -9,6 +9,7 @@ function Recommendations() {
   const [recommendations, setRecommendations] = useState([]);
   const [organizedByType, setOrganizedByType] = useState(null);
   const [isLazyMode, setIsLazyMode] = useState(false);
+  const [isInventoryMode, setIsInventoryMode] = useState(false);
   const [isSurpriseMode, setIsSurpriseMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,6 +36,7 @@ function Recommendations() {
 
       setRecommendations(data.recommendations || []);
       setIsLazyMode(data.isLazyMode || false);
+      setIsInventoryMode(data.isInventoryMode || false);
       setIsSurpriseMode(data.isSurpriseMode || false);
       setOrganizedByType(data.organizedByType || null);
       setMessage(data.message || null);
@@ -49,6 +51,37 @@ function Recommendations() {
   const handleBackToHome = () => {
     navigate('/');
   };
+
+  // Render inventory item (for lazy mode)
+  const renderInventoryCard = (item, index) => (
+    <div key={item.itemId} className="recommendation-card inventory-card can-make">
+      <div className="card-header">
+        <span className="status-badge available">✓ Available</span>
+      </div>
+
+      <h2 className="drink-name">{item.name}</h2>
+      {item.brand && <p className="drink-brand">{item.brand}</p>}
+
+      <div className="drink-details">
+        <div className="detail-item">
+          <span className="detail-label">Quantity:</span>
+          <span>{item.quantity} {item.unit}</span>
+        </div>
+        {item.expirationDate && (
+          <div className="detail-item">
+            <span className="detail-label">Expires:</span>
+            <span>{item.expirationDate}</span>
+          </div>
+        )}
+      </div>
+
+      {item.notes && (
+        <div className="notes-section">
+          <p><em>{item.notes}</em></p>
+        </div>
+      )}
+    </div>
+  );
 
   const renderDrinkCard = (rec, index, showRank = true) => (
     <div
@@ -218,34 +251,52 @@ function Recommendations() {
             <div className="drink-category-section">
               <h2 className="category-header">🥃 Whiskeys ({organizedByType.whiskeys.length})</h2>
               <div className="recommendations-grid">
-                {organizedByType.whiskeys.map((rec, idx) => renderDrinkCard(rec, idx, false))}
+                {organizedByType.whiskeys.map((item, idx) =>
+                  isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
+                )}
               </div>
             </div>
           )}
 
-          {organizedByType.redWines && organizedByType.redWines.length > 0 && (
+          {organizedByType.sake && organizedByType.sake.length > 0 && (
             <div className="drink-category-section">
-              <h2 className="category-header">🍷 Red Wines ({organizedByType.redWines.length})</h2>
+              <h2 className="category-header">🍶 Sake ({organizedByType.sake.length})</h2>
               <div className="recommendations-grid">
-                {organizedByType.redWines.map((rec, idx) => renderDrinkCard(rec, idx, false))}
+                {organizedByType.sake.map((item, idx) =>
+                  isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
+                )}
               </div>
             </div>
           )}
 
-          {organizedByType.whiteWines && organizedByType.whiteWines.length > 0 && (
+          {organizedByType.wines && organizedByType.wines.length > 0 && (
             <div className="drink-category-section">
-              <h2 className="category-header">🥂 White Wines ({organizedByType.whiteWines.length})</h2>
+              <h2 className="category-header">🍷 Wines ({organizedByType.wines.length})</h2>
               <div className="recommendations-grid">
-                {organizedByType.whiteWines.map((rec, idx) => renderDrinkCard(rec, idx, false))}
+                {organizedByType.wines.map((item, idx) =>
+                  isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
+                )}
+              </div>
+            </div>
+          )}
+
+          {organizedByType.beers && organizedByType.beers.length > 0 && (
+            <div className="drink-category-section">
+              <h2 className="category-header">🍺 Beers ({organizedByType.beers.length})</h2>
+              <div className="recommendations-grid">
+                {organizedByType.beers.map((item, idx) =>
+                  isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
+                )}
               </div>
             </div>
           )}
 
           {(!organizedByType.whiskeys || organizedByType.whiskeys.length === 0) &&
-           (!organizedByType.redWines || organizedByType.redWines.length === 0) &&
-           (!organizedByType.whiteWines || organizedByType.whiteWines.length === 0) && (
+           (!organizedByType.sake || organizedByType.sake.length === 0) &&
+           (!organizedByType.wines || organizedByType.wines.length === 0) &&
+           (!organizedByType.beers || organizedByType.beers.length === 0) && (
             <div className="no-recommendations">
-              <p>No whiskey or wine found in your inventory. Add some to see recommendations!</p>
+              <p>No ready-to-drink options found in your inventory. Add some whiskey, sake, wine, or beer!</p>
             </div>
           )}
         </div>

@@ -152,12 +152,13 @@ const calculateMatchScore = (recipe, inventory) => {
 const filterByMood = (recipes, inventory, mood) => {
   switch (mood) {
     case 'lazy':
-      // Return ALL whiskey and wine, organized by type
+      // Return ONLY ready-to-drink options by category: whiskey, sake, wine, and beer
+      // Don't filter by name as "Whiskey Sour" is a cocktail, not ready-to-drink
       return recipes.filter(recipe =>
         recipe.category === 'whiskey' ||
         recipe.category === 'wine' ||
-        recipe.name.toLowerCase().includes('whiskey') ||
-        recipe.name.toLowerCase().includes('wine')
+        recipe.category === 'beer' ||
+        recipe.category === 'sake'
       );
 
     case 'sparkling':
@@ -199,7 +200,54 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
     const inventoryResult = await docClient.send(inventoryCommand);
     const inventory = inventoryResult.Items || [];
 
-    // Fetch all recipes
+    const normalizedMoods = selectedMoods.map(m => m.toLowerCase());
+    const primaryMood = normalizedMoods[0];
+
+    // Special handling for "lazy" mode - return inventory items directly
+    if (primaryMood === 'lazy') {
+      const readyToDrink = inventory.filter(item => {
+        // Filter to ready-to-drink categories with available quantity
+        const isReadyToDrinkCategory =
+          item.category === 'whiskey' ||
+          item.category === 'wine' ||
+          item.category === 'beer' ||
+          item.category === 'sake';
+
+        const hasQuantity = item.quantity && item.quantity > 0;
+
+        // Check if not expired (for items with expiration dates)
+        let notExpired = true;
+        if (item.expirationDate) {
+          const expDate = new Date(item.expirationDate);
+          const now = new Date();
+          notExpired = expDate >= now;
+        }
+
+        return isReadyToDrinkCategory && hasQuantity && notExpired;
+      });
+
+      // Organize by category
+      const whiskeys = readyToDrink.filter(item => item.category === 'whiskey');
+      const sake = readyToDrink.filter(item => item.category === 'sake');
+      const wines = readyToDrink.filter(item => item.category === 'wine');
+      const beers = readyToDrink.filter(item => item.category === 'beer');
+
+      return createResponse(200, {
+        recommendations: readyToDrink,
+        organizedByType: {
+          whiskeys,
+          sake,
+          wines,
+          beers,
+        },
+        totalItems: readyToDrink.length,
+        selectedMoods: normalizedMoods,
+        isLazyMode: true,
+        isInventoryMode: true,
+      });
+    }
+
+    // Fetch all recipes (only for non-lazy modes)
     const recipesCommand = new ScanCommand({
       TableName: RECIPES_TABLE,
     });
@@ -212,9 +260,6 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
         message: 'No recipes found in database. Please add some recipes first.',
       });
     }
-
-    const normalizedMoods = selectedMoods.map(m => m.toLowerCase());
-    const primaryMood = normalizedMoods[0];
 
     // Apply mood-based filtering
     let filteredRecipes = recipes;
@@ -246,39 +291,6 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
       };
     });
 
-    // Special handling for "lazy" mode - return ALL options organized by type
-    if (primaryMood === 'lazy') {
-      // Filter to only drinks we can make
-      const makeableRecipes = scoredRecipes.filter(r => r.canMake);
-
-      // Organize by subcategory
-      const whiskeys = makeableRecipes.filter(r =>
-        r.category === 'whiskey' || r.name.toLowerCase().includes('whiskey')
-      ).sort((a, b) => b.matchScore - a.matchScore);
-
-      const redWines = makeableRecipes.filter(r =>
-        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
-        (r.subcategory === 'red' || r.name.toLowerCase().includes('red'))
-      ).sort((a, b) => b.matchScore - a.matchScore);
-
-      const whiteWines = makeableRecipes.filter(r =>
-        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
-        (r.subcategory === 'white' || r.name.toLowerCase().includes('white'))
-      ).sort((a, b) => b.matchScore - a.matchScore);
-
-      return createResponse(200, {
-        recommendations: makeableRecipes,
-        organizedByType: {
-          whiskeys,
-          redWines,
-          whiteWines,
-        },
-        totalRecipes: recipes.length,
-        matchedRecipes: makeableRecipes.length,
-        selectedMoods: normalizedMoods,
-        isLazyMode: true,
-      });
-    }
 
     // Special handling for "surprise me" - return ONE random option
     if (primaryMood === 'surprise-me') {

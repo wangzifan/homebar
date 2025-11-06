@@ -213,60 +213,54 @@ export const recommendationsApi = {
     const normalizedMoods = moods.map(m => m.toLowerCase());
     const primaryMood = normalizedMoods[0];
 
-    // Filter by mood (simplified for mock)
-    let filteredRecipes = recipes;
-
-    // For lazy mode - filter to whiskey and wine
+    // Special handling for "lazy" mode - return inventory items directly
     if (primaryMood === 'lazy') {
-      filteredRecipes = recipes.filter(r =>
-        r.category === 'whiskey' || r.category === 'wine' ||
-        r.name.toLowerCase().includes('whiskey') || r.name.toLowerCase().includes('wine')
-      );
+      const readyToDrink = inventory.filter(item => {
+        // Filter to ready-to-drink categories with available quantity
+        const isReadyToDrinkCategory =
+          item.category === 'whiskey' ||
+          item.category === 'wine' ||
+          item.category === 'beer' ||
+          item.category === 'sake';
 
-      const scoredRecipes = filteredRecipes.map(recipe => {
-        const matchData = calculateMatchScore(recipe, normalizedMoods);
-        return {
-          ...recipe,
-          matchScore: matchData.score,
-          missingIngredients: matchData.missingIngredients,
-          availableIngredients: matchData.availableIngredients,
-          matchPercentage: matchData.matchPercentage,
-          canMake: matchData.canMake,
-        };
+        const hasQuantity = item.quantity && item.quantity > 0;
+
+        // Check if not expired (for items with expiration dates)
+        let notExpired = true;
+        if (item.expirationDate) {
+          const expDate = new Date(item.expirationDate);
+          const now = new Date();
+          notExpired = expDate >= now;
+        }
+
+        return isReadyToDrinkCategory && hasQuantity && notExpired;
       });
 
-      // Filter to only drinks we can make
-      const makeableRecipes = scoredRecipes.filter(r => r.canMake);
-
-      const whiskeys = makeableRecipes.filter(r =>
-        r.category === 'whiskey' || r.name.toLowerCase().includes('whiskey')
-      ).sort((a, b) => b.matchScore - a.matchScore);
-
-      const redWines = makeableRecipes.filter(r =>
-        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
-        (r.subcategory === 'red' || r.name.toLowerCase().includes('red'))
-      ).sort((a, b) => b.matchScore - a.matchScore);
-
-      const whiteWines = makeableRecipes.filter(r =>
-        (r.category === 'wine' || r.name.toLowerCase().includes('wine')) &&
-        (r.subcategory === 'white' || r.name.toLowerCase().includes('white'))
-      ).sort((a, b) => b.matchScore - a.matchScore);
+      // Organize by category
+      const whiskeys = readyToDrink.filter(item => item.category === 'whiskey');
+      const sake = readyToDrink.filter(item => item.category === 'sake');
+      const wines = readyToDrink.filter(item => item.category === 'wine');
+      const beers = readyToDrink.filter(item => item.category === 'beer');
 
       return {
         data: {
-          recommendations: makeableRecipes,
+          recommendations: readyToDrink,
           organizedByType: {
             whiskeys,
-            redWines,
-            whiteWines,
+            sake,
+            wines,
+            beers,
           },
-          totalRecipes: recipes.length,
-          matchedRecipes: makeableRecipes.length,
+          totalItems: readyToDrink.length,
           selectedMoods: normalizedMoods,
           isLazyMode: true,
+          isInventoryMode: true,
         },
       };
     }
+
+    // Filter by mood (simplified for mock)
+    let filteredRecipes = recipes;
 
     // For surprise-me mode - return one random drink
     if (primaryMood === 'surprise-me') {
