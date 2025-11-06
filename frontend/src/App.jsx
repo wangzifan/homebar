@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Welcome from './pages/Welcome';
 import Recommendations from './pages/Recommendations';
 import Inventory from './pages/Inventory';
+import Recipes from './pages/Recipes';
 import './App.css';
 
 function App() {
@@ -24,6 +25,11 @@ function App() {
                   Inventory
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/recipes" className="nav-link">
+                  Recipes
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>
@@ -33,6 +39,7 @@ function App() {
             <Route path="/" element={<Welcome />} />
             <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/recipes" element={<Recipes />} />
           </Routes>
         </main>
 
