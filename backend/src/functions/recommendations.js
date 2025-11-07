@@ -25,7 +25,11 @@ const normalizeIngredientName = (name) => {
   return name.toLowerCase()
     .replace(/\s+/g, ' ')
     .trim()
-    .replace(/\b(gin|vodka|rum|tequila|whiskey|bourbon|scotch|brandy|cognac)\b.*/, '$1')
+    .replace(/whisky/g, 'whiskey') // Normalize whisky to whiskey
+    .replace(/\bhot\s+/g, '') // Remove "hot" prefix (hot water, hot coffee)
+    .replace(/\birish\s+/g, '') // Remove "irish" prefix (irish whiskey)
+    .replace(/\bscotch\s+/g, '') // Remove "scotch" prefix
+    .replace(/\b(gin|vodka|rum|tequila|whiskey|bourbon|brandy|cognac)\b.*/, '$1')
     .replace(/fresh\s+/, '')
     .replace(/\bjuice\b/, '')
     .replace(/\bsyrup\b/, '');
@@ -34,6 +38,11 @@ const normalizeIngredientName = (name) => {
 // Check if inventory has required ingredient
 const hasIngredient = (inventory, requiredIngredient) => {
   const normalizedRequired = normalizeIngredientName(requiredIngredient);
+
+  // Water is always available (hot water, cold water, etc.)
+  if (normalizedRequired === 'water' || normalizedRequired === '') {
+    return true;
+  }
 
   return inventory.some(item => {
     const normalizedItem = normalizeIngredientName(item.name);
