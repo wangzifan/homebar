@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { inventoryApi } from '../services';
+import { useAuth } from '../contexts/AuthContext';
 import './Inventory.css';
 
 const CATEGORIES = ['spirits', 'liqueurs', 'mixers', 'fruits', 'herbs', 'wine', 'whiskey', 'beer'];
 const UNITS = ['ml', 'oz', 'count', 'bunch', 'bottle'];
 
 function Inventory() {
+  const { isAuthenticated } = useAuth();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -146,9 +148,11 @@ function Inventory() {
     <div className="inventory-container">
       <div className="inventory-header">
         <h1>My Home Bar Inventory</h1>
-        <button className="btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
-          {showAddForm ? 'Cancel' : '+ Add Item'}
-        </button>
+        {isAuthenticated && (
+          <button className="btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
+            {showAddForm ? 'Cancel' : '+ Add Item'}
+          </button>
+        )}
       </div>
 
       {error && <div className="error-message">{error}</div>}
@@ -295,6 +299,7 @@ function Inventory() {
                         key={item.itemId}
                         item={item}
                         isEditing={editingItemId === item.itemId}
+                        isAuthenticated={isAuthenticated}
                         onStartEdit={() => handleStartEdit(item)}
                         onCancelEdit={handleCancelEdit}
                         onSave={handleSaveEdit}
@@ -313,7 +318,7 @@ function Inventory() {
 }
 
 // Inline editable inventory item card
-function InventoryItemCard({ item, isEditing, onStartEdit, onCancelEdit, onSave, onDelete, isExpired, isExpiringSoon }) {
+function InventoryItemCard({ item, isEditing, isAuthenticated, onStartEdit, onCancelEdit, onSave, onDelete, isExpired, isExpiringSoon }) {
   const [editData, setEditData] = useState({
     name: item.name,
     category: item.category,
@@ -429,22 +434,24 @@ function InventoryItemCard({ item, isEditing, onStartEdit, onCancelEdit, onSave,
     >
       <div className="item-header">
         <h3 className="item-name">{item.name}</h3>
-        <div className="item-actions">
-          <button
-            className="btn-icon"
-            onClick={onStartEdit}
-            title="Edit"
-          >
-            ✏️
-          </button>
-          <button
-            className="btn-icon"
-            onClick={() => onDelete(item.itemId)}
-            title="Delete"
-          >
-            🗑️
-          </button>
-        </div>
+        {isAuthenticated && (
+          <div className="item-actions">
+            <button
+              className="btn-icon"
+              onClick={onStartEdit}
+              title="Edit"
+            >
+              ✏️
+            </button>
+            <button
+              className="btn-icon"
+              onClick={() => onDelete(item.itemId)}
+              title="Delete"
+            >
+              🗑️
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="item-details">

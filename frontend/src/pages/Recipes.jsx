@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { recipesApi, imageApi } from '../services';
+import { useAuth } from '../contexts/AuthContext';
 import './Recipes.css';
 
 const CATEGORIES = ['cocktail', 'whiskey', 'wine', 'beer'];
@@ -7,6 +8,7 @@ const GLASS_TYPES = ['rocks glass', 'highball', 'martini', 'wine glass', 'coupe'
 const MOODS = ['lazy', 'sparkling', 'warm', 'light', 'strong', 'sweet', 'sour', 'refreshing'];
 
 function Recipes() {
+  const { isAuthenticated } = useAuth();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -387,9 +389,11 @@ function Recipes() {
           >
             {showFavoritesOnly ? '⭐ Favorites' : '☆ Show Favorites'}
           </button>
-          <button className="btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
-            {showAddForm ? 'Cancel' : '+ Add Recipe'}
-          </button>
+          {isAuthenticated && (
+            <button className="btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
+              {showAddForm ? 'Cancel' : '+ Add Recipe'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -748,6 +752,7 @@ function Recipes() {
                     isEditing={editingRecipeId === recipe.recipeId}
                     isViewing={viewingRecipeId === recipe.recipeId}
                     isFavorited={favorites.has(recipe.recipeId)}
+                    isAuthenticated={isAuthenticated}
                     onStartEdit={() => handleStartEdit(recipe)}
                     onCancelEdit={handleCancelEdit}
                     onSave={handleSaveEdit}
@@ -782,6 +787,7 @@ function RecipeCard({
   isEditing,
   isViewing,
   isFavorited,
+  isAuthenticated,
   onStartEdit,
   onCancelEdit,
   onSave,
@@ -1101,12 +1107,16 @@ function RecipeCard({
           >
             {isFavorited ? '⭐' : '☆'}
           </button>
-          <button className="btn-icon" onClick={onStartEdit} title="Edit">
-            ✏️
-          </button>
-          <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
-            🗑️
-          </button>
+          {isAuthenticated && (
+            <>
+              <button className="btn-icon" onClick={onStartEdit} title="Edit">
+                ✏️
+              </button>
+              <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
+                🗑️
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
@@ -1125,12 +1135,16 @@ function RecipeCard({
           >
             {isFavorited ? '⭐' : '☆'}
           </button>
-          <button className="btn-icon" onClick={onStartEdit} title="Edit">
-            ✏️
-          </button>
-          <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
-            🗑️
-          </button>
+          {isAuthenticated && (
+            <>
+              <button className="btn-icon" onClick={onStartEdit} title="Edit">
+                ✏️
+              </button>
+              <button className="btn-icon" onClick={() => onDelete(recipe.recipeId)} title="Delete">
+                🗑️
+              </button>
+            </>
+          )}
         </div>
       </div>
 
