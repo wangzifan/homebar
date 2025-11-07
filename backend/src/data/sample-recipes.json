@@ -22,7 +22,8 @@
     "garnish": "None",
     "moods": ["lazy", "strong", "warm"],
     "tags": ["classic", "spirit-forward", "no-mixing"],
-    "abv": 40
+    "abv": 40,
+    "imageUrl": "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=800"
   },
   {
     "recipeId": "recipe-002",
@@ -55,7 +56,8 @@
     "garnish": "Olive or lemon twist",
     "moods": ["strong", "classic"],
     "tags": ["classic", "stirred", "spirit-forward"],
-    "abv": 32
+    "abv": 32,
+    "imageUrl": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800"
   },
   {
     "recipeId": "recipe-003",
@@ -107,7 +109,8 @@
     "garnish": "Mint sprig and lime wheel",
     "moods": ["refreshing", "light", "sparkling"],
     "tags": ["classic", "summer", "muddled"],
-    "abv": 12
+    "abv": 12,
+    "imageUrl": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800"
   },
   {
     "recipeId": "recipe-004",
@@ -147,7 +150,8 @@
     "garnish": "Orange slice",
     "moods": ["light", "sparkling", "refreshing"],
     "tags": ["italian", "aperitif", "bubbly"],
-    "abv": 8
+    "abv": 8,
+    "imageUrl": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=800"
   },
   {
     "recipeId": "recipe-005",
@@ -187,7 +191,8 @@
     "garnish": "Orange peel and cherry",
     "moods": ["strong", "classic"],
     "tags": ["classic", "whiskey", "stirred"],
-    "abv": 35
+    "abv": 35,
+    "imageUrl": "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800"
   },
   {
     "recipeId": "recipe-006",
@@ -232,7 +237,8 @@
     "garnish": "Lime wheel and salt rim",
     "moods": ["sour", "refreshing"],
     "tags": ["classic", "shaken", "citrus"],
-    "abv": 22
+    "abv": 22,
+    "imageUrl": "https://images.unsplash.com/photo-1615332579937-4074f97d1d4a?w=800"
   },
   {
     "recipeId": "recipe-007",
@@ -265,7 +271,8 @@
     "garnish": "Lime wedge",
     "moods": ["refreshing", "light", "sparkling"],
     "tags": ["classic", "simple", "highball"],
-    "abv": 10
+    "abv": 10,
+    "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=800"
   },
   {
     "recipeId": "recipe-008",
@@ -310,7 +317,8 @@
     "garnish": "Lemon wheel and cinnamon stick",
     "moods": ["warm", "soothing"],
     "tags": ["hot-drink", "winter", "comfort"],
-    "abv": 15
+    "abv": 15,
+    "imageUrl": "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=800"
   },
   {
     "recipeId": "recipe-009",
@@ -348,7 +356,8 @@
     "garnish": "Orange peel",
     "moods": ["strong", "bitter"],
     "tags": ["classic", "italian", "stirred"],
-    "abv": 28
+    "abv": 28,
+    "imageUrl": "https://images.unsplash.com/photo-1609949279531-cf48d0f0d0d0?w=800"
   },
   {
     "recipeId": "recipe-010",
@@ -387,7 +396,8 @@
     "garnish": "Lime wedge and mint",
     "moods": ["refreshing", "sparkling"],
     "tags": ["classic", "spicy", "fizzy"],
-    "abv": 12
+    "abv": 12,
+    "imageUrl": "https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?w=800"
   },
   {
     "recipeId": "recipe-011",
@@ -414,7 +424,8 @@
     "moods": ["lazy", "warm"],
     "tags": ["wine", "no-mixing", "simple"],
     "subcategory": "red",
-    "abv": 13
+    "abv": 13,
+    "imageUrl": "https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=800"
   },
   {
     "recipeId": "recipe-012",
@@ -459,7 +470,8 @@
     "garnish": "Cherry and orange slice",
     "moods": ["sour", "sweet"],
     "tags": ["classic", "shaken", "citrus"],
-    "abv": 20
+    "abv": 20,
+    "imageUrl": "https://images.unsplash.com/photo-1545147986-a9d6f2ab03b5?w=800"
   },
   {
     "recipeId": "recipe-013",
@@ -512,7 +524,8 @@
     "garnish": "Mint sprig and lime slice",
     "moods": ["light", "sparkling", "refreshing"],
     "tags": ["spritz", "elderflower", "italian"],
-    "abv": 8
+    "abv": 8,
+    "imageUrl": "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=800"
   },
   {
     "recipeId": "recipe-014",
@@ -556,7 +569,8 @@
     "garnish": "None",
     "moods": ["sour", "strong"],
     "tags": ["modern-classic", "shaken", "equal-parts"],
-    "abv": 22
+    "abv": 22,
+    "imageUrl": "https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=800"
   },
   {
     "recipeId": "recipe-015",
@@ -607,7 +621,8 @@
     "garnish": "Cherry",
     "moods": ["sweet", "sour"],
     "tags": ["classic", "shaken", "frothy"],
-    "abv": 18
+    "abv": 18,
+    "imageUrl": "https://images.unsplash.com/photo-1582037928769-181f2644ecb7?w=800"
   },
   {
     "recipeId": "recipe-016",
@@ -645,7 +660,8 @@
     "garnish": "Pineapple wedge and cherry",
     "moods": ["sweet", "refreshing"],
     "tags": ["tropical", "blended", "creamy"],
-    "abv": 12
+    "abv": 12,
+    "imageUrl": "https://images.unsplash.com/photo-1593340449955-e415b5e33c1b?w=800"
   },
   {
     "recipeId": "recipe-017",
@@ -707,7 +723,8 @@
     "garnish": "Pineapple and cherry",
     "moods": ["strong", "sweet"],
     "tags": ["tiki", "tropical", "potent"],
-    "abv": 30
+    "abv": 30,
+    "imageUrl": "https://images.unsplash.com/photo-1575467678930-c7acd65d6470?w=800"
   },
   {
     "recipeId": "recipe-018",
@@ -747,7 +764,8 @@
     "garnish": "Lime wedge",
     "moods": ["sweet", "refreshing", "light"],
     "tags": ["fruity", "summer", "easy"],
-    "abv": 10
+    "abv": 10,
+    "imageUrl": "https://images.unsplash.com/photo-1541963058-d2f0b97c9c62?w=800"
   },
   {
     "recipeId": "recipe-019",
@@ -792,7 +810,8 @@
     "garnish": "Orange slice and cherry",
     "moods": ["sweet", "refreshing"],
     "tags": ["fruity", "party", "popular"],
-    "abv": 12
+    "abv": 12,
+    "imageUrl": "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800&q=80"
   },
   {
     "recipeId": "recipe-020",
@@ -848,7 +867,8 @@
     "garnish": "Mint sprig, lime wheel, and pineapple",
     "moods": ["strong", "sweet"],
     "tags": ["tiki", "tropical", "classic"],
-    "abv": 25
+    "abv": 25,
+    "imageUrl": "https://images.unsplash.com/photo-1575535468632-345892291673?w=800"
   },
   {
     "recipeId": "recipe-021",
@@ -879,7 +899,8 @@
     "garnish": "Lemon twist",
     "moods": ["strong", "sweet"],
     "tags": ["classic", "scotch", "simple"],
-    "abv": 35
+    "abv": 35,
+    "imageUrl": "https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=800&q=80"
   },
   {
     "recipeId": "recipe-022",
@@ -910,6 +931,7 @@
     "garnish": "Orange peel",
     "moods": ["strong", "sweet"],
     "tags": ["classic", "scotch", "simple"],
-    "abv": 32
+    "abv": 32,
+    "imageUrl": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80"
   }
 ]

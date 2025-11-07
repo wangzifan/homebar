@@ -43,7 +43,36 @@
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
+}
+
+.card-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.card-content {
+  flex: 1;
   cursor: pointer;
+}
+
+.drink-image {
+  flex: 0 0 300px;
+  width: 300px;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drink-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .recommendation-card.collapsed {
@@ -54,9 +83,8 @@
   padding: 2rem;
 }
 
-.recommendation-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+.card-content:hover {
+  opacity: 0.9;
 }
 
 .recommendation-card.can-make {
@@ -289,6 +317,19 @@
 
   .category-header {
     font-size: 1.4rem;
+  }
+
+  /* Stack image on top for mobile */
+  .card-layout {
+    flex-direction: column-reverse;
+  }
+
+  .drink-image {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+    margin-bottom: 1rem;
   }
 }
 

@@ -20,7 +20,11 @@
       "Bash(aws s3api get-bucket-website:*)",
       "Bash(/Users/zifan/IdeaProjects/MyHomeBar/run-local.sh)",
       "Bash(npm run dev:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "Bash(node -e:*)",
+      "WebFetch(domain:www.liquor.com)"
     ],
     "deny": [],
     "ask": []

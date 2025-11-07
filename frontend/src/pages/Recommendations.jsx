@@ -120,12 +120,13 @@ function Recommendations() {
       <div
         key={cardId}
         className={`recommendation-card ${isExpanded ? 'expanded' : 'collapsed'}`}
-        onClick={() => setExpandedCardId(isExpanded ? null : cardId)}
       >
-        <h2 className="drink-name">
-          {showRank && <span className="rank-number">#{index + 1}</span>}
-          {rec.name}
-        </h2>
+        <div className="card-layout">
+          <div className="card-content" onClick={() => setExpandedCardId(isExpanded ? null : cardId)}>
+            <h2 className="drink-name">
+              {showRank && <span className="rank-number">#{index + 1}</span>}
+              {rec.name}
+            </h2>
 
         {/* Metadata - always visible */}
         <div className="drink-details">
@@ -224,8 +225,16 @@ function Recommendations() {
           </div>
         )}
 
-        <div className="expand-hint">
-          {isExpanded ? '▲ Click to collapse' : '▼ Click for details'}
+            <div className="expand-hint">
+              {isExpanded ? '▲ Click to collapse' : '▼ Click for details'}
+            </div>
+          </div>
+
+          {rec.imageUrl && (
+            <div className="drink-image">
+              <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
+            </div>
+          )}
         </div>
       </div>
     );

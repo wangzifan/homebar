@@ -27,7 +27,9 @@ function Recipes() {
     moods: [],
     tags: [],
     subcategory: '',
+    imageUrl: '',
   });
+  const [imageUploadMethod, setImageUploadMethod] = useState('url'); // 'url' or 'upload'
 
   useEffect(() => {
     fetchRecipes();
@@ -50,6 +52,33 @@ function Recipes() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size should be less than 5MB');
+      return;
+    }
+
+    // Convert to base64
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({ ...prev, imageUrl: reader.result }));
+    };
+    reader.onerror = () => {
+      alert('Failed to read image file');
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleMoodToggle = (mood) => {
@@ -114,7 +143,9 @@ function Recipes() {
       moods: [],
       tags: [],
       subcategory: '',
+      imageUrl: '',
     });
+    setImageUploadMethod('url');
     setEditingRecipeId(null);
     setShowAddForm(false);
   };
@@ -156,6 +187,12 @@ function Recipes() {
 
   const handleStartEdit = (recipe) => {
     setEditingRecipeId(recipe.recipeId);
+
+    // Detect if existing image is a data URL (uploaded file) or regular URL
+    const imageUrl = recipe.imageUrl || '';
+    const isDataUrl = imageUrl.startsWith('data:image/');
+    setImageUploadMethod(isDataUrl ? 'upload' : 'url');
+
     setFormData({
       name: recipe.name || '',
       description: recipe.description || '',
@@ -172,6 +209,7 @@ function Recipes() {
       moods: recipe.moods || [],
       tags: recipe.tags || [],
       subcategory: recipe.subcategory || '',
+      imageUrl: imageUrl,
     });
   };
 
@@ -309,6 +347,56 @@ function Recipes() {
                 rows="2"
                 placeholder="Brief description of the drink..."
               />
+            </div>
+
+            <div className="form-group">
+              <label>Recipe Image</label>
+              <div className="image-upload-options">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="imageUploadMethod"
+                    value="url"
+                    checked={imageUploadMethod === 'url'}
+                    onChange={(e) => setImageUploadMethod(e.target.value)}
+                  />
+                  Enter URL
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="imageUploadMethod"
+                    value="upload"
+                    checked={imageUploadMethod === 'upload'}
+                    onChange={(e) => setImageUploadMethod(e.target.value)}
+                  />
+                  Upload File
+                </label>
+              </div>
+
+              {imageUploadMethod === 'url' ? (
+                <input
+                  type="url"
+                  id="imageUrl"
+                  name="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={handleInputChange}
+                  placeholder="https://example.com/cocktail-image.jpg"
+                />
+              ) : (
+                <input
+                  type="file"
+                  id="imageFile"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              )}
+
+              {formData.imageUrl && (
+                <div className="image-preview">
+                  <img src={formData.imageUrl} alt="Recipe preview" onError={(e) => e.target.style.display = 'none'} />
+                </div>
+              )}
             </div>
 
             <div className="form-row">
@@ -526,6 +614,9 @@ function Recipes() {
                       onRemoveIngredient={removeIngredient}
                       onAddInstruction={addInstruction}
                       onRemoveInstruction={removeInstruction}
+                      imageUploadMethod={imageUploadMethod}
+                      setImageUploadMethod={setImageUploadMethod}
+                      onImageUpload={handleImageUpload}
                     />
                   ))}
                 </div>
@@ -557,7 +648,10 @@ function RecipeCard({
   onAddIngredient,
   onRemoveIngredient,
   onAddInstruction,
-  onRemoveInstruction
+  onRemoveInstruction,
+  imageUploadMethod,
+  setImageUploadMethod,
+  onImageUpload
 }) {
   if (isEditing) {
     return (
@@ -605,6 +699,56 @@ function RecipeCard({
               required
               rows="2"
             />
+          </div>
+
+          <div className="form-group">
+            <label>Recipe Image</label>
+            <div className="image-upload-options">
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="editImageUploadMethod"
+                  value="url"
+                  checked={imageUploadMethod === 'url'}
+                  onChange={(e) => setImageUploadMethod(e.target.value)}
+                />
+                Enter URL
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="editImageUploadMethod"
+                  value="upload"
+                  checked={imageUploadMethod === 'upload'}
+                  onChange={(e) => setImageUploadMethod(e.target.value)}
+                />
+                Upload File
+              </label>
+            </div>
+
+            {imageUploadMethod === 'url' ? (
+              <input
+                type="url"
+                id="edit-imageUrl"
+                name="imageUrl"
+                value={formData.imageUrl}
+                onChange={onInputChange}
+                placeholder="https://example.com/cocktail-image.jpg"
+              />
+            ) : (
+              <input
+                type="file"
+                id="edit-imageFile"
+                accept="image/*"
+                onChange={onImageUpload}
+              />
+            )}
+
+            {formData.imageUrl && (
+              <div className="image-preview">
+                <img src={formData.imageUrl} alt="Recipe preview" onError={(e) => e.target.style.display = 'none'} />
+              </div>
+            )}
           </div>
 
           <div className="form-row">
