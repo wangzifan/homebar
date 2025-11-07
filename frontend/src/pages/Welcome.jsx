@@ -36,7 +36,7 @@ const MOOD_OPTIONS = [
     id: 'sweet',
     label: 'Sweet Tooth',
     icon: '🍭',
-    description: 'With juice or sweet liqueurs',
+    description: 'Sweet drinks with juice or liqueurs (ABV < 20%)',
   },
   {
     id: 'sour',

@@ -42,7 +42,17 @@ function Recipes() {
     try {
       setLoading(true);
       const response = await recipesApi.getAll();
-      setRecipes(response.data.recipes || []);
+      const fetchedRecipes = response.data.recipes || [];
+      setRecipes(fetchedRecipes);
+
+      // Load favorites from recipes
+      const favoritesSet = new Set(
+        fetchedRecipes
+          .filter(recipe => recipe.favorite === true)
+          .map(recipe => recipe.recipeId)
+      );
+      setFavorites(favoritesSet);
+
       setError(null);
     } catch (err) {
       console.error('Error fetching recipes:', err);
@@ -244,16 +254,47 @@ function Recipes() {
     }
   };
 
-  const handleToggleFavorite = (recipeId) => {
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(recipeId)) {
-        newFavorites.delete(recipeId);
-      } else {
-        newFavorites.add(recipeId);
-      }
-      return newFavorites;
-    });
+  const handleToggleFavorite = async (recipeId) => {
+    try {
+      const isFavorite = favorites.has(recipeId);
+      const newFavoriteStatus = !isFavorite;
+
+      // Update local state optimistically
+      setFavorites((prev) => {
+        const newFavorites = new Set(prev);
+        if (isFavorite) {
+          newFavorites.delete(recipeId);
+        } else {
+          newFavorites.add(recipeId);
+        }
+        return newFavorites;
+      });
+
+      // Persist to backend
+      await recipesApi.update(recipeId, { favorite: newFavoriteStatus });
+
+      // Update the recipes array to reflect the change
+      setRecipes(prevRecipes =>
+        prevRecipes.map(recipe =>
+          recipe.recipeId === recipeId
+            ? { ...recipe, favorite: newFavoriteStatus }
+            : recipe
+        )
+      );
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+      // Revert on error
+      setFavorites((prev) => {
+        const newFavorites = new Set(prev);
+        if (favorites.has(recipeId)) {
+          newFavorites.delete(recipeId);
+        } else {
+          newFavorites.add(recipeId);
+        }
+        return newFavorites;
+      });
+      alert('Failed to update favorite. Please try again.');
+    }
   };
 
   // Helper function to detect base liquor from ingredients
@@ -451,13 +492,12 @@ function Recipes() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description *</label>
+              <label htmlFor="description">Description</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                required
                 rows="2"
                 placeholder="Brief description of the drink..."
               />
@@ -636,7 +676,6 @@ function Recipes() {
                     placeholder="Instruction step"
                     value={instruction}
                     onChange={(e) => handleInstructionChange(index, e.target.value)}
-                    required
                   />
                   {formData.instructions.length > 1 && (
                     <button
@@ -799,13 +838,12 @@ function RecipeCard({
           </div>
 
           <div className="form-group">
-            <label htmlFor="edit-description">Description *</label>
+            <label htmlFor="edit-description">Description</label>
             <textarea
               id="edit-description"
               name="description"
               value={formData.description}
               onChange={onInputChange}
-              required
               rows="2"
             />
           </div>
@@ -983,7 +1021,6 @@ function RecipeCard({
                   placeholder="Instruction step"
                   value={instruction}
                   onChange={(e) => onInstructionChange(index, e.target.value)}
-                  required
                 />
                 {formData.instructions.length > 1 && (
                   <button

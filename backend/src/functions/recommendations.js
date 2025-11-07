@@ -72,8 +72,11 @@ const isHotDrink = (recipe) => {
   const hotTerms = ['hot', 'warm', 'toddy', 'irish coffee', 'mulled'];
   const recipeName = recipe.name.toLowerCase();
 
-  // Check if moods include 'warm'
-  const hasWarmMood = recipe.moods && recipe.moods.some(mood => mood.toLowerCase() === 'warm');
+  // Check if moods include 'warm' (more flexible matching)
+  const hasWarmMood = recipe.moods && recipe.moods.some(mood => {
+    const normalizedMood = mood.toLowerCase().trim();
+    return normalizedMood === 'warm' || normalizedMood.includes('warm');
+  });
 
   return hotTerms.some(term => recipeName.includes(term)) ||
          (recipe.temperature && recipe.temperature.toLowerCase() === 'hot') ||
@@ -182,8 +185,12 @@ const filterByMood = (recipes, inventory, mood) => {
       return recipes.filter(recipe => isStrongDrink(recipe));
 
     case 'sweet':
-      // Must have juice or sweet liqueur
-      return recipes.filter(recipe => isSweetDrink(recipe.ingredients));
+      // Must have juice or sweet liqueur AND ABV < 20%
+      return recipes.filter(recipe => {
+        const hasSweet = isSweetDrink(recipe.ingredients);
+        const lowABV = !recipe.abv || recipe.abv < 20;
+        return hasSweet && lowABV;
+      });
 
     case 'surprise-me':
       // Random selection - return all for random picking

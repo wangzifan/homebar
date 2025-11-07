@@ -140,7 +140,11 @@ body {
 }
 
 /* Loading & Error States */
-.loading,
+.loading {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
 .error {
   text-align: center;
   padding: 4rem 2rem;

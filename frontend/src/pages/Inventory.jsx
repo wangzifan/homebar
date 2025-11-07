@@ -288,19 +288,21 @@ function Inventory() {
                   {category.charAt(0).toUpperCase() + category.slice(1)} ({groupedItems[category].length})
                 </h2>
                 <div className="items-grid">
-                  {groupedItems[category].map((item) => (
-                    <InventoryItemCard
-                      key={item.itemId}
-                      item={item}
-                      isEditing={editingItemId === item.itemId}
-                      onStartEdit={() => handleStartEdit(item)}
-                      onCancelEdit={handleCancelEdit}
-                      onSave={handleSaveEdit}
-                      onDelete={handleDeleteItem}
-                      isExpired={isExpired(item.expirationDate)}
-                      isExpiringSoon={isExpiringSoon(item.expirationDate)}
-                    />
-                  ))}
+                  {[...groupedItems[category]]
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((item) => (
+                      <InventoryItemCard
+                        key={item.itemId}
+                        item={item}
+                        isEditing={editingItemId === item.itemId}
+                        onStartEdit={() => handleStartEdit(item)}
+                        onCancelEdit={handleCancelEdit}
+                        onSave={handleSaveEdit}
+                        onDelete={handleDeleteItem}
+                        isExpired={isExpired(item.expirationDate)}
+                        isExpiringSoon={isExpiringSoon(item.expirationDate)}
+                      />
+                    ))}
                 </div>
               </div>
             ))

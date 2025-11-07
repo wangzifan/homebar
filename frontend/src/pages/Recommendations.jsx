@@ -16,24 +16,34 @@ function Recommendations() {
   const [message, setMessage] = useState(null);
   const [expandedCardId, setExpandedCardId] = useState(null);
   const [showAll, setShowAll] = useState(false);
-
-  const moods = location.state?.moods || [];
+  const [moods, setMoods] = useState([]);
 
   useEffect(() => {
-    if (moods.length === 0) {
+    const initialMoods = location.state?.moods || [];
+    if (initialMoods.length === 0) {
       navigate('/');
       return;
     }
 
-    fetchRecommendations();
-  }, [moods]);
+    setMoods(initialMoods);
+    fetchRecommendations(initialMoods, false);
+  }, []);
 
-  const fetchRecommendations = async (fetchAll = false) => {
+  const fetchRecommendations = async (moodsToUse, fetchAll = false) => {
     try {
+      // Use provided moods or fall back to state
+      const targetMoods = moodsToUse || moods;
+
+      if (!targetMoods || targetMoods.length === 0) {
+        setError('No moods selected. Please go back and select your preferences.');
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError(null);
 
-      const response = await recommendationsApi.get(moods, fetchAll);
+      const response = await recommendationsApi.get(targetMoods, fetchAll);
       const data = response.data;
 
       setRecommendations(data.recommendations || []);
@@ -52,7 +62,7 @@ function Recommendations() {
   };
 
   const handleShowAll = () => {
-    fetchRecommendations(true);
+    fetchRecommendations(moods, true);
   };
 
   const handleBackToHome = () => {
@@ -231,7 +241,7 @@ function Recommendations() {
         <div className="error">
           <h2>Oops!</h2>
           <p>{error}</p>
-          <button className="btn-primary" onClick={fetchRecommendations}>
+          <button className="btn-primary" onClick={() => fetchRecommendations(moods, false)}>
             Try Again
           </button>
           <button className="btn-secondary" onClick={handleBackToHome}>
@@ -330,7 +340,7 @@ function Recommendations() {
           Update Inventory
         </button>
         {isSurpriseMode && (
-          <button className="btn-primary" onClick={fetchRecommendations}>
+          <button className="btn-primary" onClick={() => fetchRecommendations(moods, false)}>
             🎲 Surprise Me Again!
           </button>
         )}
@@ -340,7 +350,7 @@ function Recommendations() {
           </button>
         )}
         {!isSurpriseMode && !isLazyMode && showAll && (
-          <button className="btn-secondary" onClick={() => fetchRecommendations(false)}>
+          <button className="btn-secondary" onClick={() => fetchRecommendations(moods, false)}>
             ← Back to Top 3
           </button>
         )}

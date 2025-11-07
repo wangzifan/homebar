@@ -85,6 +85,7 @@ const createRecipe = async (data) => {
       moods: data.moods || [],
       tags: data.tags || [],
       imageUrl: data.imageUrl || null,
+      favorite: data.favorite || false,
       createdAt: now,
       updatedAt: now,
     };
@@ -114,7 +115,7 @@ const updateRecipe = async (recipeId, data) => {
     const updateableFields = [
       'name', 'description', 'category', 'glassType', 'difficulty',
       'preparationTime', 'ingredients', 'instructions', 'garnish',
-      'moods', 'tags', 'imageUrl'
+      'moods', 'tags', 'imageUrl', 'favorite'
     ];
 
     updateableFields.forEach(field => {

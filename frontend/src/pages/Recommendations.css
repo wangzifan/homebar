@@ -65,6 +65,16 @@
   transform: rotateY(180deg);
 }
 
+/* Hide front content when flipped to prevent bleed-through */
+.flip-card.flipped .flip-card-front {
+  visibility: hidden;
+}
+
+/* Ensure back content is visible when flipped */
+.flip-card.flipped .flip-card-back {
+  visibility: visible;
+}
+
 .flip-card-front,
 .flip-card-back {
   position: absolute;
