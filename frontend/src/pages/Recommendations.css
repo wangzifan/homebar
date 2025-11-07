@@ -26,6 +26,14 @@
   text-transform: capitalize;
 }
 
+.hint-text {
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
 .recommendations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));

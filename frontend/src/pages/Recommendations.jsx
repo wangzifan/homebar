@@ -327,9 +327,14 @@ function Recommendations() {
         </div>
       ) : (
         // Normal mode or surprise mode: Show regular recommendations
-        <div className="recommendations-grid">
-          {recommendations.map((rec, index) => renderDrinkCard(rec, index, !isSurpriseMode))}
-        </div>
+        <>
+          <div className="hint-text">
+            💡 Click on a card to review ingredients
+          </div>
+          <div className="recommendations-grid">
+            {recommendations.map((rec, index) => renderDrinkCard(rec, index, !isSurpriseMode))}
+          </div>
+        </>
       )}
 
       <div className="recommendations-actions">
