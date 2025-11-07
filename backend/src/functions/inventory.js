@@ -79,13 +79,21 @@ const createInventoryItem = async (data) => {
       category: data.category,
       quantity: data.quantity || 0,
       unit: data.unit || 'ml',
-      expirationDate: data.expirationDate || null,
       purchaseDate: data.purchaseDate || now.split('T')[0],
-      brand: data.brand || null,
-      notes: data.notes || null,
       createdAt: now,
       updatedAt: now,
     };
+
+    // Only include optional fields if they have values (to avoid GSI issues with null)
+    if (data.expirationDate) {
+      item.expirationDate = data.expirationDate;
+    }
+    if (data.brand) {
+      item.brand = data.brand;
+    }
+    if (data.notes) {
+      item.notes = data.notes;
+    }
 
     const command = new PutCommand({
       TableName: INVENTORY_TABLE,

@@ -26,7 +26,15 @@
       "Bash(node -e:*)",
       "WebFetch(domain:www.liquor.com)",
       "Bash(/Users/zifan/IdeaProjects/MyHomeBar/add-whiskeys-to-prod.sh)",
-      "Bash(aws dynamodb scan:*)"
+      "Bash(aws dynamodb scan:*)",
+      "Bash(aws logs tail:*)",
+      "Bash(aws iam list-attached-role-policies:*)",
+      "Bash(aws iam list-role-policies:*)",
+      "Bash(aws iam get-role-policy:*)",
+      "Bash(aws logs get-log-events:*)",
+      "Bash(sam build:*)",
+      "Bash(curl:*)",
+      "Bash(/Users/zifan/IdeaProjects/MyHomeBar/add-mixers-to-prod.sh)"
     ],
     "deny": [],
     "ask": []
