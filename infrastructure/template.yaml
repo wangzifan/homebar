@@ -58,21 +58,9 @@ Resources:
       AttributeDefinitions:
         - AttributeName: recipeId
           AttributeType: S
-        - AttributeName: category
-          AttributeType: S
       KeySchema:
         - AttributeName: recipeId
           KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: category-index
-          KeySchema:
-            - AttributeName: category
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 5
-            WriteCapacityUnits: 5
       BillingMode: PROVISIONED
       ProvisionedThroughput:
         ReadCapacityUnits: 5
