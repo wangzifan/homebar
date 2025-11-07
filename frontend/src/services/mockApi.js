@@ -455,8 +455,25 @@ export const recommendationsApi = {
   },
 };
 
+export const imageApi = {
+  uploadImage: async (file) => {
+    // In mock mode, just return base64 data URL
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve({ data: { url: reader.result } });
+      };
+      reader.onerror = () => {
+        reject(new Error('Failed to read file'));
+      };
+      reader.readAsDataURL(file);
+    });
+  },
+};
+
 export default {
   inventoryApi,
   recipesApi,
   recommendationsApi,
+  imageApi,
 };

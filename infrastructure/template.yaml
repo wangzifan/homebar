@@ -11,6 +11,7 @@ Globals:
       Variables:
         INVENTORY_TABLE: !Ref InventoryTable
         RECIPES_TABLE: !Ref RecipesTable
+        IMAGES_BUCKET: !Ref RecipeImagesBucket
   Api:
     Cors:
       AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
@@ -195,6 +196,23 @@ Resources:
             Path: /recommendations
             Method: POST
 
+  ImageUploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: MyHomeBar-ImageUpload
+      CodeUri: ../backend/
+      Handler: src/functions/imageUpload.handler
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Ref RecipeImagesBucket
+      Events:
+        GetUploadUrl:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyHomeBarApi
+            Path: /images/upload-url
+            Method: POST
+
   # S3 Bucket for Frontend Hosting
   FrontendBucket:
     Type: AWS::S3::Bucket
@@ -221,6 +239,40 @@ Resources:
             Action: 's3:GetObject'
             Resource: !Sub '${FrontendBucket.Arn}/*'
 
+  # S3 Bucket for Recipe Images
+  RecipeImagesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'myhomebar-images-${AWS::AccountId}'
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+            AllowedOrigins:
+              - '*'
+            MaxAge: 3000
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  RecipeImagesBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RecipeImagesBucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub '${RecipeImagesBucket.Arn}/*'
+
 Outputs:
   ApiEndpoint:
     Description: "API Gateway endpoint URL"
@@ -239,6 +291,12 @@ Outputs:
     Value: !GetAtt FrontendBucket.WebsiteURL
     Export:
       Name: MyHomeBar-FrontendUrl
+
+  RecipeImagesBucketName:
+    Description: "S3 bucket for recipe images"
+    Value: !Ref RecipeImagesBucket
+    Export:
+      Name: MyHomeBar-ImagesBucket
 
   InventoryTableName:
     Description: "DynamoDB Inventory Table"

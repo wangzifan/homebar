@@ -35,4 +35,32 @@ export const recommendationsApi = {
     api.post('/recommendations', { moods, preferences }),
 };
 
+// Image Upload API
+export const imageApi = {
+  uploadImage: async (file) => {
+    try {
+      // Step 1: Get presigned URL from Lambda
+      const { data } = await api.post('/images/upload-url', {
+        fileName: file.name,
+        fileType: file.type,
+      });
+
+      const { uploadUrl, publicUrl } = data;
+
+      // Step 2: Upload file directly to S3 using presigned URL
+      await axios.put(uploadUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+      });
+
+      // Step 3: Return the public URL
+      return { data: { url: publicUrl } };
+    } catch (error) {
+      console.error('Image upload error:', error);
+      throw error;
+    }
+  },
+};
+
 export default api;

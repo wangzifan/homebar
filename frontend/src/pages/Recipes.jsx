@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { recipesApi } from '../services';
+import { recipesApi, imageApi } from '../services';
 import './Recipes.css';
 
 const CATEGORIES = ['cocktail', 'whiskey', 'wine', 'beer'];
@@ -54,7 +54,7 @@ function Recipes() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -70,15 +70,14 @@ function Recipes() {
       return;
     }
 
-    // Convert to base64
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({ ...prev, imageUrl: reader.result }));
-    };
-    reader.onerror = () => {
-      alert('Failed to read image file');
-    };
-    reader.readAsDataURL(file);
+    try {
+      // Upload to S3 (or base64 in mock mode)
+      const response = await imageApi.uploadImage(file);
+      setFormData((prev) => ({ ...prev, imageUrl: response.data.url }));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Failed to upload image. Please try again.');
+    }
   };
 
   const handleMoodToggle = (mood) => {

@@ -21,5 +21,6 @@ if (USE_MOCK_API) {
 export const inventoryApi = selectedApi.inventoryApi;
 export const recipesApi = selectedApi.recipesApi;
 export const recommendationsApi = selectedApi.recommendationsApi;
+export const imageApi = selectedApi.imageApi;
 
 export default selectedApi.default;
