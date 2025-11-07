@@ -132,7 +132,6 @@ function Recommendations() {
             )}
             <div className="card-title-overlay">
               <h2 className="drink-name-flip">
-                {showRank && <span className="rank-number">#{index + 1}</span>}
                 {rec.name}
               </h2>
             </div>
@@ -141,7 +140,6 @@ function Recommendations() {
           {/* Back side - Details */}
           <div className="flip-card-back">
             <h2 className="drink-name-back">
-              {showRank && <span className="rank-number">#{index + 1} </span>}
               {rec.name}
             </h2>
 
@@ -243,24 +241,8 @@ function Recommendations() {
     );
   }
 
-  const getHeaderTitle = () => {
-    if (isSurpriseMode) return 'Surprise! Here\'s Your Random Pick';
-    if (isLazyMode) return 'All Available Options for Lazy Night';
-    return 'Your Top 3 Drink Recommendations';
-  };
-
   return (
     <div className="recommendations-container">
-      <div className="recommendations-header">
-        <button className="btn-back" onClick={handleBackToHome}>
-          ← Change Mood
-        </button>
-        <h1>{getHeaderTitle()}</h1>
-        <p className="selected-moods">
-          Based on your mood: <strong>{moods.join(', ')}</strong>
-        </p>
-      </div>
-
       {message && (
         <div className="info-message">
           <p>{message}</p>

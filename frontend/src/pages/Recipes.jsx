@@ -584,44 +584,39 @@ function Recipes() {
             <p>{showFavoritesOnly ? 'Star some recipes to add them to your favorites!' : 'Start by adding your first recipe!'}</p>
           </div>
         ) : (
-          Object.keys(displayedRecipes)
-            .sort()
-            .map((category) => (
-              <div key={category} className="category-section">
-                <h2 className="category-title">
-                  {category.charAt(0).toUpperCase() + category.slice(1)} ({displayedRecipes[category].length})
-                </h2>
-                <div className="recipes-list-view">
-                  {displayedRecipes[category].map((recipe) => (
-                    <RecipeCard
-                      key={recipe.recipeId}
-                      recipe={recipe}
-                      isEditing={editingRecipeId === recipe.recipeId}
-                      isViewing={viewingRecipeId === recipe.recipeId}
-                      isFavorited={favorites.has(recipe.recipeId)}
-                      onStartEdit={() => handleStartEdit(recipe)}
-                      onCancelEdit={handleCancelEdit}
-                      onSave={handleSaveEdit}
-                      onDelete={handleDeleteRecipe}
-                      onToggleView={() => setViewingRecipeId(viewingRecipeId === recipe.recipeId ? null : recipe.recipeId)}
-                      onToggleFavorite={() => handleToggleFavorite(recipe.recipeId)}
-                      formData={formData}
-                      onInputChange={handleInputChange}
-                      onMoodToggle={handleMoodToggle}
-                      onIngredientChange={handleIngredientChange}
-                      onInstructionChange={handleInstructionChange}
-                      onAddIngredient={addIngredient}
-                      onRemoveIngredient={removeIngredient}
-                      onAddInstruction={addInstruction}
-                      onRemoveInstruction={removeInstruction}
-                      imageUploadMethod={imageUploadMethod}
-                      setImageUploadMethod={setImageUploadMethod}
-                      onImageUpload={handleImageUpload}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
+          <div className="recipes-list-view">
+            {Object.keys(displayedRecipes)
+              .sort()
+              .flatMap((category) =>
+                displayedRecipes[category].map((recipe) => (
+                  <RecipeCard
+                    key={recipe.recipeId}
+                    recipe={recipe}
+                    isEditing={editingRecipeId === recipe.recipeId}
+                    isViewing={viewingRecipeId === recipe.recipeId}
+                    isFavorited={favorites.has(recipe.recipeId)}
+                    onStartEdit={() => handleStartEdit(recipe)}
+                    onCancelEdit={handleCancelEdit}
+                    onSave={handleSaveEdit}
+                    onDelete={handleDeleteRecipe}
+                    onToggleView={() => setViewingRecipeId(viewingRecipeId === recipe.recipeId ? null : recipe.recipeId)}
+                    onToggleFavorite={() => handleToggleFavorite(recipe.recipeId)}
+                    formData={formData}
+                    onInputChange={handleInputChange}
+                    onMoodToggle={handleMoodToggle}
+                    onIngredientChange={handleIngredientChange}
+                    onInstructionChange={handleInstructionChange}
+                    onAddIngredient={addIngredient}
+                    onRemoveIngredient={removeIngredient}
+                    onAddInstruction={addInstruction}
+                    onRemoveInstruction={removeInstruction}
+                    imageUploadMethod={imageUploadMethod}
+                    setImageUploadMethod={setImageUploadMethod}
+                    onImageUpload={handleImageUpload}
+                  />
+                ))
+              )}
+          </div>
         )}
       </div>
     </div>

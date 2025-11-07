@@ -91,6 +91,112 @@ const calculateMatchScore = (recipe, selectedMoods) => {
   };
 };
 
+// Check if recipe contains sparkling ingredient
+const hasSparkling = (ingredients) => {
+  const sparklingTerms = ['tonic', 'tonic water', 'club soda', 'soda water', 'sparkling wine',
+                          'prosecco', 'champagne', 'cava', 'seltzer', 'ginger beer'];
+
+  return ingredients.some(ing => {
+    const name = ing.name.toLowerCase();
+    return sparklingTerms.some(term => name.includes(term));
+  });
+};
+
+// Check if recipe is hot/warm
+const isHotDrink = (recipe) => {
+  // Only match recipes that explicitly have these terms in the NAME
+  const hotTerms = ['hot', 'warm', 'toddy', 'irish coffee', 'mulled'];
+  const recipeName = recipe.name.toLowerCase();
+
+  return hotTerms.some(term => recipeName.includes(term)) ||
+         (recipe.temperature && recipe.temperature.toLowerCase() === 'hot');
+};
+
+// Check if recipe is truly light (low calorie)
+const isLightDrink = (recipe, ingredients) => {
+  const excludedDrinks = ['old fashioned', 'negroni', 'manhattan'];
+  const recipeName = recipe.name.toLowerCase();
+
+  // Exclude high-calorie classics
+  if (excludedDrinks.some(excluded => recipeName.includes(excluded))) {
+    return false;
+  }
+
+  // Check for light ingredients
+  const lightTerms = ['light tonic', 'club soda', 'soda water', 'beer', 'tonic water', 'seltzer'];
+  const hasLightIngredient = ingredients.some(ing => {
+    const name = ing.name.toLowerCase();
+    return lightTerms.some(term => name.includes(term));
+  });
+
+  // Or has low ABV (less than 18%)
+  const hasLowABV = recipe.abv && recipe.abv < 18;
+
+  return hasLightIngredient || hasLowABV || recipe.category === 'beer';
+};
+
+// Check if recipe is strong (ABV > 20%)
+const isStrongDrink = (recipe) => {
+  return recipe.abv && recipe.abv > 20;
+};
+
+// Check if recipe is sweet
+const isSweetDrink = (ingredients) => {
+  const sweetTerms = ['juice', 'syrup', 'simple syrup', 'chocolate', 'choco', 'mint liqueur',
+                      'melon', 'liqueur', 'sweet', 'honey', 'sugar', 'agave'];
+
+  return ingredients.some(ing => {
+    const name = ing.name.toLowerCase();
+    return sweetTerms.some(term => name.includes(term));
+  });
+};
+
+// Filter recipes based on mood rules
+const filterByMood = (recipes, mood) => {
+  switch (mood) {
+    case 'lazy':
+      // This case is handled separately in recommendationsApi
+      return recipes;
+
+    case 'sparkling':
+      // Must contain sparkling ingredients
+      return recipes.filter(recipe => hasSparkling(recipe.ingredients));
+
+    case 'warm':
+      // Must be hot drinks
+      return recipes.filter(recipe => isHotDrink(recipe));
+
+    case 'light':
+      // Low calorie, exclude Old Fashioned/Negroni
+      return recipes.filter(recipe => isLightDrink(recipe, recipe.ingredients));
+
+    case 'strong':
+      // ABV > 20%
+      return recipes.filter(recipe => isStrongDrink(recipe));
+
+    case 'sweet':
+      // Must have juice or sweet liqueur
+      return recipes.filter(recipe => isSweetDrink(recipe.ingredients));
+
+    case 'sour':
+      // Citrus-forward cocktails
+      const sourTerms = ['lemon', 'lime', 'grapefruit', 'citrus'];
+      return recipes.filter(recipe =>
+        recipe.ingredients.some(ing => {
+          const name = ing.name.toLowerCase();
+          return sourTerms.some(term => name.includes(term));
+        })
+      );
+
+    case 'surprise-me':
+      // Random selection - return all for random picking
+      return recipes;
+
+    default:
+      return recipes;
+  }
+};
+
 // Mock API implementation
 export const inventoryApi = {
   getAll: async () => {
@@ -259,39 +365,27 @@ export const recommendationsApi = {
       };
     }
 
-    // Filter by mood (simplified for mock)
+    // Apply mood-based filtering
     let filteredRecipes = recipes;
 
-    // For surprise-me mode - return one random drink
-    if (primaryMood === 'surprise-me') {
-      const scoredRecipes = recipes.map(recipe => {
-        const matchData = calculateMatchScore(recipe, normalizedMoods);
-        return {
-          ...recipe,
-          matchScore: matchData.score,
-          missingIngredients: matchData.missingIngredients,
-          availableIngredients: matchData.availableIngredients,
-          matchPercentage: matchData.matchPercentage,
-          canMake: matchData.canMake,
-        };
-      });
+    // For multiple moods, apply AND logic (must match all)
+    for (const mood of normalizedMoods) {
+      filteredRecipes = filterByMood(filteredRecipes, mood);
+    }
 
-      const makeable = scoredRecipes.filter(r => r.canMake);
-      const randomIndex = Math.floor(Math.random() * (makeable.length > 0 ? makeable.length : scoredRecipes.length));
-      const randomDrink = makeable.length > 0 ? makeable[randomIndex] : scoredRecipes[randomIndex];
-
+    // If no matches after filtering, return message
+    if (filteredRecipes.length === 0) {
       return {
         data: {
-          recommendations: [randomDrink],
-          totalRecipes: recipes.length,
+          recommendations: [],
+          message: `No drinks found matching your criteria: ${normalizedMoods.join(', ')}. Try different moods or update your inventory.`,
           selectedMoods: normalizedMoods,
-          isSurpriseMode: true,
         },
       };
     }
 
-    // Normal mode - return top 3 drinks we can make
-    const scoredRecipes = recipes.map(recipe => {
+    // Calculate match scores for filtered recipes
+    const scoredRecipes = filteredRecipes.map(recipe => {
       const matchData = calculateMatchScore(recipe, normalizedMoods);
       return {
         ...recipe,
@@ -303,7 +397,35 @@ export const recommendationsApi = {
       };
     });
 
-    // Filter to only drinks we can make
+    // For surprise-me mode - return one random drink
+    if (primaryMood === 'surprise-me') {
+      const makeable = scoredRecipes.filter(r => r.canMake);
+
+      if (makeable.length === 0) {
+        // If can't make any, just pick random from all
+        const randomIndex = Math.floor(Math.random() * scoredRecipes.length);
+        return {
+          data: {
+            recommendations: [scoredRecipes[randomIndex]],
+            totalRecipes: recipes.length,
+            selectedMoods: normalizedMoods,
+            isSurpriseMode: true,
+          },
+        };
+      }
+
+      const randomIndex = Math.floor(Math.random() * makeable.length);
+      return {
+        data: {
+          recommendations: [makeable[randomIndex]],
+          totalRecipes: recipes.length,
+          selectedMoods: normalizedMoods,
+          isSurpriseMode: true,
+        },
+      };
+    }
+
+    // Normal mode - return up to 3 random drinks we can make
     const makeableRecipes = scoredRecipes.filter(r => r.canMake);
 
     if (makeableRecipes.length === 0) {
@@ -317,12 +439,13 @@ export const recommendationsApi = {
       };
     }
 
-    makeableRecipes.sort((a, b) => b.matchScore - a.matchScore);
-    const top3 = makeableRecipes.slice(0, 3);
+    // Randomly select up to 3 recipes (instead of always showing the same top-scoring ones)
+    const shuffled = makeableRecipes.sort(() => Math.random() - 0.5);
+    const randomSelection = shuffled.slice(0, Math.min(3, makeableRecipes.length));
 
     return {
       data: {
-        recommendations: top3,
+        recommendations: randomSelection,
         totalRecipes: recipes.length,
         matchedRecipes: makeableRecipes.length,
         inventoryItemsCount: inventory.length,

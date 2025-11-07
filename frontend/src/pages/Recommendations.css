@@ -33,6 +33,12 @@
   margin-bottom: 2rem;
 }
 
+/* When there's only one card (like surprise mode), center it and limit width */
+.recommendations-grid:has(.flip-card:only-child) {
+  grid-template-columns: minmax(350px, 500px);
+  justify-content: center;
+}
+
 /* Compact grid for inventory cards in lazy mode */
 .drink-category-section .recommendations-grid .inventory-card.collapsed {
   margin-bottom: 0;

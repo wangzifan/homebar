@@ -68,11 +68,11 @@ const hasSparkling = (ingredients) => {
 
 // Check if recipe is hot/warm
 const isHotDrink = (recipe) => {
+  // Only match recipes that explicitly have these terms in the NAME
   const hotTerms = ['hot', 'warm', 'toddy', 'irish coffee', 'mulled'];
   const recipeName = recipe.name.toLowerCase();
-  const description = (recipe.description || '').toLowerCase();
 
-  return hotTerms.some(term => recipeName.includes(term) || description.includes(term)) ||
+  return hotTerms.some(term => recipeName.includes(term)) ||
          (recipe.temperature && recipe.temperature.toLowerCase() === 'hot');
 };
 
@@ -93,8 +93,8 @@ const isLightDrink = (recipe, ingredients) => {
     return lightTerms.some(term => name.includes(term));
   });
 
-  // Or has low ABV
-  const hasLowABV = recipe.abv && recipe.abv <= 15;
+  // Or has low ABV (less than 18%)
+  const hasLowABV = recipe.abv && recipe.abv < 18;
 
   return hasLightIngredient || hasLowABV || recipe.category === 'beer';
 };
@@ -329,11 +329,12 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
       });
     }
 
-    makeableRecipes.sort((a, b) => b.matchScore - a.matchScore);
-    const top3 = makeableRecipes.slice(0, 3);
+    // Randomly select up to 3 recipes (instead of always showing the same top-scoring ones)
+    const shuffled = makeableRecipes.sort(() => Math.random() - 0.5);
+    const randomSelection = shuffled.slice(0, Math.min(3, makeableRecipes.length));
 
     return createResponse(200, {
-      recommendations: top3,
+      recommendations: randomSelection,
       totalRecipes: recipes.length,
       matchedRecipes: makeableRecipes.length,
       selectedMoods: normalizedMoods,

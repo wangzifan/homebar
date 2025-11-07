@@ -561,5 +561,55 @@
     "unit": "ml",
     "brand": "E&J",
     "purchaseDate": "2024-11-02"
+  },
+  {
+    "itemId": "inv-060",
+    "name": "Michter's US*1 Single Barrel Straight Rye",
+    "category": "whiskey",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Michter's",
+    "purchaseDate": "2024-11-06",
+    "notes": "Single barrel rye whiskey"
+  },
+  {
+    "itemId": "inv-061",
+    "name": "The Balvenie Caribbean Cask 14 Year Old",
+    "category": "whiskey",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "The Balvenie",
+    "purchaseDate": "2024-11-06",
+    "notes": "14 year old single malt finished in Caribbean rum casks"
+  },
+  {
+    "itemId": "inv-062",
+    "name": "Redbreast Cask Strength 12 Year Old",
+    "category": "whiskey",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Redbreast",
+    "purchaseDate": "2024-11-06",
+    "notes": "Cask strength Irish whiskey, 12 year old"
+  },
+  {
+    "itemId": "inv-063",
+    "name": "Kavalan Solist Vinho Barrique",
+    "category": "whiskey",
+    "quantity": 700,
+    "unit": "ml",
+    "brand": "Kavalan",
+    "purchaseDate": "2024-11-06",
+    "notes": "Taiwanese single malt finished in red wine casks"
+  },
+  {
+    "itemId": "inv-064",
+    "name": "Dewar's 20 Year Old Double Double",
+    "category": "whiskey",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Dewar's",
+    "purchaseDate": "2024-11-06",
+    "notes": "20 year old blended Scotch whisky"
   }
 ]
