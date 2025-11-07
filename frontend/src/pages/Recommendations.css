@@ -28,6 +28,7 @@
 
 .recommendations-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   margin-bottom: 2rem;
 }
@@ -37,6 +38,146 @@
   margin-bottom: 0;
 }
 
+/* Flip Card Styles for Normal/Surprise Modes */
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+  height: 500px;
+  cursor: pointer;
+  position: relative;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-card-back {
+  background: white;
+  transform: rotateY(180deg);
+  padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-image-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-image-full img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-title-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  padding: 2rem 1.5rem 1.5rem;
+  z-index: 1;
+}
+
+.drink-name-flip {
+  color: white;
+  font-size: 2rem;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drink-name-back {
+  color: #333;
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.drink-details-compact {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.detail-badge {
+  background: #e0e0e0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.flip-hint {
+  text-align: center;
+  color: #667eea;
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  font-weight: 500;
+}
+
+.flip-card-back h3 {
+  color: #667eea;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+}
+
+.flip-card-back .drink-description {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #666;
+  font-style: italic;
+}
+
+.flip-card-back .ingredients-list,
+.flip-card-back .instructions-list {
+  font-size: 0.9rem;
+}
+
+.flip-card-back .ingredient-item,
+.flip-card-back .instructions-list li {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Lazy Mode - Keep existing recommendation-card styles */
 .recommendation-card {
   background: white;
   border-radius: 12px;
@@ -319,7 +460,28 @@
     font-size: 1.4rem;
   }
 
-  /* Stack image on top for mobile */
+  /* Flip cards mobile */
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flip-card {
+    height: 450px;
+  }
+
+  .drink-name-flip {
+    font-size: 1.5rem;
+  }
+
+  .drink-name-back {
+    font-size: 1.3rem;
+  }
+
+  .flip-card-back {
+    padding: 1.5rem;
+  }
+
+  /* Stack image on top for mobile - lazy mode only */
   .card-layout {
     flex-direction: column-reverse;
   }

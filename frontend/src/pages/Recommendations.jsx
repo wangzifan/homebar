@@ -113,67 +113,51 @@ function Recommendations() {
   };
 
   const renderDrinkCard = (rec, index, showRank = true) => {
-    const isExpanded = expandedCardId === rec.recipeId;
+    const isFlipped = expandedCardId === rec.recipeId;
     const cardId = rec.recipeId;
 
     return (
       <div
         key={cardId}
-        className={`recommendation-card ${isExpanded ? 'expanded' : 'collapsed'}`}
+        className={`flip-card ${isFlipped ? 'flipped' : ''}`}
+        onClick={() => setExpandedCardId(isFlipped ? null : cardId)}
       >
-        <div className="card-layout">
-          <div className="card-content" onClick={() => setExpandedCardId(isExpanded ? null : cardId)}>
-            <h2 className="drink-name">
-              {showRank && <span className="rank-number">#{index + 1}</span>}
+        <div className="flip-card-inner">
+          {/* Front side - Image and name */}
+          <div className="flip-card-front">
+            {rec.imageUrl && (
+              <div className="card-image-full">
+                <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
+              </div>
+            )}
+            <div className="card-title-overlay">
+              <h2 className="drink-name-flip">
+                {showRank && <span className="rank-number">#{index + 1}</span>}
+                {rec.name}
+              </h2>
+            </div>
+          </div>
+
+          {/* Back side - Details */}
+          <div className="flip-card-back">
+            <h2 className="drink-name-back">
+              {showRank && <span className="rank-number">#{index + 1} </span>}
               {rec.name}
             </h2>
 
-        {/* Metadata - always visible */}
-        <div className="drink-details">
-          {rec.category && (
-            <div className="detail-item">
-              <span className="detail-label">Category:</span>
-              <span>{rec.category}</span>
-            </div>
-          )}
-          {rec.abv && (
-            <div className="detail-item">
-              <span className="detail-label">ABV:</span>
-              <span>{rec.abv}%</span>
-            </div>
-          )}
-          {rec.glassType && (
-            <div className="detail-item">
-              <span className="detail-label">Glass:</span>
-              <span>{rec.glassType}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Main ingredients - always visible (first 3-4) */}
-        {rec.ingredients && rec.ingredients.length > 0 && (
-          <div className="ingredients-preview">
-            <strong>Main Ingredients:</strong>
-            <span className="ingredients-list-preview">
-              {rec.ingredients.slice(0, 3).map((ing, idx) => (
-                <span key={idx}>
-                  {ing.name}
-                  {idx < 2 && idx < rec.ingredients.length - 1 ? ', ' : ''}
-                </span>
-              ))}
-              {rec.ingredients.length > 3 && ` +${rec.ingredients.length - 3} more`}
-            </span>
-          </div>
-        )}
-
-        {/* Expanded content - shown only when clicked */}
-        {isExpanded && (
-          <div className="expanded-content">
             {rec.description && <p className="drink-description">{rec.description}</p>}
 
+            {/* Metadata */}
+            <div className="drink-details-compact">
+              {rec.category && <span className="detail-badge">Category: {rec.category}</span>}
+              {rec.abv && <span className="detail-badge">ABV: {rec.abv}%</span>}
+              {rec.glassType && <span className="detail-badge">Glass: {rec.glassType}</span>}
+            </div>
+
+            {/* Ingredients */}
             {rec.ingredients && rec.ingredients.length > 0 && (
               <div className="ingredients-section">
-                <h3>All Ingredients</h3>
+                <h3>Ingredients</h3>
                 <ul className="ingredients-list">
                   {rec.ingredients.map((ing, idx) => {
                     const isAvailable = rec.availableIngredients?.includes(ing.name);
@@ -200,6 +184,7 @@ function Recommendations() {
               </div>
             )}
 
+            {/* Instructions */}
             {rec.instructions && rec.instructions.length > 0 && (
               <div className="instructions-section">
                 <h3>Instructions</h3>
@@ -222,19 +207,9 @@ function Recommendations() {
                 <strong>Missing:</strong> {rec.missingIngredients.join(', ')}
               </div>
             )}
-          </div>
-        )}
 
-            <div className="expand-hint">
-              {isExpanded ? '▲ Click to collapse' : '▼ Click for details'}
-            </div>
+            <div className="flip-hint">Click to flip back</div>
           </div>
-
-          {rec.imageUrl && (
-            <div className="drink-image">
-              <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
-            </div>
-          )}
         </div>
       </div>
     );

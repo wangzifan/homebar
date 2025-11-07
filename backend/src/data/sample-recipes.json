@@ -933,5 +933,158 @@
     "tags": ["classic", "scotch", "simple"],
     "abv": 32,
     "imageUrl": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80"
+  },
+  {
+    "recipeId": "recipe-023",
+    "name": "Irish Coffee",
+    "description": "Classic warm cocktail with coffee, whiskey, and cream",
+    "category": "cocktail",
+    "glassType": "mug",
+    "difficulty": "easy",
+    "preparationTime": 5,
+    "ingredients": [
+      {
+        "name": "Irish Whiskey",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Hot Coffee",
+        "quantity": 120,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Brown Sugar",
+        "quantity": 2,
+        "unit": "count",
+        "optional": false
+      },
+      {
+        "name": "Heavy Cream",
+        "quantity": 30,
+        "unit": "ml",
+        "optional": false
+      }
+    ],
+    "instructions": [
+      "Warm a glass mug with hot water, then empty",
+      "Add brown sugar and hot coffee, stir to dissolve",
+      "Add Irish whiskey and stir",
+      "Gently float cream on top by pouring over the back of a spoon"
+    ],
+    "garnish": "None",
+    "moods": ["warm", "sweet", "strong"],
+    "tags": ["classic", "coffee", "winter", "creamy"],
+    "abv": 8,
+    "imageUrl": "https://images.unsplash.com/photo-1578374173705-5c9af95f6e37?w=800"
+  },
+  {
+    "recipeId": "recipe-024",
+    "name": "Baileys Hot Chocolate",
+    "description": "Rich and creamy spiked hot chocolate",
+    "category": "cocktail",
+    "glassType": "mug",
+    "difficulty": "easy",
+    "preparationTime": 5,
+    "ingredients": [
+      {
+        "name": "Baileys Irish Cream",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Hot Chocolate",
+        "quantity": 180,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Whipped Cream",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Prepare hot chocolate in a mug",
+      "Stir in Baileys Irish Cream",
+      "Top with whipped cream if desired"
+    ],
+    "garnish": "Whipped cream and chocolate shavings",
+    "moods": ["warm", "sweet", "lazy"],
+    "tags": ["dessert", "creamy", "winter", "easy"],
+    "abv": 10,
+    "imageUrl": "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=800"
+  },
+  {
+    "recipeId": "recipe-025",
+    "name": "Mulled Wine",
+    "description": "Spiced and warmed red wine perfect for cold weather",
+    "category": "wine",
+    "subcategory": "red",
+    "glassType": "mug",
+    "difficulty": "easy",
+    "preparationTime": 15,
+    "ingredients": [
+      {
+        "name": "Red Wine",
+        "quantity": 750,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Orange",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Cinnamon Sticks",
+        "quantity": 2,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Star Anise",
+        "quantity": 2,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Cloves",
+        "quantity": 6,
+        "unit": "whole",
+        "optional": false
+      },
+      {
+        "name": "Honey",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Brandy",
+        "quantity": 60,
+        "unit": "ml",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Pour red wine into a large pot",
+      "Add sliced orange, cinnamon sticks, star anise, and cloves",
+      "Add honey and stir",
+      "Heat gently over medium-low heat (do not boil)",
+      "Simmer for 10-15 minutes",
+      "Add brandy if desired",
+      "Strain and serve warm in mugs"
+    ],
+    "garnish": "Orange slice and cinnamon stick",
+    "moods": ["warm", "sweet", "sparkling"],
+    "tags": ["winter", "spiced", "holiday", "batch"],
+    "abv": 10,
+    "imageUrl": "https://images.unsplash.com/photo-1608181692477-ffb59792d5c0?w=800"
   }
 ]

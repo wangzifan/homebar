@@ -456,5 +456,110 @@
     "brand": "Farm Fresh",
     "purchaseDate": "2024-11-01",
     "expirationDate": "2026-12-01"
+  },
+  {
+    "itemId": "inv-049",
+    "name": "Irish Whiskey",
+    "category": "whiskey",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Jameson",
+    "purchaseDate": "2024-11-02"
+  },
+  {
+    "itemId": "inv-050",
+    "name": "Baileys Irish Cream",
+    "category": "liqueurs",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "Baileys",
+    "purchaseDate": "2024-11-02"
+  },
+  {
+    "itemId": "inv-051",
+    "name": "Coffee",
+    "category": "mixers",
+    "quantity": 500,
+    "unit": "ml",
+    "brand": "Starbucks",
+    "purchaseDate": "2024-11-02",
+    "notes": "Ground coffee for brewing"
+  },
+  {
+    "itemId": "inv-052",
+    "name": "Hot Chocolate Mix",
+    "category": "mixers",
+    "quantity": 300,
+    "unit": "ml",
+    "brand": "Ghirardelli",
+    "purchaseDate": "2024-11-02"
+  },
+  {
+    "itemId": "inv-053",
+    "name": "Heavy Cream",
+    "category": "mixers",
+    "quantity": 500,
+    "unit": "ml",
+    "brand": "Organic Valley",
+    "purchaseDate": "2024-11-02",
+    "expirationDate": "2026-11-15"
+  },
+  {
+    "itemId": "inv-054",
+    "name": "Brown Sugar",
+    "category": "mixers",
+    "quantity": 200,
+    "unit": "ml",
+    "purchaseDate": "2024-11-02",
+    "notes": "For sweetening warm drinks"
+  },
+  {
+    "itemId": "inv-055",
+    "name": "Whipped Cream",
+    "category": "mixers",
+    "quantity": 250,
+    "unit": "ml",
+    "brand": "Reddi-wip",
+    "purchaseDate": "2024-11-02",
+    "expirationDate": "2026-12-01"
+  },
+  {
+    "itemId": "inv-056",
+    "name": "Cinnamon Sticks",
+    "category": "mixers",
+    "quantity": 10,
+    "unit": "count",
+    "brand": "McCormick",
+    "purchaseDate": "2024-11-02",
+    "notes": "For mulled wine and garnish"
+  },
+  {
+    "itemId": "inv-057",
+    "name": "Star Anise",
+    "category": "mixers",
+    "quantity": 8,
+    "unit": "count",
+    "brand": "McCormick",
+    "purchaseDate": "2024-11-02",
+    "notes": "Spice for mulled wine"
+  },
+  {
+    "itemId": "inv-058",
+    "name": "Cloves",
+    "category": "mixers",
+    "quantity": 20,
+    "unit": "count",
+    "brand": "McCormick",
+    "purchaseDate": "2024-11-02",
+    "notes": "Whole cloves for mulled wine"
+  },
+  {
+    "itemId": "inv-059",
+    "name": "Brandy",
+    "category": "spirits",
+    "quantity": 750,
+    "unit": "ml",
+    "brand": "E&J",
+    "purchaseDate": "2024-11-02"
   }
 ]

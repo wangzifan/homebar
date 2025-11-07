@@ -3,10 +3,10 @@ import './Welcome.css';
 
 const MOOD_OPTIONS = [
   {
-    id: 'lazy',
-    label: 'Lazy Night',
-    icon: '😴',
-    description: 'Ready to drink - whiskey, sake, wine, beer',
+    id: 'surprise-me',
+    label: 'Surprise Me!',
+    icon: '🎲',
+    description: 'Get a random drink recommendation',
   },
   {
     id: 'sparkling',
@@ -45,10 +45,10 @@ const MOOD_OPTIONS = [
     description: 'Citrus-forward cocktails',
   },
   {
-    id: 'surprise-me',
-    label: 'Surprise Me!',
-    icon: '🎲',
-    description: 'Get a random drink recommendation',
+    id: 'lazy',
+    label: 'Lazy Night',
+    icon: '😴',
+    description: 'Ready to drink - whiskey, sake, wine, beer',
   },
 ];
 
