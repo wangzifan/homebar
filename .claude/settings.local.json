@@ -24,7 +24,9 @@
       "WebSearch",
       "WebFetch(domain:unsplash.com)",
       "Bash(node -e:*)",
-      "WebFetch(domain:www.liquor.com)"
+      "WebFetch(domain:www.liquor.com)",
+      "Bash(/Users/zifan/IdeaProjects/MyHomeBar/add-whiskeys-to-prod.sh)",
+      "Bash(aws dynamodb scan:*)"
     ],
     "deny": [],
     "ask": []

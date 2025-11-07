@@ -1084,5 +1084,45 @@
     "tags": ["winter", "spiced", "holiday", "batch"],
     "abv": 10,
     "imageUrl": "https://images.unsplash.com/photo-1608181692477-ffb59792d5c0?w=800"
+  },
+  {
+    "recipeId": "recipe-026",
+    "name": "Baileys Coffee",
+    "description": "Smooth coffee with Baileys Irish Cream",
+    "category": "cocktail",
+    "glassType": "mug",
+    "difficulty": "easy",
+    "preparationTime": 3,
+    "ingredients": [
+      {
+        "name": "Coffee",
+        "quantity": 180,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Baileys Irish Cream",
+        "quantity": 45,
+        "unit": "ml",
+        "optional": false
+      },
+      {
+        "name": "Whipped Cream",
+        "quantity": 1,
+        "unit": "whole",
+        "optional": true
+      }
+    ],
+    "instructions": [
+      "Brew fresh hot coffee",
+      "Pour into mug",
+      "Add Baileys Irish Cream and stir",
+      "Top with whipped cream if desired"
+    ],
+    "garnish": "Whipped cream",
+    "moods": ["warm", "sweet", "lazy"],
+    "tags": ["coffee", "creamy", "dessert", "easy"],
+    "abv": 7,
+    "imageUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800"
   }
 ]

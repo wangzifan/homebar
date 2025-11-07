@@ -104,12 +104,16 @@ const hasSparkling = (ingredients) => {
 
 // Check if recipe is hot/warm
 const isHotDrink = (recipe) => {
-  // Only match recipes that explicitly have these terms in the NAME
+  // Check if name contains hot drink terms
   const hotTerms = ['hot', 'warm', 'toddy', 'irish coffee', 'mulled'];
   const recipeName = recipe.name.toLowerCase();
 
+  // Check if moods include 'warm'
+  const hasWarmMood = recipe.moods && recipe.moods.some(mood => mood.toLowerCase() === 'warm');
+
   return hotTerms.some(term => recipeName.includes(term)) ||
-         (recipe.temperature && recipe.temperature.toLowerCase() === 'hot');
+         (recipe.temperature && recipe.temperature.toLowerCase() === 'hot') ||
+         hasWarmMood;
 };
 
 // Check if recipe is truly light (low calorie)

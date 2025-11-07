@@ -35,7 +35,7 @@
 
 /* When there's only one card (like surprise mode), center it and limit width */
 .recommendations-grid:has(.flip-card:only-child) {
-  grid-template-columns: minmax(350px, 500px);
+  grid-template-columns: minmax(350px, 600px);
   justify-content: center;
 }
 
