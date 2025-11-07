@@ -15,6 +15,9 @@ function Recipes() {
   const [viewingRecipeId, setViewingRecipeId] = useState(null);
   const [favorites, setFavorites] = useState(new Set());
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [selectedMood, setSelectedMood] = useState('');
+  const [selectedLiquor, setSelectedLiquor] = useState('');
+  const [showWithPictureOnly, setShowWithPictureOnly] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -253,24 +256,76 @@ function Recipes() {
     });
   };
 
-  const groupedRecipes = recipes.reduce((acc, recipe) => {
+  // Helper function to detect base liquor from ingredients
+  const getBaseLiquor = (recipe) => {
+    const liquorKeywords = {
+      'gin': ['gin'],
+      'vodka': ['vodka'],
+      'rum': ['rum'],
+      'whiskey': ['whiskey', 'whisky', 'bourbon', 'scotch', 'rye'],
+      'tequila': ['tequila', 'mezcal'],
+      'brandy': ['brandy', 'cognac'],
+    };
+
+    for (const ingredient of recipe.ingredients || []) {
+      const name = ingredient.name.toLowerCase();
+      for (const [liquor, keywords] of Object.entries(liquorKeywords)) {
+        if (keywords.some(keyword => name.includes(keyword))) {
+          return liquor;
+        }
+      }
+    }
+    return null;
+  };
+
+  // Get all unique moods from recipes
+  const allMoods = [...new Set(recipes.flatMap(r => r.moods || []))].sort();
+
+  // Get all unique base liquors from recipes
+  const allLiquors = [...new Set(recipes.map(r => getBaseLiquor(r)).filter(Boolean))].sort();
+
+  // Sort recipes alphabetically by name
+  const sortedRecipes = [...recipes].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
+  const groupedRecipes = sortedRecipes.reduce((acc, recipe) => {
     if (!acc[recipe.category]) acc[recipe.category] = [];
     acc[recipe.category].push(recipe);
     return acc;
   }, {});
 
-  // Filter to show only favorites if toggle is on
-  const displayedRecipes = showFavoritesOnly
-    ? Object.keys(groupedRecipes).reduce((acc, category) => {
-        const favoritedInCategory = groupedRecipes[category].filter(recipe =>
-          favorites.has(recipe.recipeId)
-        );
-        if (favoritedInCategory.length > 0) {
-          acc[category] = favoritedInCategory;
-        }
-        return acc;
-      }, {})
-    : groupedRecipes;
+  // Apply all filters
+  const displayedRecipes = Object.keys(groupedRecipes).reduce((acc, category) => {
+    let filtered = groupedRecipes[category];
+
+    // Filter by favorites
+    if (showFavoritesOnly) {
+      filtered = filtered.filter(recipe => favorites.has(recipe.recipeId));
+    }
+
+    // Filter by mood
+    if (selectedMood) {
+      filtered = filtered.filter(recipe =>
+        recipe.moods && recipe.moods.includes(selectedMood)
+      );
+    }
+
+    // Filter by base liquor
+    if (selectedLiquor) {
+      filtered = filtered.filter(recipe => getBaseLiquor(recipe) === selectedLiquor);
+    }
+
+    // Filter by picture
+    if (showWithPictureOnly) {
+      filtered = filtered.filter(recipe => recipe.imageUrl && recipe.imageUrl.trim() !== '');
+    }
+
+    if (filtered.length > 0) {
+      acc[category] = filtered;
+    }
+    return acc;
+  }, {});
 
   if (loading) {
     return (
@@ -298,6 +353,66 @@ function Recipes() {
       </div>
 
       {error && <div className="error-message">{error}</div>}
+
+      {/* Filters */}
+      <div className="filter-section">
+        <h3>Filters</h3>
+        <div className="filter-controls">
+          <div className="filter-group">
+            <label htmlFor="mood-filter">Mood:</label>
+            <select
+              id="mood-filter"
+              value={selectedMood}
+              onChange={(e) => setSelectedMood(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">All Moods</option>
+              {allMoods.map(mood => (
+                <option key={mood} value={mood}>{mood}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label htmlFor="liquor-filter">Base Liquor:</label>
+            <select
+              id="liquor-filter"
+              value={selectedLiquor}
+              onChange={(e) => setSelectedLiquor(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">All Liquors</option>
+              {allLiquors.map(liquor => (
+                <option key={liquor} value={liquor}>{liquor}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group checkbox-group">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={showWithPictureOnly}
+                onChange={(e) => setShowWithPictureOnly(e.target.checked)}
+              />
+              <span>With Picture Only</span>
+            </label>
+          </div>
+
+          {(selectedMood || selectedLiquor || showWithPictureOnly) && (
+            <button
+              className="btn-secondary btn-clear-filters"
+              onClick={() => {
+                setSelectedMood('');
+                setSelectedLiquor('');
+                setShowWithPictureOnly(false);
+              }}
+            >
+              Clear Filters
+            </button>
+          )}
+        </div>
+      </div>
 
       {showAddForm && (
         <div className="add-form-container">

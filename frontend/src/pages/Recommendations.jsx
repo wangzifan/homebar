@@ -15,6 +15,7 @@ function Recommendations() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [expandedCardId, setExpandedCardId] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   const moods = location.state?.moods || [];
 
@@ -27,12 +28,12 @@ function Recommendations() {
     fetchRecommendations();
   }, [moods]);
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = async (fetchAll = false) => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await recommendationsApi.get(moods);
+      const response = await recommendationsApi.get(moods, fetchAll);
       const data = response.data;
 
       setRecommendations(data.recommendations || []);
@@ -41,12 +42,17 @@ function Recommendations() {
       setIsSurpriseMode(data.isSurpriseMode || false);
       setOrganizedByType(data.organizedByType || null);
       setMessage(data.message || null);
+      setShowAll(fetchAll);
     } catch (err) {
       console.error('Error fetching recommendations:', err);
       setError('Failed to load recommendations. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleShowAll = () => {
+    fetchRecommendations(true);
   };
 
   const handleBackToHome = () => {
@@ -139,15 +145,10 @@ function Recommendations() {
 
           {/* Back side - Details */}
           <div className="flip-card-back">
-            <h2 className="drink-name-back">
-              {rec.name}
-            </h2>
-
             {rec.description && <p className="drink-description">{rec.description}</p>}
 
             {/* Metadata */}
             <div className="drink-details-compact">
-              {rec.category && <span className="detail-badge">Category: {rec.category}</span>}
               {rec.abv && <span className="detail-badge">ABV: {rec.abv}%</span>}
               {rec.glassType && <span className="detail-badge">Glass: {rec.glassType}</span>}
             </div>
@@ -331,6 +332,16 @@ function Recommendations() {
         {isSurpriseMode && (
           <button className="btn-primary" onClick={fetchRecommendations}>
             🎲 Surprise Me Again!
+          </button>
+        )}
+        {!isSurpriseMode && !isLazyMode && !showAll && recommendations.length > 0 && (
+          <button className="btn-primary" onClick={handleShowAll}>
+            📋 Show All Available
+          </button>
+        )}
+        {!isSurpriseMode && !isLazyMode && showAll && (
+          <button className="btn-secondary" onClick={() => fetchRecommendations(false)}>
+            ← Back to Top 3
           </button>
         )}
       </div>

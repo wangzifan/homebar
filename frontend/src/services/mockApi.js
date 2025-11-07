@@ -317,7 +317,7 @@ export const recipesApi = {
 };
 
 export const recommendationsApi = {
-  get: async (moods, preferences = {}) => {
+  get: async (moods, showAll = false) => {
     await delay(500);
 
     const normalizedMoods = moods.map(m => m.toLowerCase());
@@ -429,7 +429,7 @@ export const recommendationsApi = {
       };
     }
 
-    // Normal mode - return up to 3 random drinks we can make
+    // Normal mode - return up to 3 random drinks we can make (or all if showAll is true)
     const makeableRecipes = scoredRecipes.filter(r => r.canMake);
 
     if (makeableRecipes.length === 0) {
@@ -443,13 +443,13 @@ export const recommendationsApi = {
       };
     }
 
-    // Randomly select up to 3 recipes (instead of always showing the same top-scoring ones)
+    // Randomly select recipes
     const shuffled = makeableRecipes.sort(() => Math.random() - 0.5);
-    const randomSelection = shuffled.slice(0, Math.min(3, makeableRecipes.length));
+    const selection = showAll ? shuffled : shuffled.slice(0, Math.min(3, makeableRecipes.length));
 
     return {
       data: {
-        recommendations: randomSelection,
+        recommendations: selection,
         totalRecipes: recipes.length,
         matchedRecipes: makeableRecipes.length,
         inventoryItemsCount: inventory.length,

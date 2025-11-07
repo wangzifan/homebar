@@ -31,8 +31,8 @@ export const recipesApi = {
 
 // Recommendations API
 export const recommendationsApi = {
-  get: (moods, preferences = {}) =>
-    api.post('/recommendations', { moods, preferences }),
+  get: (moods, showAll = false) =>
+    api.post('/recommendations', { moods, showAll }),
 };
 
 // Image Upload API

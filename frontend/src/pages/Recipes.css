@@ -46,6 +46,89 @@
   border-color: #667eea;
 }
 
+/* Filter Section */
+.filter-section {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.filter-section h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.filter-select {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  text-transform: capitalize;
+}
+
+.filter-select:hover {
+  border-color: #667eea;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filter-group.checkbox-group {
+  min-width: auto;
+  justify-content: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+.filter-group.checkbox-group .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #555;
+}
+
+.filter-group.checkbox-group .checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.btn-clear-filters {
+  align-self: flex-end;
+  padding: 0.75rem 1.5rem;
+}
+
 .error-message {
   background: #f8d7da;
   color: #721c24;
@@ -444,6 +527,36 @@
 
   .mood-checkboxes {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Mobile: Stack recipe name and tags vertically */
+  .recipe-name-moods {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .recipe-moods-compact .mood-tag-small {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .filter-section {
+    padding: 1rem 1.5rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .btn-clear-filters {
+    width: 100%;
   }
 }
 

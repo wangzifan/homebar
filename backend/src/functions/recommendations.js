@@ -195,7 +195,7 @@ const filterByMood = (recipes, inventory, mood) => {
 };
 
 // Get recommendations
-const getRecommendations = async (selectedMoods, preferences = {}) => {
+const getRecommendations = async (selectedMoods, preferences = {}, showAll = false) => {
   try {
     // Fetch all inventory items
     const inventoryCommand = new ScanCommand({
@@ -333,12 +333,12 @@ const getRecommendations = async (selectedMoods, preferences = {}) => {
       });
     }
 
-    // Randomly select up to 3 recipes (instead of always showing the same top-scoring ones)
+    // Randomly select recipes (up to 3 by default, or all if showAll is true)
     const shuffled = makeableRecipes.sort(() => Math.random() - 0.5);
-    const randomSelection = shuffled.slice(0, Math.min(3, makeableRecipes.length));
+    const selection = showAll ? shuffled : shuffled.slice(0, Math.min(3, makeableRecipes.length));
 
     return createResponse(200, {
-      recommendations: randomSelection,
+      recommendations: selection,
       totalRecipes: recipes.length,
       matchedRecipes: makeableRecipes.length,
       selectedMoods: normalizedMoods,
@@ -363,7 +363,7 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-    const { moods, preferences } = body;
+    const { moods, preferences, showAll } = body;
 
     if (!moods || !Array.isArray(moods) || moods.length === 0) {
       return createResponse(400, {
@@ -371,7 +371,7 @@ exports.handler = async (event) => {
       });
     }
 
-    return await getRecommendations(moods, preferences || {});
+    return await getRecommendations(moods, preferences || {}, showAll || false);
   } catch (error) {
     console.error('Handler error:', error);
     return createResponse(500, { error: 'Internal server error' });
