@@ -132,40 +132,11 @@ function Recommendations() {
     const isFlipped = expandedCardId === rec.recipeId;
     const cardId = rec.recipeId;
 
-    // Handle touch events to allow scrolling while still detecting taps
-    const handleTouchStart = (e) => {
-      const touch = e.touches[0];
-      e.currentTarget.touchStartY = touch.clientY;
-      e.currentTarget.touchStartX = touch.clientX;
-      e.currentTarget.touchStartTime = Date.now();
-    };
-
-    const handleTouchEnd = (e) => {
-      const touch = e.changedTouches[0];
-      const deltaY = Math.abs(touch.clientY - e.currentTarget.touchStartY);
-      const deltaX = Math.abs(touch.clientX - e.currentTarget.touchStartX);
-      const deltaTime = Date.now() - e.currentTarget.touchStartTime;
-
-      // Only flip if it's a tap (minimal movement, quick)
-      if (deltaY < 10 && deltaX < 10 && deltaTime < 300) {
-        setExpandedCardId(isFlipped ? null : cardId);
-      }
-    };
-
-    const handleClick = (e) => {
-      // Only handle click on non-touch devices
-      if (e.detail !== 0) { // detail is 0 for touch events converted to clicks
-        setExpandedCardId(isFlipped ? null : cardId);
-      }
-    };
-
     return (
       <div
         key={cardId}
         className={`flip-card ${isFlipped ? 'flipped' : ''}`}
-        onClick={handleClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        onClick={() => setExpandedCardId(isFlipped ? null : cardId)}
       >
         <div className="flip-card-inner">
           {/* Front side - Image and name */}
