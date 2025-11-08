@@ -11,6 +11,7 @@ function Inventory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [addingToCategory, setAddingToCategory] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -49,6 +50,17 @@ function Inventory() {
     });
     setEditingItemId(null);
     setShowAddForm(false);
+    setAddingToCategory(null);
+  };
+
+  const handleOpenAddForm = (category) => {
+    setFormData({
+      name: '',
+      category: category,
+      brand: '',
+    });
+    setAddingToCategory(category);
+    setShowAddForm(true);
   };
 
   const handleAddItem = async (e) => {
@@ -111,76 +123,7 @@ function Inventory() {
 
   return (
     <div className="inventory-container">
-      <div className="inventory-header">
-        <h1>My Home Bar Inventory</h1>
-        {isAuthenticated && (
-          <button className="btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
-            {showAddForm ? 'Cancel' : '+ Add Item'}
-          </button>
-        )}
-      </div>
-
       {error && <div className="error-message">{error}</div>}
-
-      {showAddForm && (
-        <div className="add-form-container">
-          <h2>Add New Item</h2>
-          <form onSubmit={handleAddItem} className="inventory-form">
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="name">Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., Tanqueray Gin"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="brand">Brand</label>
-                <input
-                  type="text"
-                  id="brand"
-                  name="brand"
-                  value={formData.brand}
-                  onChange={handleInputChange}
-                  placeholder="Optional"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="category">Category *</label>
-                <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  required
-                >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="form-actions">
-              <button type="submit" className="btn-primary">
-                Add Item
-              </button>
-              <button type="button" className="btn-secondary" onClick={resetForm}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
 
       <div className="inventory-list">
         {Object.keys(groupedItems).length === 0 ? (
@@ -193,9 +136,79 @@ function Inventory() {
             .sort()
             .map((category) => (
               <div key={category} className="category-section">
-                <h2 className="category-title">
-                  {category.charAt(0).toUpperCase() + category.slice(1)} ({groupedItems[category].length})
-                </h2>
+                <div className="category-header-row">
+                  <h2 className="category-title">
+                    {category.charAt(0).toUpperCase() + category.slice(1)} ({groupedItems[category].length})
+                  </h2>
+                  {isAuthenticated && (
+                    <button
+                      className="btn-add-small"
+                      onClick={() => handleOpenAddForm(category)}
+                    >
+                      + Add Item
+                    </button>
+                  )}
+                </div>
+
+                {showAddForm && addingToCategory === category && (
+                  <div className="add-form-container">
+                    <form onSubmit={handleAddItem} className="inventory-form">
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor="name">Name *</label>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="e.g., Tanqueray Gin"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="brand">Brand</label>
+                          <input
+                            type="text"
+                            id="brand"
+                            name="brand"
+                            value={formData.brand}
+                            onChange={handleInputChange}
+                            placeholder="Optional"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="category">Category *</label>
+                          <select
+                            id="category"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleInputChange}
+                            required
+                          >
+                            {CATEGORIES.map((cat) => (
+                              <option key={cat} value={cat}>
+                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-actions">
+                        <button type="submit" className="btn-primary">
+                          Add Item
+                        </button>
+                        <button type="button" className="btn-secondary" onClick={resetForm}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
                 <div className="items-grid">
                   {[...groupedItems[category]]
                     .sort((a, b) => a.name.localeCompare(b.name))
