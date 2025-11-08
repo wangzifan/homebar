@@ -19,24 +19,24 @@ function NavBar() {
         <ul className="nav-menu">
           <li className="nav-item">
             <Link to="/" className="nav-link">
-              Home
+              🏠 HOME
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/inventory" className="nav-link">
-              Inventory
+              📦 INVENTORY
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/recipes" className="nav-link">
-              Recipes
+              📖 RECIPES
             </Link>
           </li>
           <li className="nav-item nav-auth">
             {isAuthenticated ? (
               <div className="auth-dropdown">
                 <button className="nav-link auth-button">
-                  👤 Owner ▾
+                  👤 OWNER ▾
                 </button>
                 <div className="auth-dropdown-menu">
                   <button onClick={openChangePasswordModal} className="dropdown-item">
@@ -49,7 +49,7 @@ function NavBar() {
               </div>
             ) : (
               <button onClick={openLoginModal} className="nav-link auth-button">
-                🔒 Login
+                🔒 LOGIN
               </button>
             )}
           </li>
