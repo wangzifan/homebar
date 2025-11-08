@@ -266,7 +266,7 @@ function Recommendations() {
           <p>We couldn't find any drinks matching your preferences with your current inventory.</p>
           <p>Try selecting different moods or update your inventory.</p>
           <button className="btn-primary" onClick={handleBackToHome}>
-            Try Different Moods
+            Start Over
           </button>
         </div>
       ) : isLazyMode && organizedByType ? (
@@ -339,7 +339,7 @@ function Recommendations() {
 
       <div className="recommendations-actions">
         <button className="btn-secondary" onClick={handleBackToHome}>
-          Try Different Moods
+          Start Over
         </button>
         <button className="btn-primary" onClick={() => navigate('/inventory')}>
           Update Inventory

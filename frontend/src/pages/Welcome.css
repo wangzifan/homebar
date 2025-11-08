@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Handlee&display=swap');
+
 .welcome-container {
   animation: fadeIn 0.5s ease-in;
 }
@@ -15,7 +17,7 @@
 
 .welcome-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   padding: 1rem 2rem;
 }
 
@@ -27,59 +29,84 @@
   margin-bottom: 0.5rem;
 }
 
-.welcome-subtitle {
-  font-size: 1.1rem;
-  color: white;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.mood-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+.section {
   margin-bottom: 3rem;
 }
 
-.mood-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.section-subtitle {
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+               0 0 20px rgba(255, 255, 255, 0.6),
+               0 0 30px rgba(255, 255, 255, 0.4);
+  font-family: 'Handlee', cursive;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.section-subtitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+}
+
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.option-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 3px solid transparent;
+  padding: 1rem;
+  border-radius: 12px;
+  min-width: 100px;
 }
 
-.mood-card:hover {
+.option-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.mood-card.selected {
-  border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-}
-
-.mood-icon {
+.option-icon {
   font-size: 3rem;
   text-align: center;
-  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
 }
 
-.mood-label {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
-  text-align: center;
+.option-item:hover .option-icon {
+  transform: scale(1.1);
 }
 
-.mood-description {
-  font-size: 0.9rem;
-  color: #666;
+.option-label {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: white;
   text-align: center;
-  line-height: 1.5;
+  white-space: nowrap;
+  font-family: 'Indie Flower', cursive;
+}
+
+.quick-options {
+  gap: 3rem;
 }
 
 .welcome-actions {
@@ -96,26 +123,39 @@
     font-size: 2rem;
   }
 
-  .mood-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+  .section {
+    margin-bottom: 2rem;
   }
 
-  .mood-card {
-    padding: 1.5rem 1rem;
-  }
-
-  .mood-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .mood-label {
+  .section-subtitle {
     font-size: 1.1rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
   }
 
-  .mood-description {
-    font-size: 0.8rem;
+  .section-subtitle::after {
+    width: 40px;
+  }
+
+  .options-row {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .option-item {
+    padding: 0.75rem;
+    min-width: 80px;
+  }
+
+  .option-icon {
+    font-size: 2.5rem;
+  }
+
+  .option-label {
+    font-size: 0.85rem;
+  }
+
+  .quick-options {
+    gap: 2rem;
   }
 }

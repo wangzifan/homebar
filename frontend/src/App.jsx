@@ -14,7 +14,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="nav-container">
         <Link to="/" className="nav-logo">
-          🍸 MyHomeBar
+          Zifan's Home Bar
         </Link>
         <ul className="nav-menu">
           <li className="nav-item">
@@ -78,7 +78,6 @@ function App() {
         </main>
 
         <footer className="footer">
-          <p>&copy; 2024 MyHomeBar - Your Personal Bartender</p>
         </footer>
         </div>
       </AuthProvider>

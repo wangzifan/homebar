@@ -120,6 +120,32 @@ const isSweetDrink = (ingredients) => {
   });
 };
 
+// Check if recipe is sour/citrus-forward
+const isSourDrink = (ingredients) => {
+  const sourTerms = ['lemon', 'lime', 'citrus', 'grapefruit', 'orange juice', 'sour'];
+
+  return ingredients.some(ing => {
+    const name = ing.name.toLowerCase();
+    return sourTerms.some(term => name.includes(term));
+  });
+};
+
+// Check if recipe contains a specific base liquor
+const hasBaseLiquor = (recipe, liquorType) => {
+  const recipeName = recipe.name.toLowerCase();
+  const category = recipe.category ? recipe.category.toLowerCase() : '';
+
+  // Check both category and ingredients
+  const liquorMatch = category === liquorType ||
+                     recipeName.includes(liquorType) ||
+                     recipe.ingredients.some(ing => {
+                       const name = ing.name.toLowerCase();
+                       return name.includes(liquorType);
+                     });
+
+  return liquorMatch;
+};
+
 // Calculate match score
 const calculateMatchScore = (recipe, inventory) => {
   let score = 0;
@@ -189,6 +215,27 @@ const filterByMood = (recipes, inventory, mood) => {
         const lowABV = !recipe.abv || recipe.abv < 20;
         return hasSweet && lowABV;
       });
+
+    case 'sour':
+      // Citrus-forward cocktails
+      return recipes.filter(recipe => isSourDrink(recipe.ingredients));
+
+    case 'sweet-sour':
+      // Sweet OR Sour drinks (combined category)
+      return recipes.filter(recipe => {
+        const hasSweet = isSweetDrink(recipe.ingredients);
+        const hasSour = isSourDrink(recipe.ingredients);
+        return hasSweet || hasSour;
+      });
+
+    case 'rum':
+    case 'gin':
+    case 'vodka':
+    case 'tequila':
+    case 'brandy':
+    case 'whiskey':
+      // Filter by base liquor
+      return recipes.filter(recipe => hasBaseLiquor(recipe, mood));
 
     case 'surprise-me':
       // Random selection - return all for random picking

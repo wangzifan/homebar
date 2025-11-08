@@ -3,81 +3,134 @@ import './Welcome.css';
 
 const MOOD_OPTIONS = [
   {
-    id: 'surprise-me',
-    label: 'Surprise Me!',
-    icon: '🎲',
-    description: 'Get a random drink recommendation',
-  },
-  {
     id: 'sparkling',
     label: 'Sparkling',
-    icon: '✨',
-    description: 'Drinks with tonic, soda, or sparkling wine',
+    icon: '🥂',
   },
   {
     id: 'warm',
     label: 'Warm & Cozy',
-    icon: '🔥',
-    description: 'Hot drinks - Irish coffee, toddy, mulled wine',
+    icon: '☕',
   },
   {
     id: 'light',
     label: 'Light & Easy',
-    icon: '🌸',
-    description: 'Low calorie with tonic, soda, or beer',
+    icon: '🌿',
   },
   {
     id: 'strong',
     label: 'Strong & Bold',
-    icon: '💪',
-    description: 'High ABV drinks (>20%)',
+    icon: '🥃',
   },
   {
-    id: 'sweet',
-    label: 'Sweet Tooth',
-    icon: '🍭',
-    description: 'Sweet drinks with juice or liqueurs (ABV < 20%)',
+    id: 'sweet-sour',
+    label: 'Sweet & Sour',
+    icon: '🍹',
+  },
+];
+
+const LIQUOR_OPTIONS = [
+  {
+    id: 'rum',
+    label: 'Rum',
+    icon: '🏝️',
   },
   {
-    id: 'sour',
-    label: 'Sour & Tart',
-    icon: '🍋',
-    description: 'Citrus-forward cocktails',
+    id: 'gin',
+    label: 'Gin',
+    icon: '🌿',
+  },
+  {
+    id: 'vodka',
+    label: 'Vodka',
+    icon: '❄️',
+  },
+  {
+    id: 'tequila',
+    label: 'Tequila',
+    icon: '🌵',
+  },
+  {
+    id: 'brandy',
+    label: 'Brandy',
+    icon: '🍇',
+  },
+  {
+    id: 'whiskey',
+    label: 'Whiskey',
+    icon: '🥃',
+  },
+];
+
+const QUICK_OPTIONS = [
+  {
+    id: 'surprise-me',
+    label: 'Surprise Me',
+    icon: '🎲',
   },
   {
     id: 'lazy',
-    label: 'Lazy Night',
-    icon: '😴',
-    description: 'Ready to drink - whiskey, sake, wine, beer',
+    label: 'Ready to Drink',
+    icon: '🍺',
   },
 ];
 
 function Welcome() {
   const navigate = useNavigate();
 
-  const handleMoodClick = (moodId) => {
-    // Immediately navigate to recommendations with the selected mood
-    navigate('/recommendations', { state: { moods: [moodId] } });
+  const handleOptionClick = (optionId) => {
+    // Navigate to recommendations with the selected option
+    navigate('/recommendations', { state: { moods: [optionId] } });
   };
 
   return (
     <div className="welcome-container">
-      <div className="welcome-header">
-        <h1 className="welcome-title">Zifan's Home Bar</h1>
+      <div className="section">
+        <h2 className="section-subtitle">By Mood</h2>
+        <div className="options-row">
+          {MOOD_OPTIONS.map((option) => (
+            <div
+              key={option.id}
+              className="option-item"
+              onClick={() => handleOptionClick(option.id)}
+            >
+              <div className="option-icon">{option.icon}</div>
+              <div className="option-label">{option.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="mood-grid">
-        {MOOD_OPTIONS.map((mood) => (
-          <div
-            key={mood.id}
-            className="mood-card"
-            onClick={() => handleMoodClick(mood.id)}
-          >
-            <div className="mood-icon">{mood.icon}</div>
-            <h3 className="mood-label">{mood.label}</h3>
-            <p className="mood-description">{mood.description}</p>
-          </div>
-        ))}
+      <div className="section">
+        <h2 className="section-subtitle">By Base Liquor</h2>
+        <div className="options-row">
+          {LIQUOR_OPTIONS.map((option) => (
+            <div
+              key={option.id}
+              className="option-item"
+              onClick={() => handleOptionClick(option.id)}
+            >
+              <div className="option-icon">{option.icon}</div>
+              <div className="option-label">{option.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="section">
+        <h2 className="section-subtitle">Can't Decide?</h2>
+        <div className="options-row quick-options">
+          {QUICK_OPTIONS.map((option) => (
+            <div
+              key={option.id}
+              className="option-item"
+              onClick={() => handleOptionClick(option.id)}
+            >
+              <div className="option-icon">{option.icon}</div>
+              <div className="option-label">{option.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
