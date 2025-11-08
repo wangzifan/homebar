@@ -341,9 +341,6 @@ function Recommendations() {
         <button className="btn-secondary" onClick={handleBackToHome}>
           Start Over
         </button>
-        <button className="btn-primary" onClick={() => navigate('/inventory')}>
-          Update Inventory
-        </button>
         {isSurpriseMode && (
           <button className="btn-primary" onClick={() => fetchRecommendations(moods, false)}>
             🎲 Surprise Me Again!
@@ -351,7 +348,7 @@ function Recommendations() {
         )}
         {!isSurpriseMode && !isLazyMode && !showAll && recommendations.length > 0 && (
           <button className="btn-primary" onClick={handleShowAll}>
-            📋 Show All Available
+            All Options
           </button>
         )}
         {!isSurpriseMode && !isLazyMode && showAll && (

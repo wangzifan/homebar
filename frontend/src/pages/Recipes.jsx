@@ -19,7 +19,7 @@ function Recipes() {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedMood, setSelectedMood] = useState('');
   const [selectedLiquor, setSelectedLiquor] = useState('');
-  const [showWithPictureOnly, setShowWithPictureOnly] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -359,9 +359,12 @@ function Recipes() {
       filtered = filtered.filter(recipe => getBaseLiquor(recipe) === selectedLiquor);
     }
 
-    // Filter by picture
-    if (showWithPictureOnly) {
-      filtered = filtered.filter(recipe => recipe.imageUrl && recipe.imageUrl.trim() !== '');
+    // Filter by search query (fuzzy match cocktail name)
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(recipe =>
+        recipe.name.toLowerCase().includes(query)
+      );
     }
 
     if (filtered.length > 0) {
@@ -401,59 +404,48 @@ function Recipes() {
 
       {/* Filters */}
       <div className="filter-section">
-        <h3>Filters</h3>
+        <h3>Filter:</h3>
         <div className="filter-controls">
-          <div className="filter-group">
-            <label htmlFor="mood-filter">Mood:</label>
-            <select
-              id="mood-filter"
-              value={selectedMood}
-              onChange={(e) => setSelectedMood(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">All Moods</option>
-              {allMoods.map(mood => (
-                <option key={mood} value={mood}>{mood}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={selectedMood}
+            onChange={(e) => setSelectedMood(e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Moods</option>
+            {allMoods.map(mood => (
+              <option key={mood} value={mood}>{mood}</option>
+            ))}
+          </select>
 
-          <div className="filter-group">
-            <label htmlFor="liquor-filter">Base Liquor:</label>
-            <select
-              id="liquor-filter"
-              value={selectedLiquor}
-              onChange={(e) => setSelectedLiquor(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">All Liquors</option>
-              {allLiquors.map(liquor => (
-                <option key={liquor} value={liquor}>{liquor}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={selectedLiquor}
+            onChange={(e) => setSelectedLiquor(e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Liquors</option>
+            {allLiquors.map(liquor => (
+              <option key={liquor} value={liquor}>{liquor}</option>
+            ))}
+          </select>
 
-          <div className="filter-group checkbox-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={showWithPictureOnly}
-                onChange={(e) => setShowWithPictureOnly(e.target.checked)}
-              />
-              <span>With Picture Only</span>
-            </label>
-          </div>
+          <input
+            type="text"
+            placeholder="Search cocktail name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="filter-search"
+          />
 
-          {(selectedMood || selectedLiquor || showWithPictureOnly) && (
+          {(selectedMood || selectedLiquor || searchQuery) && (
             <button
               className="btn-secondary btn-clear-filters"
               onClick={() => {
                 setSelectedMood('');
                 setSelectedLiquor('');
-                setShowWithPictureOnly(false);
+                setSearchQuery('');
               }}
             >
-              Clear Filters
+              Clear
             </button>
           )}
         </div>
