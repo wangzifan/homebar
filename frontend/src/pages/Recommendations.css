@@ -5,7 +5,9 @@
 }
 
 .recommendations-header {
-  background: white;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -14,17 +16,17 @@
 }
 
 .recommendations-header h1 {
-  color: #333;
+  color: white;
   margin-bottom: 1rem;
 }
 
 .selected-moods {
-  color: #666;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
 }
 
 .selected-moods strong {
-  color: #667eea;
+  color: white;
   text-transform: capitalize;
 }
 
@@ -108,13 +110,15 @@
 }
 
 .flip-card-front {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
 }
 
 .flip-card-back {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   transform: rotateY(180deg);
   padding: 2rem;
   overflow-y: auto;
@@ -222,7 +226,9 @@
 
 /* Lazy Mode - Keep existing recommendation-card styles */
 .recommendation-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -430,7 +436,9 @@
 }
 
 .no-recommendations {
-  background: white;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 4rem 2rem;
   border-radius: 12px;
   text-align: center;
@@ -438,12 +446,12 @@
 }
 
 .no-recommendations h2 {
-  color: #333;
+  color: white;
   margin-bottom: 1rem;
 }
 
 .no-recommendations p {
-  color: #666;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -455,7 +463,9 @@
 }
 
 .drink-category-section {
-  background: white;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -469,24 +479,26 @@
 }
 
 .category-header {
-  color: #667eea;
+  color: white;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
   font-size: 1.8rem;
 }
 
 /* Info Message */
 .info-message {
-  background: #e7f3ff;
-  border-left: 4px solid #667eea;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 4px solid white;
   padding: 1rem 1.5rem;
   border-radius: 8px;
   margin-bottom: 2rem;
 }
 
 .info-message p {
-  color: #333;
+  color: white;
   margin: 0;
   font-size: 1.05rem;
 }
