@@ -77,23 +77,10 @@ const createInventoryItem = async (data) => {
       itemId: uuidv4(),
       name: data.name,
       category: data.category,
-      quantity: data.quantity || 0,
-      unit: data.unit || 'ml',
-      purchaseDate: data.purchaseDate || now.split('T')[0],
+      brand: data.brand || '',
       createdAt: now,
       updatedAt: now,
     };
-
-    // Only include optional fields if they have values (to avoid GSI issues with null)
-    if (data.expirationDate) {
-      item.expirationDate = data.expirationDate;
-    }
-    if (data.brand) {
-      item.brand = data.brand;
-    }
-    if (data.notes) {
-      item.notes = data.notes;
-    }
 
     const command = new PutCommand({
       TableName: INVENTORY_TABLE,
@@ -118,7 +105,7 @@ const updateInventoryItem = async (itemId, data) => {
     const expressionAttributeNames = {};
     const expressionAttributeValues = {};
 
-    const updateableFields = ['name', 'category', 'quantity', 'unit', 'expirationDate', 'brand', 'notes'];
+    const updateableFields = ['name', 'category', 'brand'];
 
     updateableFields.forEach(field => {
       if (data[field] !== undefined) {

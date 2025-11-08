@@ -47,20 +47,9 @@ const hasIngredient = (inventory, requiredIngredient) => {
   return inventory.some(item => {
     const normalizedItem = normalizeIngredientName(item.name);
 
-    if (normalizedItem === normalizedRequired ||
-        normalizedItem.includes(normalizedRequired) ||
-        normalizedRequired.includes(normalizedItem)) {
-
-      if (item.quantity && item.quantity > 0) {
-        if (item.expirationDate) {
-          const expDate = new Date(item.expirationDate);
-          const now = new Date();
-          return expDate >= now;
-        }
-        return true;
-      }
-    }
-    return false;
+    return normalizedItem === normalizedRequired ||
+           normalizedItem.includes(normalizedRequired) ||
+           normalizedRequired.includes(normalizedItem);
   });
 };
 
@@ -226,24 +215,11 @@ const getRecommendations = async (selectedMoods, preferences = {}, showAll = fal
     // Special handling for "lazy" mode - return inventory items directly
     if (primaryMood === 'lazy') {
       const readyToDrink = inventory.filter(item => {
-        // Filter to ready-to-drink categories with available quantity
-        const isReadyToDrinkCategory =
-          item.category === 'whiskey' ||
-          item.category === 'wine' ||
-          item.category === 'beer' ||
-          item.category === 'sake';
-
-        const hasQuantity = item.quantity && item.quantity > 0;
-
-        // Check if not expired (for items with expiration dates)
-        let notExpired = true;
-        if (item.expirationDate) {
-          const expDate = new Date(item.expirationDate);
-          const now = new Date();
-          notExpired = expDate >= now;
-        }
-
-        return isReadyToDrinkCategory && hasQuantity && notExpired;
+        // Filter to ready-to-drink categories
+        return item.category === 'whiskey' ||
+               item.category === 'wine' ||
+               item.category === 'beer' ||
+               item.category === 'sake';
       });
 
       // Organize by category
