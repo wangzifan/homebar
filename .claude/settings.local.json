@@ -35,7 +35,8 @@
       "Bash(sam build:*)",
       "Bash(curl:*)",
       "Bash(/Users/zifan/IdeaProjects/MyHomeBar/add-mixers-to-prod.sh)",
-      "Bash(aws dynamodb get-item:*)"
+      "Bash(aws dynamodb get-item:*)",
+      "Bash(aws cloudformation list-stacks:*)"
     ],
     "deny": [],
     "ask": []

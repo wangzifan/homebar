@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -45,6 +47,7 @@ body {
   color: #667eea;
   text-decoration: none;
   transition: color 0.3s;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .nav-logo:hover {
@@ -70,6 +73,7 @@ body {
   color: #333;
   font-weight: 500;
   transition: color 0.3s;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .nav-link:hover {
@@ -91,6 +95,7 @@ body {
   font-weight: 500;
   color: #333;
   transition: color 0.3s;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .auth-button:hover {
@@ -129,6 +134,7 @@ body {
   font-size: 0.95rem;
   transition: background 0.2s;
   white-space: nowrap;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .dropdown-item:first-child {

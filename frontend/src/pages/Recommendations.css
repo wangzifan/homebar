@@ -36,14 +36,18 @@
 
 .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem 2rem;
   margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* When there's only one card (like surprise mode), center it and limit width */
 .recommendations-grid:has(.flip-card:only-child) {
-  grid-template-columns: minmax(350px, 600px);
+  grid-template-columns: 400px;
   justify-content: center;
 }
 
@@ -60,6 +64,7 @@
   cursor: pointer;
   position: relative;
   touch-action: pan-y;
+  max-width: 100%;
 }
 
 .flip-card-inner {
@@ -496,6 +501,8 @@
   /* Flip cards mobile */
   .recommendations-grid {
     grid-template-columns: 1fr;
+    padding: 1rem 1.5rem;
+    gap: 2rem;
   }
 
   .flip-card {
@@ -503,15 +510,15 @@
   }
 
   .drink-name-flip {
-    font-size: 1.5rem;
-  }
-
-  .drink-name-back {
     font-size: 1.3rem;
   }
 
+  .drink-name-back {
+    font-size: 1.2rem;
+  }
+
   .flip-card-back {
-    padding: 1.5rem;
+    padding: 1.2rem;
   }
 
   /* Stack image on top for mobile - lazy mode only */
