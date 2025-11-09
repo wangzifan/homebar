@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Pangolin&family=Handlee&display=swap');
 
+/* Ensure page is always scrollable */
+html, body {
+  overflow-y: auto;
+}
+
 .recommendations-container {
   animation: fadeIn 0.5s ease-in;
+  min-height: 100dvh;
+  overflow-y: auto;
 }
 
 .recommendations-header {
@@ -84,6 +91,8 @@
   height: 500px;
   position: relative;
   max-width: 100%;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .flip-card-inner {
@@ -127,6 +136,8 @@
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .flip-card-back {
@@ -137,6 +148,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .card-image-full {
@@ -145,6 +158,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .card-image-full img {
@@ -152,6 +167,9 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  touch-action: pan-y;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .card-info-button-container {
