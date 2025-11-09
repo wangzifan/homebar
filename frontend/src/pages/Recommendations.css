@@ -84,12 +84,6 @@
   height: 500px;
   position: relative;
   max-width: 100%;
-  touch-action: pan-y;
-  pointer-events: none;
-}
-
-.flip-card * {
-  pointer-events: auto;
 }
 
 .flip-card-inner {
@@ -151,8 +145,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  pointer-events: none;
-  touch-action: pan-y;
 }
 
 .card-image-full img {
@@ -160,8 +152,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none;
-  touch-action: pan-y;
 }
 
 .card-info-button-container {
@@ -169,7 +159,6 @@
   top: 1rem;
   right: 1rem;
   z-index: 2;
-  pointer-events: auto;
 }
 
 .card-title-overlay {
@@ -180,11 +169,6 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
   padding: 2rem 1.5rem 1.5rem;
   z-index: 1;
-  pointer-events: none;
-}
-
-.card-title-overlay * {
-  pointer-events: auto;
 }
 
 .flip-button {
@@ -213,7 +197,6 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  padding-top: 3px;
   border-radius: 50%;
   font-size: 1.5rem;
   display: flex;
@@ -224,6 +207,11 @@
   border: 2px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   text-align: center;
+}
+
+.flip-button-info .info-icon {
+  display: block;
+  transform: translateY(2px);
 }
 
 .flip-button-info:hover {
@@ -658,7 +646,10 @@
     height: 35px;
     font-size: 1.3rem;
     line-height: 1;
-    padding-top: 2px;
+  }
+
+  .flip-button-info .info-icon {
+    transform: translateY(3px);
   }
 
   .card-info-button-container {

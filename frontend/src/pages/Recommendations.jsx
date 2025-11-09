@@ -156,7 +156,7 @@ function Recommendations() {
                   setExpandedCardId(cardId);
                 }}
               >
-                ⓘ
+                <span className="info-icon">ⓘ</span>
               </button>
             </div>
             <div className="card-title-overlay">
