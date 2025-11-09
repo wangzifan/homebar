@@ -32,6 +32,19 @@ function Recommendations() {
     fetchRecommendations(initialMoods, false);
   }, []);
 
+  const preloadImages = (imageUrls) => {
+    return Promise.all(
+      imageUrls.map((url) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve(); // Resolve even on error to not block loading
+          img.src = url;
+        });
+      })
+    );
+  };
+
   const fetchRecommendations = async (moodsToUse, fetchAll = false) => {
     try {
       // Use provided moods or fall back to state
@@ -48,6 +61,28 @@ function Recommendations() {
 
       const response = await recommendationsApi.get(targetMoods, fetchAll);
       const data = response.data;
+
+      // Collect all image URLs to preload
+      const imageUrls = [];
+      if (data.recommendations && data.recommendations.length > 0) {
+        data.recommendations.forEach((rec) => {
+          if (rec.imageUrl) imageUrls.push(rec.imageUrl);
+        });
+      }
+
+      // For lazy mode, check organized data
+      if (data.organizedByType) {
+        Object.values(data.organizedByType).forEach((items) => {
+          if (Array.isArray(items)) {
+            items.forEach((item) => {
+              if (item.imageUrl) imageUrls.push(item.imageUrl);
+            });
+          }
+        });
+      }
+
+      // Preload all images before showing content
+      await preloadImages(imageUrls);
 
       setRecommendations(data.recommendations || []);
       setIsLazyMode(data.isLazyMode || false);
