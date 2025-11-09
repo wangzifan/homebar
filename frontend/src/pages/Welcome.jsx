@@ -81,7 +81,7 @@ function Welcome() {
 
   useEffect(() => {
     // Scroll to top when page loads
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const handleOptionClick = (optionId) => {

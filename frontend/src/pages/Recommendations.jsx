@@ -19,8 +19,8 @@ function Recommendations() {
   const [moods, setMoods] = useState([]);
 
   useEffect(() => {
-    // Scroll to top when page loads
-    window.scrollTo(0, 0);
+    // Scroll to top when page loads (with smooth behavior)
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
     const initialMoods = location.state?.moods || [];
     if (initialMoods.length === 0) {
