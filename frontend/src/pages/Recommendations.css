@@ -82,9 +82,7 @@
   background-color: transparent;
   perspective: 1000px;
   height: 500px;
-  cursor: pointer;
   position: relative;
-  touch-action: manipulation;
   max-width: 100%;
 }
 
@@ -135,9 +133,10 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   transform: rotateY(180deg);
-  padding: 2rem;
+  padding: 3.5rem 1.5rem 1.5rem;
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
 }
 
 .card-image-full {
@@ -146,7 +145,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .card-image-full img {
@@ -154,8 +153,15 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
+}
+
+.card-info-button-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
   pointer-events: auto;
-  touch-action: manipulation;
 }
 
 .card-title-overlay {
@@ -171,6 +177,56 @@
 
 .card-title-overlay * {
   pointer-events: auto;
+}
+
+.flip-button {
+  background: rgba(102, 126, 234, 0.7);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Handlee', cursive;
+  transition: all 0.3s;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.flip-button:hover {
+  background: rgba(102, 126, 234, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.7);
+}
+
+.flip-button-info {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.flip-button-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.flip-button-back {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
 }
 
 .drink-name-flip {
@@ -196,34 +252,29 @@
   margin-bottom: 1.5rem;
 }
 
-.detail-badge {
-  background: #e0e0e0;
+.flip-card-back .detail-badge {
+  background: rgba(102, 126, 234, 0.7) !important;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.85rem;
-  color: #555;
-}
-
-.flip-hint {
-  text-align: center;
-  color: #667eea;
-  font-size: 0.9rem;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  color: white !important;
   font-weight: 500;
 }
+
 
 .flip-card-back h3 {
   color: #667eea;
   font-size: 1.1rem;
   margin-bottom: 0.75rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .flip-card-back .drink-description {
   font-size: 0.95rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   color: #666;
   font-style: italic;
 }
@@ -235,7 +286,7 @@
 
 .flip-card-back .ingredient-item,
 .flip-card-back .instructions-list li {
-  padding: 0.5rem;
+  padding: 0.2rem;
   font-size: 0.85rem;
 }
 
@@ -414,7 +465,6 @@
 .instructions-list {
   padding-left: 1.5rem;
   display: grid;
-  gap: 0.75rem;
 }
 
 .instructions-list li {
@@ -586,6 +636,39 @@
 
   .flip-card-back {
     padding: 1.2rem;
+  }
+
+  .flip-button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .flip-button-info {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+
+  .card-info-button-container {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .flip-button-back {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .card-title-overlay {
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .drink-name-flip {
+    font-size: 1.3rem;
+  }
+
+  .flip-card-back {
+    padding: 3.5rem 1.2rem 1.2rem;
   }
 
   /* Stack image on top for mobile - lazy mode only */

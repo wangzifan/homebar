@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Welcome.css';
 
@@ -77,6 +78,11 @@ const QUICK_OPTIONS = [
 
 function Welcome() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleOptionClick = (optionId) => {
     // Navigate to recommendations with the selected option

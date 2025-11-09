@@ -37,6 +37,8 @@ function Recipes() {
   const [imageUploadMethod, setImageUploadMethod] = useState('url'); // 'url' or 'upload'
 
   useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
     fetchRecipes();
   }, []);
 

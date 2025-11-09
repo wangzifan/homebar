@@ -19,6 +19,9 @@ function Recommendations() {
   const [moods, setMoods] = useState([]);
 
   useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
+
     const initialMoods = location.state?.moods || [];
     if (initialMoods.length === 0) {
       navigate('/');
@@ -136,7 +139,6 @@ function Recommendations() {
       <div
         key={cardId}
         className={`flip-card ${isFlipped ? 'flipped' : ''}`}
-        onClick={() => setExpandedCardId(isFlipped ? null : cardId)}
       >
         <div className="flip-card-inner">
           {/* Front side - Image and name */}
@@ -146,6 +148,17 @@ function Recommendations() {
                 <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
               </div>
             )}
+            <div className="card-info-button-container">
+              <button
+                className="flip-button flip-button-info"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setExpandedCardId(cardId);
+                }}
+              >
+                ⓘ
+              </button>
+            </div>
             <div className="card-title-overlay">
               <h2 className="drink-name-flip">
                 {rec.name}
@@ -155,6 +168,15 @@ function Recommendations() {
 
           {/* Back side - Details */}
           <div className="flip-card-back">
+            <button
+              className="flip-button flip-button-back"
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpandedCardId(null);
+              }}
+            >
+              Back &gt;
+            </button>
             {rec.description && <p className="drink-description">{rec.description}</p>}
 
             {/* Metadata */}
@@ -216,8 +238,6 @@ function Recommendations() {
                 <strong>Missing:</strong> {rec.missingIngredients.join(', ')}
               </div>
             )}
-
-            <div className="flip-hint">Click to flip back</div>
           </div>
         </div>
       </div>
@@ -329,7 +349,7 @@ function Recommendations() {
         // Normal mode or surprise mode: Show regular recommendations
         <>
           <div className="hint-text">
-            💡 Click on a card to review ingredients
+            💡 Click the ⓘ icon to review ingredients
           </div>
           <div className="recommendations-grid">
             {recommendations.map((rec, index) => renderDrinkCard(rec, index, !isSurpriseMode))}
