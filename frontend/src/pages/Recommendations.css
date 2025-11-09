@@ -1,14 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Pangolin&family=Handlee&display=swap');
 
-/* Ensure page is always scrollable */
+/* Ensure page is always scrollable from start */
 html, body {
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y pan-x;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .recommendations-container {
   animation: fadeIn 0.5s ease-in;
-  min-height: 100dvh;
-  overflow-y: auto;
+  min-height: calc(100vh + 1px);
+  padding-bottom: 2rem;
 }
 
 .recommendations-header {
@@ -91,8 +98,6 @@ html, body {
   height: 500px;
   position: relative;
   max-width: 100%;
-  touch-action: pan-y;
-  user-select: none;
 }
 
 .flip-card-inner {
@@ -136,8 +141,17 @@ html, body {
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
-  touch-action: pan-y;
-  user-select: none;
+  pointer-events: none;
+}
+
+.flip-card-front * {
+  pointer-events: none;
+}
+
+.flip-card-front button,
+.flip-card-front .flip-button,
+.flip-card-front .card-info-button-container {
+  pointer-events: auto;
 }
 
 .flip-card-back {
@@ -149,7 +163,6 @@ html, body {
   overflow-x: hidden;
   position: relative;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
 }
 
 .card-image-full {
@@ -158,8 +171,6 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  touch-action: pan-y;
-  user-select: none;
 }
 
 .card-image-full img {
@@ -167,7 +178,6 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
-  touch-action: pan-y;
   -webkit-user-drag: none;
   user-select: none;
 }
