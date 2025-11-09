@@ -42,7 +42,7 @@
 
 .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 3rem 2rem;
   margin-bottom: 2rem;
   padding: 1rem 2rem;
@@ -51,10 +51,25 @@
   margin-right: auto;
 }
 
+@media (min-width: 769px) and (max-width: 1200px) {
+  .recommendations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1201px) {
+  .recommendations-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* When there's only one card (like surprise mode), center it and limit width */
 .recommendations-grid:has(.flip-card:only-child) {
-  grid-template-columns: 400px;
+  grid-template-columns: 1fr;
+  max-width: 400px;
   justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Compact grid for inventory cards in lazy mode */
@@ -474,8 +489,20 @@
 /* Multi-column grid for inventory items in lazy mode */
 .lazy-mode-container .drink-category-section .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .lazy-mode-container .drink-category-section .recommendations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .lazy-mode-container .drink-category-section .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .category-header {
@@ -523,8 +550,26 @@
   /* Flip cards mobile */
   .recommendations-grid {
     grid-template-columns: 1fr;
-    padding: 1rem 1.5rem;
+    padding: 1rem 0.5rem;
     gap: 2rem;
+  }
+
+  /* Single card centering on mobile */
+  .recommendations-grid:has(.flip-card:only-child) {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    padding: 1rem 0.5rem;
+  }
+
+  /* Lazy mode grid on mobile - single column */
+  .lazy-mode-container .drink-category-section .recommendations-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+    padding: 0;
+  }
+
+  .drink-category-section {
+    padding: 1.5rem 1rem;
   }
 
   .flip-card {
