@@ -66,11 +66,6 @@ body {
   }
 }
 
-.nav-logo:hover {
-  text-shadow: 0 0 15px rgba(255, 255, 255, 1),
-               0 0 25px rgba(255, 255, 255, 0.8),
-               0 0 35px rgba(255, 255, 255, 0.6);
-}
 
 .nav-menu {
   display: flex;
@@ -290,6 +285,9 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .nav-container {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
     padding: 0.75rem 1rem;
   }
 
@@ -303,7 +301,6 @@ body {
     gap: 0.35rem;
     flex-wrap: nowrap;
     justify-content: center;
-    width: 100%;
   }
 
   .nav-link {
