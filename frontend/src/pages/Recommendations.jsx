@@ -19,6 +19,8 @@ function Recommendations() {
   const [moods, setMoods] = useState([]);
   const [mobileModalItem, setMobileModalItem] = useState(null);
   const [mobileModalFlipped, setMobileModalFlipped] = useState(false);
+  const [thumbnailRect, setThumbnailRect] = useState(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     // Scroll to top when page loads (with smooth behavior)
@@ -141,7 +143,10 @@ function Recommendations() {
       <div
         key={rec.recipeId}
         className="mobile-thumbnail"
-        onClick={() => {
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          setThumbnailRect(rect);
+          setIsClosing(false);
           setMobileModalItem(rec);
           setMobileModalFlipped(false);
         }}
@@ -248,16 +253,39 @@ function Recommendations() {
     );
   };
 
+  // Handle modal close with animation
+  const handleCloseModal = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setIsClosing(true);
+    setTimeout(() => {
+      setMobileModalItem(null);
+      setMobileModalFlipped(false);
+      setIsClosing(false);
+      setThumbnailRect(null);
+    }, 300); // Match animation duration
+  };
+
   // Mobile modal component
   const renderMobileModal = () => {
     if (!mobileModalItem) return null;
 
     return (
-      <div className="mobile-modal-overlay" onClick={() => setMobileModalItem(null)}>
-        <div className="mobile-modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className={`mobile-modal-overlay ${isClosing ? 'closing' : ''}`} onClick={handleCloseModal}>
+        <div
+          className="mobile-modal-content"
+          onClick={(e) => e.stopPropagation()}
+          style={thumbnailRect ? {
+            '--thumbnail-left': `${thumbnailRect.left}px`,
+            '--thumbnail-top': `${thumbnailRect.top}px`,
+            '--thumbnail-width': `${thumbnailRect.width}px`,
+            '--thumbnail-height': `${thumbnailRect.height}px`,
+          } : {}}
+        >
           <div className="mobile-modal-header">
             <span className="mobile-modal-hint">👇 Tap to view ingredients</span>
-            <button className="mobile-modal-close" onClick={(e) => { e.stopPropagation(); setMobileModalItem(null); }}>✕</button>
+            <button className="mobile-modal-close" onClick={handleCloseModal}>✕</button>
           </div>
 
           <div
