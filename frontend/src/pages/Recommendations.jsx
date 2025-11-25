@@ -290,7 +290,10 @@ function Recommendations() {
     return (
       <div className="mobile-modal-overlay" onClick={() => setMobileModalItem(null)}>
         <div className="mobile-modal-content" onClick={(e) => e.stopPropagation()}>
-          <button className="mobile-modal-close" onClick={() => setMobileModalItem(null)}>✕</button>
+          <div className="mobile-modal-header">
+            <span className="mobile-modal-hint">Tap to view ingredients</span>
+            <button className="mobile-modal-close" onClick={() => setMobileModalItem(null)}>✕</button>
+          </div>
 
           <div
             className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''}`}
