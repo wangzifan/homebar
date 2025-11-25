@@ -247,7 +247,7 @@ const filterByMood = (recipes, inventory, mood) => {
 };
 
 // Get recommendations
-const getRecommendations = async (selectedMoods, preferences = {}, showAll = false) => {
+const getRecommendations = async (selectedMoods, preferences = {}, showAll = false, limit = 3) => {
   try {
     // Fetch all inventory items
     const inventoryCommand = new ScanCommand({
@@ -360,7 +360,7 @@ const getRecommendations = async (selectedMoods, preferences = {}, showAll = fal
       });
     }
 
-    // For all other moods - return top 3 drinks we can make
+    // For all other moods - return top drinks we can make
     const makeableRecipes = scoredRecipes.filter(r => r.canMake);
 
     if (makeableRecipes.length === 0) {
@@ -372,9 +372,9 @@ const getRecommendations = async (selectedMoods, preferences = {}, showAll = fal
       });
     }
 
-    // Randomly select recipes (up to 3 by default, or all if showAll is true)
+    // Randomly select recipes (up to limit by default, or all if showAll is true)
     const shuffled = makeableRecipes.sort(() => Math.random() - 0.5);
-    const selection = showAll ? shuffled : shuffled.slice(0, Math.min(3, makeableRecipes.length));
+    const selection = showAll ? shuffled : shuffled.slice(0, Math.min(limit, makeableRecipes.length));
 
     return createResponse(200, {
       recommendations: selection,
@@ -402,7 +402,7 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-    const { moods, preferences, showAll } = body;
+    const { moods, preferences, showAll, limit } = body;
 
     if (!moods || !Array.isArray(moods) || moods.length === 0) {
       return createResponse(400, {
@@ -410,7 +410,7 @@ exports.handler = async (event) => {
       });
     }
 
-    return await getRecommendations(moods, preferences || {}, showAll || false);
+    return await getRecommendations(moods, preferences || {}, showAll || false, limit || 3);
   } catch (error) {
     console.error('Handler error:', error);
     return createResponse(500, { error: 'Internal server error' });

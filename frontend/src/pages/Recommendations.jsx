@@ -61,7 +61,9 @@ function Recommendations() {
       setLoading(true);
       setError(null);
 
-      const response = await recommendationsApi.get(targetMoods, fetchAll);
+      // Check if mobile (width <= 768px)
+      const isMobile = window.innerWidth <= 768;
+      const response = await recommendationsApi.get(targetMoods, fetchAll, isMobile ? 4 : 3);
       const data = response.data;
 
       // Collect all image URLs to preload
@@ -195,6 +197,7 @@ function Recommendations() {
       <div
         key={cardId}
         className={`flip-card ${isFlipped ? 'flipped' : ''}`}
+        onClick={() => setExpandedCardId(isFlipped ? null : cardId)}
       >
         <div className="flip-card-inner">
           {/* Front side - Image and name */}
@@ -204,17 +207,6 @@ function Recommendations() {
                 <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
               </div>
             )}
-            <div className="card-info-button-container">
-              <button
-                className="flip-button flip-button-info"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setExpandedCardId(cardId);
-                }}
-              >
-                <span className="info-icon">ⓘ</span>
-              </button>
-            </div>
             <div className="card-title-overlay">
               <h2 className="drink-name-flip">
                 {rec.name}
@@ -224,15 +216,6 @@ function Recommendations() {
 
           {/* Back side - Details */}
           <div className="flip-card-back">
-            <button
-              className="flip-button flip-button-back"
-              onClick={(e) => {
-                e.stopPropagation();
-                setExpandedCardId(null);
-              }}
-            >
-              Back &gt;
-            </button>
             {rec.description && <p className="drink-description">{rec.description}</p>}
 
             {/* Metadata */}
@@ -309,7 +292,10 @@ function Recommendations() {
         <div className="mobile-modal-content" onClick={(e) => e.stopPropagation()}>
           <button className="mobile-modal-close" onClick={() => setMobileModalItem(null)}>✕</button>
 
-          <div className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''}`}>
+          <div
+            className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''}`}
+            onClick={() => setMobileModalFlipped(!mobileModalFlipped)}
+          >
             <div className="mobile-modal-inner">
               {/* Front */}
               <div className="mobile-modal-front">
@@ -321,22 +307,10 @@ function Recommendations() {
                 <div className="mobile-modal-title-overlay">
                   <h2>{mobileModalItem.name}</h2>
                 </div>
-                <button
-                  className="mobile-modal-flip-btn"
-                  onClick={() => setMobileModalFlipped(true)}
-                >
-                  <span className="info-icon">ⓘ</span>
-                </button>
               </div>
 
               {/* Back */}
               <div className="mobile-modal-back">
-                <button
-                  className="mobile-modal-back-btn"
-                  onClick={() => setMobileModalFlipped(false)}
-                >
-                  Back &gt;
-                </button>
                 {mobileModalItem.description && <p className="drink-description">{mobileModalItem.description}</p>}
 
                 <div className="drink-details-compact">
@@ -516,7 +490,7 @@ function Recommendations() {
         // Normal mode or surprise mode: Show regular recommendations
         <>
           <div className="hint-text desktop-only">
-            💡 Click the ⓘ icon to review ingredients
+            💡 Click anywhere on the card to flip and review ingredients
           </div>
           <div className="hint-text mobile-only">
             💡 Tap any drink to view details
@@ -548,7 +522,7 @@ function Recommendations() {
         )}
         {!isSurpriseMode && !isLazyMode && showAll && (
           <button className="btn-secondary" onClick={() => fetchRecommendations(moods, false)}>
-            ← Back to Top 3
+            ← Back
           </button>
         )}
       </div>
