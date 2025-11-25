@@ -17,6 +17,8 @@ function Recommendations() {
   const [expandedCardId, setExpandedCardId] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [moods, setMoods] = useState([]);
+  const [mobileModalItem, setMobileModalItem] = useState(null);
+  const [mobileModalFlipped, setMobileModalFlipped] = useState(false);
 
   useEffect(() => {
     // Scroll to top when page loads (with smooth behavior)
@@ -166,6 +168,25 @@ function Recommendations() {
     );
   };
 
+  // Mobile thumbnail view
+  const renderMobileThumbnail = (rec, index) => {
+    return (
+      <div
+        key={rec.recipeId}
+        className="mobile-thumbnail"
+        onClick={() => {
+          setMobileModalItem(rec);
+          setMobileModalFlipped(false);
+        }}
+      >
+        {rec.imageUrl && (
+          <img src={rec.imageUrl} alt={rec.name} onError={(e) => e.target.style.display = 'none'} />
+        )}
+        <div className="mobile-thumbnail-name">{rec.name}</div>
+      </div>
+    );
+  };
+
   const renderDrinkCard = (rec, index, showRank = true) => {
     const isFlipped = expandedCardId === rec.recipeId;
     const cardId = rec.recipeId;
@@ -279,6 +300,101 @@ function Recommendations() {
     );
   };
 
+  // Mobile modal component
+  const renderMobileModal = () => {
+    if (!mobileModalItem) return null;
+
+    return (
+      <div className="mobile-modal-overlay" onClick={() => setMobileModalItem(null)}>
+        <div className="mobile-modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="mobile-modal-close" onClick={() => setMobileModalItem(null)}>✕</button>
+
+          <div className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''}`}>
+            <div className="mobile-modal-inner">
+              {/* Front */}
+              <div className="mobile-modal-front">
+                {mobileModalItem.imageUrl && (
+                  <div className="mobile-modal-image">
+                    <img src={mobileModalItem.imageUrl} alt={mobileModalItem.name} />
+                  </div>
+                )}
+                <div className="mobile-modal-title-overlay">
+                  <h2>{mobileModalItem.name}</h2>
+                </div>
+                <button
+                  className="mobile-modal-flip-btn"
+                  onClick={() => setMobileModalFlipped(true)}
+                >
+                  <span className="info-icon">ⓘ</span>
+                </button>
+              </div>
+
+              {/* Back */}
+              <div className="mobile-modal-back">
+                <button
+                  className="mobile-modal-back-btn"
+                  onClick={() => setMobileModalFlipped(false)}
+                >
+                  Back &gt;
+                </button>
+                {mobileModalItem.description && <p className="drink-description">{mobileModalItem.description}</p>}
+
+                <div className="drink-details-compact">
+                  {mobileModalItem.abv && <span className="detail-badge">ABV: {mobileModalItem.abv}%</span>}
+                  {mobileModalItem.glassType && <span className="detail-badge">Glass: {mobileModalItem.glassType}</span>}
+                </div>
+
+                {mobileModalItem.ingredients && mobileModalItem.ingredients.length > 0 && (
+                  <div className="ingredients-section">
+                    <h3>Ingredients</h3>
+                    <ul className="ingredients-list">
+                      {mobileModalItem.ingredients.map((ing, idx) => {
+                        const isAvailable = mobileModalItem.availableIngredients?.includes(ing.name);
+                        const isMissing = mobileModalItem.missingIngredients?.includes(ing.name);
+                        return (
+                          <li key={idx} className={`ingredient-item ${isAvailable ? 'available' : isMissing ? 'missing' : ''}`}>
+                            <span className="ingredient-icon">{isAvailable ? '✓' : isMissing ? '✗' : '?'}</span>
+                            <span className="ingredient-text">
+                              {ing.quantity} {ing.unit} {ing.name}
+                              {ing.optional && <em> (optional)</em>}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
+                {mobileModalItem.instructions && mobileModalItem.instructions.length > 0 && (
+                  <div className="instructions-section">
+                    <h3>Instructions</h3>
+                    <ol className="instructions-list">
+                      {mobileModalItem.instructions.map((instruction, idx) => (
+                        <li key={idx}>{instruction}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+
+                {mobileModalItem.garnish && (
+                  <div className="garnish-section">
+                    <strong>Garnish:</strong> {mobileModalItem.garnish}
+                  </div>
+                )}
+
+                {mobileModalItem.missingIngredients && mobileModalItem.missingIngredients.length > 0 && (
+                  <div className="missing-alert">
+                    <strong>Missing:</strong> {mobileModalItem.missingIngredients.join(', ')}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="recommendations-container">
@@ -309,6 +425,8 @@ function Recommendations() {
 
   return (
     <div className="recommendations-container">
+      {renderMobileModal()}
+
       {message && (
         <div className="info-message">
           <p>{message}</p>
@@ -330,7 +448,12 @@ function Recommendations() {
           {organizedByType.whiskeys && organizedByType.whiskeys.length > 0 && (
             <div className="drink-category-section">
               <h2 className="category-header">🥃 Whiskeys ({organizedByType.whiskeys.length})</h2>
-              <div className="recommendations-grid">
+              {/* Mobile thumbnails grid */}
+              <div className="mobile-thumbnails-grid">
+                {organizedByType.whiskeys.map((item, idx) => renderMobileThumbnail(item, idx))}
+              </div>
+              {/* Desktop full cards */}
+              <div className="recommendations-grid desktop-only">
                 {organizedByType.whiskeys.map((item, idx) =>
                   isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
                 )}
@@ -341,7 +464,10 @@ function Recommendations() {
           {organizedByType.sake && organizedByType.sake.length > 0 && (
             <div className="drink-category-section">
               <h2 className="category-header">🍶 Sake ({organizedByType.sake.length})</h2>
-              <div className="recommendations-grid">
+              <div className="mobile-thumbnails-grid">
+                {organizedByType.sake.map((item, idx) => renderMobileThumbnail(item, idx))}
+              </div>
+              <div className="recommendations-grid desktop-only">
                 {organizedByType.sake.map((item, idx) =>
                   isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
                 )}
@@ -352,7 +478,10 @@ function Recommendations() {
           {organizedByType.wines && organizedByType.wines.length > 0 && (
             <div className="drink-category-section">
               <h2 className="category-header">🍷 Wines ({organizedByType.wines.length})</h2>
-              <div className="recommendations-grid">
+              <div className="mobile-thumbnails-grid">
+                {organizedByType.wines.map((item, idx) => renderMobileThumbnail(item, idx))}
+              </div>
+              <div className="recommendations-grid desktop-only">
                 {organizedByType.wines.map((item, idx) =>
                   isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
                 )}
@@ -363,7 +492,10 @@ function Recommendations() {
           {organizedByType.beers && organizedByType.beers.length > 0 && (
             <div className="drink-category-section">
               <h2 className="category-header">🍺 Beers ({organizedByType.beers.length})</h2>
-              <div className="recommendations-grid">
+              <div className="mobile-thumbnails-grid">
+                {organizedByType.beers.map((item, idx) => renderMobileThumbnail(item, idx))}
+              </div>
+              <div className="recommendations-grid desktop-only">
                 {organizedByType.beers.map((item, idx) =>
                   isInventoryMode ? renderInventoryCard(item, idx) : renderDrinkCard(item, idx, false)
                 )}
@@ -383,10 +515,18 @@ function Recommendations() {
       ) : (
         // Normal mode or surprise mode: Show regular recommendations
         <>
-          <div className="hint-text">
+          <div className="hint-text desktop-only">
             💡 Click the ⓘ icon to review ingredients
           </div>
-          <div className="recommendations-grid">
+          <div className="hint-text mobile-only">
+            💡 Tap any drink to view details
+          </div>
+          {/* Mobile thumbnails grid */}
+          <div className="mobile-thumbnails-grid">
+            {recommendations.map((rec, index) => renderMobileThumbnail(rec, index))}
+          </div>
+          {/* Desktop full cards */}
+          <div className="recommendations-grid desktop-only">
             {recommendations.map((rec, index) => renderDrinkCard(rec, index, !isSurpriseMode))}
           </div>
         </>
