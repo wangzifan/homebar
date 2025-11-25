@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LoginModal, ChangePasswordModal } from './components/AuthModals';
@@ -9,6 +10,22 @@ import './App.css';
 
 function NavBar() {
   const { isAuthenticated, logout, openLoginModal, openChangePasswordModal } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar">
@@ -34,15 +51,18 @@ function NavBar() {
           </li>
           <li className="nav-item nav-auth">
             {isAuthenticated ? (
-              <div className="auth-dropdown">
-                <button className="nav-link auth-button">
+              <div className={`auth-dropdown ${dropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
+                <button
+                  className="nav-link auth-button"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
                   👤 OWNER ▾
                 </button>
                 <div className="auth-dropdown-menu">
-                  <button onClick={openChangePasswordModal} className="dropdown-item">
+                  <button onClick={() => { openChangePasswordModal(); setDropdownOpen(false); }} className="dropdown-item">
                     🔑 Change Password
                   </button>
-                  <button onClick={logout} className="dropdown-item">
+                  <button onClick={() => { logout(); setDropdownOpen(false); }} className="dropdown-item">
                     🚪 Logout
                   </button>
                 </div>

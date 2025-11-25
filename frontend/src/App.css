@@ -141,7 +141,7 @@ body {
   z-index: 100;
 }
 
-.auth-dropdown:hover .auth-dropdown-menu {
+.auth-dropdown.open .auth-dropdown-menu {
   display: block;
 }
 
