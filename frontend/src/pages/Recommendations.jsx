@@ -21,6 +21,8 @@ function Recommendations() {
   const [mobileModalFlipped, setMobileModalFlipped] = useState(false);
   const [thumbnailRect, setThumbnailRect] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(null); // 'next' or 'prev'
+  const [isEntering, setIsEntering] = useState(false);
 
   useEffect(() => {
     // Scroll to top when page loads (with smooth behavior)
@@ -302,30 +304,84 @@ function Recommendations() {
     }, 300); // Match animation duration
   };
 
+  // Navigate to previous/next item in modal
+  const handlePrevItem = (e) => {
+    e.stopPropagation();
+    if (!mobileModalItem || slideDirection) return;
+
+    const currentIndex = recommendations.findIndex(rec => rec.recipeId === mobileModalItem.recipeId);
+    if (currentIndex > 0) {
+      setSlideDirection('prev'); // Going to previous item
+      setTimeout(() => {
+        setMobileModalItem(recommendations[currentIndex - 1]);
+        setMobileModalFlipped(false);
+        setIsEntering(true);
+        setTimeout(() => {
+          setSlideDirection(null);
+          setIsEntering(false);
+        }, 350);
+      }, 100);
+    }
+  };
+
+  const handleNextItem = (e) => {
+    e.stopPropagation();
+    if (!mobileModalItem || slideDirection) return;
+
+    const currentIndex = recommendations.findIndex(rec => rec.recipeId === mobileModalItem.recipeId);
+    if (currentIndex < recommendations.length - 1) {
+      setSlideDirection('next'); // Going to next item
+      setTimeout(() => {
+        setMobileModalItem(recommendations[currentIndex + 1]);
+        setMobileModalFlipped(false);
+        setIsEntering(true);
+        setTimeout(() => {
+          setSlideDirection(null);
+          setIsEntering(false);
+        }, 350);
+      }, 100);
+    }
+  };
+
   // Mobile modal component
   const renderMobileModal = () => {
     if (!mobileModalItem) return null;
 
+    const currentIndex = recommendations.findIndex(rec => rec.recipeId === mobileModalItem.recipeId);
+    const hasPrev = currentIndex > 0;
+    const hasNext = currentIndex < recommendations.length - 1;
+
     return (
       <div className={`mobile-modal-overlay ${isClosing ? 'closing' : ''}`} onClick={handleCloseModal}>
-        <div
-          className="mobile-modal-content"
-          onClick={(e) => e.stopPropagation()}
-          style={thumbnailRect ? {
-            '--thumbnail-left': `${thumbnailRect.left}px`,
-            '--thumbnail-top': `${thumbnailRect.top}px`,
-            '--thumbnail-width': `${thumbnailRect.width}px`,
-            '--thumbnail-height': `${thumbnailRect.height}px`,
-          } : {}}
-        >
-          <div className="mobile-modal-header">
-            <span className="mobile-modal-hint">👇 Tap to view ingredients</span>
-            <button className="mobile-modal-close" onClick={handleCloseModal}>✕</button>
-          </div>
+        <div className="mobile-modal-content-wrapper">
+          {/* Previous button - always present */}
+          <button
+            className="mobile-modal-nav mobile-modal-nav-prev"
+            onClick={(e) => { e.stopPropagation(); handlePrevItem(e); }}
+            disabled={!hasPrev}
+            style={{ visibility: hasPrev ? 'visible' : 'hidden' }}
+          >
+            ‹
+          </button>
 
           <div
-            className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''}`}
-            onClick={() => setMobileModalFlipped(!mobileModalFlipped)}
+            className="mobile-modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={thumbnailRect ? {
+              '--thumbnail-left': `${thumbnailRect.left}px`,
+              '--thumbnail-top': `${thumbnailRect.top}px`,
+              '--thumbnail-width': `${thumbnailRect.width}px`,
+              '--thumbnail-height': `${thumbnailRect.height}px`,
+            } : {}}
+          >
+            <div className="mobile-modal-header">
+              <span className="mobile-modal-hint">👇 Tap to view ingredients</span>
+              <button className="mobile-modal-close" onClick={handleCloseModal}>✕</button>
+            </div>
+
+          <div
+            className={`mobile-modal-card ${mobileModalFlipped ? 'flipped' : ''} ${slideDirection === 'next' ? 'slide-out-right' : ''} ${slideDirection === 'prev' ? 'slide-out-left' : ''} ${isEntering && slideDirection === 'next' ? 'slide-in-left' : ''} ${isEntering && slideDirection === 'prev' ? 'slide-in-right' : ''}`}
+            onClick={() => !slideDirection && setMobileModalFlipped(!mobileModalFlipped)}
           >
             <div className="mobile-modal-inner">
               {/* Front */}
@@ -396,6 +452,17 @@ function Recommendations() {
             </div>
           </div>
         </div>
+
+        {/* Next button - always present */}
+        <button
+          className="mobile-modal-nav mobile-modal-nav-next"
+          onClick={(e) => { e.stopPropagation(); handleNextItem(e); }}
+          disabled={!hasNext}
+          style={{ visibility: hasNext ? 'visible' : 'hidden' }}
+        >
+          ›
+        </button>
+      </div>
       </div>
     );
   };
