@@ -47,8 +47,21 @@ const hasIngredient = (inventory, requiredIngredient) => {
   return inventory.some(item => {
     const normalizedItem = normalizeIngredientName(item.name);
 
-    return normalizedItem === normalizedRequired ||
-           normalizedItem.includes(normalizedRequired) ||
+    // Exact match
+    if (normalizedItem === normalizedRequired) {
+      return true;
+    }
+
+    // Handle plural/singular variations (blackberry/blackberries)
+    const itemSingular = normalizedItem.replace(/ies$/, 'y').replace(/s$/, '');
+    const requiredSingular = normalizedRequired.replace(/ies$/, 'y').replace(/s$/, '');
+
+    if (itemSingular === requiredSingular) {
+      return true;
+    }
+
+    // Substring matching as fallback
+    return normalizedItem.includes(normalizedRequired) ||
            normalizedRequired.includes(normalizedItem);
   });
 };
@@ -109,14 +122,12 @@ const isStrongDrink = (recipe) => {
   return recipe.abv && recipe.abv > 20;
 };
 
-// Check if recipe is sweet
-const isSweetDrink = (ingredients) => {
-  const sweetTerms = ['juice', 'syrup', 'simple syrup', 'chocolate', 'choco', 'mint liqueur',
-                      'melon', 'liqueur', 'sweet', 'honey', 'sugar', 'agave'];
-
-  return ingredients.some(ing => {
-    const name = ing.name.toLowerCase();
-    return sweetTerms.some(term => name.includes(term));
+// Check if recipe is sweet (based on explicit mood tags only)
+const isSweetDrink = (recipe) => {
+  // Only check for explicit 'sweet' mood tag, not ingredients
+  return recipe.moods && recipe.moods.some(mood => {
+    const normalizedMood = mood.toLowerCase().trim();
+    return normalizedMood === 'sweet' || normalizedMood.includes('sweet');
   });
 };
 
@@ -135,15 +146,19 @@ const hasBaseLiquor = (recipe, liquorType) => {
   const recipeName = recipe.name.toLowerCase();
   const category = recipe.category ? recipe.category.toLowerCase() : '';
 
-  // Check both category and ingredients
-  const liquorMatch = category === liquorType ||
-                     recipeName.includes(liquorType) ||
-                     recipe.ingredients.some(ing => {
-                       const name = ing.name.toLowerCase();
-                       return name.includes(liquorType);
-                     });
+  // Check category first (most reliable)
+  if (category === liquorType) {
+    return true;
+  }
 
-  return liquorMatch;
+  // Check ingredients with word boundary matching to avoid false positives
+  // e.g., "gin" shouldn't match "ginger beer"
+  const liquorRegex = new RegExp(`\\b${liquorType}\\b`, 'i');
+
+  return recipe.ingredients.some(ing => {
+    const name = ing.name.toLowerCase();
+    return liquorRegex.test(name);
+  });
 };
 
 // Calculate match score
@@ -209,9 +224,9 @@ const filterByMood = (recipes, inventory, mood) => {
       return recipes.filter(recipe => isStrongDrink(recipe));
 
     case 'sweet':
-      // Must have juice or sweet liqueur AND ABV < 20%
+      // Must have explicit 'sweet' mood tag AND ABV < 20%
       return recipes.filter(recipe => {
-        const hasSweet = isSweetDrink(recipe.ingredients);
+        const hasSweet = isSweetDrink(recipe);
         const lowABV = !recipe.abv || recipe.abv < 20;
         return hasSweet && lowABV;
       });
@@ -221,9 +236,9 @@ const filterByMood = (recipes, inventory, mood) => {
       return recipes.filter(recipe => isSourDrink(recipe.ingredients));
 
     case 'sweet-sour':
-      // Sweet OR Sour drinks (combined category)
+      // Sweet (with explicit tag) OR Sour drinks (combined category)
       return recipes.filter(recipe => {
-        const hasSweet = isSweetDrink(recipe.ingredients);
+        const hasSweet = isSweetDrink(recipe);
         const hasSour = isSourDrink(recipe.ingredients);
         return hasSweet || hasSour;
       });

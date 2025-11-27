@@ -36,7 +36,8 @@
       "Bash(curl:*)",
       "Bash(/Users/zifan/IdeaProjects/MyHomeBar/add-mixers-to-prod.sh)",
       "Bash(aws dynamodb get-item:*)",
-      "Bash(aws cloudformation list-stacks:*)"
+      "Bash(aws cloudformation list-stacks:*)",
+      "Bash(aws dynamodb update-item:*)"
     ],
     "deny": [],
     "ask": []
